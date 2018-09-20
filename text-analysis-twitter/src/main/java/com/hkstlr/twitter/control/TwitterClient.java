@@ -6,8 +6,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.hkstlr.twitter.boundary.TweetAnalysisMain;
-
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
