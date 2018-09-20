@@ -47,7 +47,7 @@ public class TweetAnalysisMain {
 
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
-		boolean writeToDesktop = false;
+		boolean writeToDesktop = true;
 
 		if (args.length > 0) {
 			queryTerms = Arrays.toString(args);
@@ -62,20 +62,17 @@ public class TweetAnalysisMain {
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { saResult.toString() });
 		
-		
-		
 		Map<?, ?> results = (HashMap<?, ?>) saResult;
-		String message = String.format(queryTerms +"%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral");
+		String message = String.format(queryTerms +"%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
 		
-		String strMsg = new MessageFormat(message).format(
-						new Object[] { 
-						(double) (int) results.get("positive") / (int) results.get("total") * 100,
-						(double) (int) results.get("negative") / (int) results.get("total") * 100,
-						(double) (int) results.get("neutral") / (int) results.get("total") * 100 
-				});
+		String strMsg = new MessageFormat(message).format(new Object[] { 
+							(double) (int) results.get("positive") / (int) results.get("total") * 100,
+							(double) (int) results.get("negative") / (int) results.get("total") * 100,
+							(double) (int) results.get("neutral") / (int) results.get("total") * 100 
+						});
 		
 		LOG.log(LOG_LEVEL, strMsg);
-				
+		strMsg+=saResult.toString();
 		if(writeToDesktop) {
 			ta.writeTweets(getFilePath("TweetAnalysisResults_",".txt"), strMsg);
 		}
