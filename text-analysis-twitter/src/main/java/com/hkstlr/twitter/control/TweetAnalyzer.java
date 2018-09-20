@@ -1,9 +1,12 @@
 package com.hkstlr.twitter.control;
 
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +15,7 @@ import java.util.stream.Collectors;
 import com.hkstlr.text.nlp.control.DocumentCategorizer;
 import com.hkstlr.text.nlp.control.OpenNLPDocumentCategorizer;
 
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
+import twitter4j.*;
 
 public class TweetAnalyzer {
 
@@ -24,9 +23,12 @@ public class TweetAnalyzer {
 	private static final Level LOG_LEVEL = Level.INFO;
 
 	private DocumentCategorizer cat;
-	private Twitter twitter;
+	private TwitterClient tc;
 	private String queryTerms;
-
+	int tweetCount = 100;
+	private List<Status> tweets = new ArrayList<>();
+	
+	
 	public TweetAnalyzer() {
 		super();
 		init();
@@ -34,7 +36,7 @@ public class TweetAnalyzer {
 	
 	public TweetAnalyzer(String trainingDataFile, String modelOutputFile) {
 		super();
-		this.cat =  new OpenNLPDocumentCategorizer(trainingDataFile, modelOutputFile);
+		this.cat = new OpenNLPDocumentCategorizer(trainingDataFile, modelOutputFile);
 		init();
 	}
 
@@ -45,97 +47,121 @@ public class TweetAnalyzer {
 	public void setQueryTerms(String queryTerms) {
 		this.queryTerms = queryTerms;
 	}
+	
+	public int getTweetCount() {
+		return tweetCount;
+	}
+
+	public void setTweetCount(int tweetCount) {
+		this.tweetCount = tweetCount;
+	}
 
 	void init() {
 		getCat();
-		twitter = new TwitterClient().getTwitter(new Config().getProps());
+		tc = new TwitterClient(new Config().getProps());
 	}
 
 	public Object getSAAnalysis(String queryTerms) throws TwitterException {
 		this.queryTerms = queryTerms;
 		return getSAAnalysis();
 	}
+	
+	public Object getSAAnalysis(String queryTerms, int tweetCount) throws TwitterException {
+		this.queryTerms = queryTerms;
+		this.tweetCount = tweetCount;
+		return getSAAnalysis();
+	}
 
+	public String getTweetTextForCategorization(String tweetText) {
+		//thanks to https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
+		String TWITTER_TEXT_REGEX = "(@[A-Za-z0-9]+)|(\\w+:\\/\\/\\S+)|(\\r\\n|\\r|\\n)"; //([^0-9A-Za-z \\t]) removes hashtags
+		return tweetText.replaceAll(TWITTER_TEXT_REGEX, " ");
+	}
+	
+	public double divideInts(int i1, int i2) {
+		return ((double)i1 /  i2);
+	}
+	
 	public Object getSAAnalysis() throws TwitterException {
 
 		int positive = 0;
 		int negative = 0;
 		int neutral = 0;
+		
+		tweets = tc.getTweets(this.queryTerms,this.tweetCount);
 
-		this.queryTerms += " +exclude:retweets";
+		String msgTemplate = "{0};{1};{2}\n";
 
-		Query query = new Query(this.queryTerms);
-		query.setCount(100);
-
-		QueryResult tweets = this.twitter.search(query);
-
-		String msgTemplate = "{0}:{1}\n {2} ";
-
-		String tresult;
-		StringBuilder probResults = new StringBuilder();
-		for (Status tweet : tweets.getTweets()) {
-
-			Object[] outcomeAndtresult = this.cat.getCategorizeAndBestCategory(tweet.getText());
+		String tweetCategory;
+		StringBuilder probResults = new StringBuilder("\nsentiment;tweet;probabilities\n");
+		for (Status tweet : tweets) {
+			String tweetText = getTweetTextForCategorization(tweet.getText());
+			Object[] outcomeAndtresult = this.cat.getCategorizeAndBestCategory(tweetText);
 			double[] outcome = (double[]) outcomeAndtresult[0];
 
 			// print the probabilities of the categories
 			Map<String,Double> probMap = new HashMap<>();
-			//probs.append("category:probability\n");
+			
 			for (int i = 0; i < cat.getDoccat().getNumberOfCategories(); i++) {
 				probMap.put(cat.getDoccat().getCategory(i), outcome[i]);
 				
 			}
-
-			probMap = probMap.entrySet()
-					.stream()
+			probMap = probMap.entrySet().stream()
 					.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 					.collect(Collectors.toMap(
 								Map.Entry::getKey, 
 								Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 			
-			tresult = (String) outcomeAndtresult[1];
+			tweetCategory = (String) outcomeAndtresult[1];
 
-			if ("positive".equals(tresult)) {
+			if ("positive".equals(tweetCategory)) {
 				positive++;
-			} else if ("negative".equals(tresult)) {
+			} else if ("negative".equals(tweetCategory)) {
 				negative++;
-			} else {
+			} else if ("neutral".equals(tweetCategory)){
 				neutral++;
 			}
 			
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
-					{ tresult, tweet.getText() , probMap.toString() });
+					{ tweetCategory, tweetText, probMap.toString() });
 			probResults.append(rtn);
-			probResults.append("\n-------------------\n");
+			
 		}
-		StringBuilder sb = new StringBuilder("Positive Tweets,").append(Integer.toString(positive)).append("\n")
-				.append("Negative Tweets,").append(Integer.toString(negative)).append("\n")
-				.append("Neutral Tweets, ").append(Integer.toString(neutral));
+		Map<String, Integer> results = new LinkedHashMap<>();
+		results.put("total", tweets.size());
+		results.put("positive", positive);		
+		results.put("negative", negative);
+		results.put("neutral", neutral);
+		
+		
 		Object[] returnAry = new Object[2];
-		returnAry[0] = sb.toString();
+		returnAry[0] = results;
 		returnAry[1] = probResults.toString();
 		return returnAry;
 	}
 
-	public DocumentCategorizer getCat() {
-		if(null == cat) {
-			cat = new OpenNLPDocumentCategorizer("/etc/config/twitter_sentiment_training_data.train",
+	public void getCat() {
+		if(null == this.cat) {
+			this.cat = new OpenNLPDocumentCategorizer("/etc/config/twitter_sentiment_training_data.train",
 					"/etc/config/twitter_sa_model.bin");
 		}
 		
-		return cat;
 	}
 
 	public void setCat(DocumentCategorizer cat) {
 		this.cat = cat;
 	}
 
-	public Twitter getTwitter() {
-		return twitter;
-	}
-
-	public void setTwitter(Twitter twitter) {
-		this.twitter = twitter;
+	public void writeTweets(String filePath, String tweets) {
+		FileWR writer = new FileWR(filePath);
+		
+		try {
+			writer.writeFile(tweets);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+ 
+		writer.close();
 	}
 
 }
