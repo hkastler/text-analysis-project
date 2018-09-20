@@ -1,7 +1,10 @@
 package com.hkstlr.twitter.control;
 
-import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,21 +16,22 @@ import java.util.logging.Logger;
 public class FileWR {
 	
 	private static final Logger LOG = Logger.getLogger(FileWR.class.getName());
-	static FileWriter writer;
+	static Writer writer;
 	
 	public FileWR(String fileName){
 		try {
-			writer = new FileWriter(fileName);
+			writer = new BufferedWriter(new OutputStreamWriter(
+				    new FileOutputStream(fileName), "UTF-8"));
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE,"",e);
 		}
 	}
  
-	public static void writeFile(String text) throws IOException {
+	public void writeFile(String text) throws IOException {
 		writer.write(text);
 	}
  
-	public static void close(){
+	public void close(){
 		try {
 			writer.close();
 		} catch (IOException e) {
