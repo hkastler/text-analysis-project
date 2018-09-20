@@ -78,10 +78,6 @@ public class TweetAnalyzer {
 		return tweetText.replaceAll(TWITTER_TEXT_REGEX, " ");
 	}
 	
-	public double divideInts(int i1, int i2) {
-		return ((double)i1 /  i2);
-	}
-	
 	public Object getSAAnalysis() throws TwitterException {
 
 		int positive = 0;
@@ -93,7 +89,7 @@ public class TweetAnalyzer {
 		String msgTemplate = "{0};{1};{2}\n";
 
 		String tweetCategory;
-		StringBuilder probResults = new StringBuilder("\nsentiment;tweet;probabilities\n");
+		StringBuilder probResults = new StringBuilder("sentiment;tweet;probabilities\n");
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
 			Object[] outcomeAndtresult = this.cat.getCategorizeAndBestCategory(tweetText);
@@ -157,8 +153,8 @@ public class TweetAnalyzer {
 		
 		try {
 			writer.writeFile(tweets);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			LOG.log(LOG_LEVEL,"",e);
 		}
  
 		writer.close();
