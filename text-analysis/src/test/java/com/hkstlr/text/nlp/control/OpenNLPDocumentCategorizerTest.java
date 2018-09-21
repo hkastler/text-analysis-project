@@ -36,7 +36,7 @@ import opennlp.tools.util.InputStreamFactory;
 public class OpenNLPDocumentCategorizerTest {
 
 	
-	DocumentCategorizer cut;
+	OpenNLPDocumentCategorizer cut;
 
 	public OpenNLPDocumentCategorizerTest() {
 	}

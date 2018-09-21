@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import opennlp.tools.doccat.BagOfWordsFeatureGenerator;
 import opennlp.tools.doccat.DoccatFactory;
 import opennlp.tools.doccat.DoccatModel;
+import opennlp.tools.doccat.DocumentCategorizer;
 import opennlp.tools.doccat.DocumentCategorizerME;
 import opennlp.tools.doccat.DocumentSample;
 import opennlp.tools.doccat.DocumentSampleStream;
@@ -43,13 +44,13 @@ import opennlp.tools.util.ObjectStream;
 import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 
-public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
+public class OpenNLPDocumentCategorizer {
 
 	static final Logger LOG = Logger.getLogger(OpenNLPDocumentCategorizer.class.getName());
 	
 	private DoccatModel model;
 	private DoccatFactory doccatFactory;
-	private DocumentCategorizerME doccat;
+	private DocumentCategorizer doccat;
 	private int minNgramSize = 1;
 	private int maxNgramSize = 4;
 	private int iterations = 100;
@@ -59,7 +60,6 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 	private String modelFile;
 
 	public OpenNLPDocumentCategorizer() {
-		super();
 		init();
 	}
 
@@ -75,25 +75,17 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 		init();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getBestCategory(java.lang.String)
-	 */
+	
 	public String getBestCategory(String str) {
-
 		return doccat.getBestCategory(getCategorize(str));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getCategorize(java.lang.String)
-	 */
+	
 	public double[] getCategorize(String str) {
-
 		return doccat.categorize(opennlp.tools.tokenize.SimpleTokenizer.INSTANCE.tokenize(str));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getCategorizeAndBestCategory(java.lang.String)
-	 */
+	
 	public Object[] getCategorizeAndBestCategory(String str) {
 		Object[] returnObj = new Object[2];
 
@@ -103,10 +95,8 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 		return returnObj;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getDoccat()
-	 */
-	public DocumentCategorizerME getDoccat() {
+	
+	public DocumentCategorizer getDoccat() {
 		return doccat;
 	}
 
@@ -120,23 +110,17 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getModel()
-	 */
+	
 	public DoccatModel getModel() {
 		return model;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getModelFile()
-	 */
+	
 	public String getModelFile() {
 		return modelFile;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getTrainingData()
-	 */
+	
 	public InputStreamFactory getTrainingData() {
 
 		InputStreamFactory tdata = null;
@@ -173,9 +157,7 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 		return tdata;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#getTrainingDataFile()
-	 */
+	
 	public String getTrainingDataFile() {
 		return trainingDataFile;
 	}
@@ -221,16 +203,15 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#setDoccat(opennlp.tools.doccat.DocumentCategorizerME)
-	 */
+	
 	public void setDoccat(DocumentCategorizerME doccat) {
 		this.doccat = doccat;
 	}
 
 	private void setDoccatFactory() {
 		try {
-			doccatFactory = new DoccatFactory(new FeatureGenerator[] { new BagOfWordsFeatureGenerator(),
+			doccatFactory = new DoccatFactory(new FeatureGenerator[] {
+					new BagOfWordsFeatureGenerator(),
 					new NGramFeatureGenerator(minNgramSize, maxNgramSize) });
 		} catch (InvalidFormatException e) {
 			doccatFactory = new DoccatFactory();
@@ -238,30 +219,22 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#setModel(opennlp.tools.doccat.DoccatModel)
-	 */
+	
 	public void setModel(DoccatModel model) {
 		this.model = model;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#setModelFile(java.lang.String)
-	 */
+	
 	public void setModelFile(String modelFile) {
 		this.modelFile = modelFile;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#setTrainingDataFile(java.lang.String)
-	 */
+	
 	public void setTrainingDataFile(String trainingDataFile) {
 		this.trainingDataFile = trainingDataFile;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hkstlr.text.nlp.control.DocumentCategorizer#trainModel()
-	 */
+	
 	public void trainModel() {
 
 		try {
@@ -272,7 +245,8 @@ public class OpenNLPDocumentCategorizer implements DocumentCategorizer {
 			TrainingParameters params = new TrainingParameters();
 			params.put(TrainingParameters.ITERATIONS_PARAM, iterations + "");
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
-
+			//params.put(TrainingParameters.ALGORITHM_PARAM, "NAIVEBAYES");
+			
 			model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), sampleStream, params, getDoccatFactory());
 
 			doccat = new DocumentCategorizerME(model);

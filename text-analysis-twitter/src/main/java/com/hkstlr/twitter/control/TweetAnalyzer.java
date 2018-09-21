@@ -12,22 +12,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.hkstlr.text.nlp.control.DocumentCategorizer;
 import com.hkstlr.text.nlp.control.OpenNLPDocumentCategorizer;
 
-import twitter4j.*;
+import twitter4j.Status;
+import twitter4j.TwitterException;
 
 public class TweetAnalyzer {
 
 	private static final Logger LOG = Logger.getLogger(TweetAnalyzer.class.getName());
 	private static final Level LOG_LEVEL = Level.INFO;
 
-	private DocumentCategorizer cat;
+	private OpenNLPDocumentCategorizer cat;
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
 	private List<Status> tweets = new ArrayList<>();
-	
 	
 	public TweetAnalyzer() {
 		super();
@@ -59,6 +58,7 @@ public class TweetAnalyzer {
 	void init() {
 		getCat();
 		tc = new TwitterClient(new Config().getProps());
+		
 	}
 
 	public Object getSAAnalysis(String queryTerms) throws TwitterException {
@@ -144,7 +144,7 @@ public class TweetAnalyzer {
 		
 	}
 
-	public void setCat(DocumentCategorizer cat) {
+	public void setCat(OpenNLPDocumentCategorizer cat) {
 		this.cat = cat;
 	}
 

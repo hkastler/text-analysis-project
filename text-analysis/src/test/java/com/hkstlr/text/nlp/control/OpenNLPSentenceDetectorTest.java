@@ -56,13 +56,7 @@ public class OpenNLPSentenceDetectorTest {
 		for(String sent : sentences)
 			System.out.println(sent);   
 			
-		//Getting the probabilities of the last decoded sequence   
-		double[] probs = cut.getSentenceDetector().getSentenceProbabilities(); 
 		
-		System.out.println("  "); 
-		  
-		for(int i = 0; i<probs.length; i++) 
-			System.out.println(probs[i]); 
-		} 
+	}
 }
 

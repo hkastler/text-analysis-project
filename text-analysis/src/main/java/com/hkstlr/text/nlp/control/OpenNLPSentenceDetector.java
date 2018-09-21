@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import opennlp.tools.sentdetect.SentenceDetector;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 
@@ -18,7 +19,7 @@ public class OpenNLPSentenceDetector {
 
     private String modelFile;
     private SentenceModel model;
-    private SentenceDetectorME sentenceDetector;
+    private SentenceDetector sentenceDetector;
 
     public OpenNLPSentenceDetector() {
         super();
@@ -66,11 +67,11 @@ public class OpenNLPSentenceDetector {
         this.model = model;
     }
 
-    public SentenceDetectorME getSentenceDetector() {
+    public SentenceDetector getSentenceDetector() {
         return sentenceDetector;
     }
 
-    public void setSentenceDetector(SentenceDetectorME sentenceDetector) {
+    public void setSentenceDetector(SentenceDetector sentenceDetector) {
         this.sentenceDetector = sentenceDetector;
     }
 
