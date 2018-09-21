@@ -76,6 +76,23 @@ public class OpenNLPDocumentCategorizer {
 		init();
 	}
 
+	void init() {
+		Optional<String> oModelFile = Optional.ofNullable(modelFile);
+		if (new File(oModelFile.orElse("")).exists()) {
+			loadModelFromFile();
+		} else {
+			trainModel();
+			
+			if(oModelFile.isPresent() && !oModelFile.get().isEmpty()) {
+				saveModelToFile();
+			}
+			
+		}
+		
+		doccat = new DocumentCategorizerME(model);
+		
+	}
+
 	
 	public String getBestCategory(String str) {
 		return doccat.getBestCategory(getCategorize(str));
@@ -163,32 +180,19 @@ public class OpenNLPDocumentCategorizer {
 		return trainingDataFile;
 	}
 
-	private void init() {
-		Optional<String> oModelFile = Optional.ofNullable(modelFile);
-		if (new File(oModelFile.orElse("")).exists()) {
-			loadModelFromFile();
-		} else {
-
-			trainModel();
-			if(oModelFile.isPresent() && !oModelFile.get().isEmpty()) {
-				saveModelToFile();
-			}
-			
-		}
-		
-	}
 
 	private void loadModelFromFile() {
 
 		try {
 
-			model = new DoccatModel(Paths.get(modelFile));
-			doccat = new DocumentCategorizerME(model);
+			this.model = new DoccatModel(Paths.get(modelFile));
+			
 
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
 
 		}
+		
 	}
 
 	private void saveModelToFile() {
@@ -236,7 +240,7 @@ public class OpenNLPDocumentCategorizer {
 	}
 
 	
-	public void trainModel() {
+	private void trainModel() {
 
 		try {
 
@@ -248,13 +252,15 @@ public class OpenNLPDocumentCategorizer {
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
 			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 			
-			model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), sampleStream, params, getDoccatFactory());
-
-			doccat = new DocumentCategorizerME(model);
+			this.model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), 
+					sampleStream, params, getDoccatFactory());
+			
+			
 
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, null, e);
 		}
+		
 	}
 
 }
