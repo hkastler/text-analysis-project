@@ -245,7 +245,7 @@ public class OpenNLPDocumentCategorizer {
 			TrainingParameters params = new TrainingParameters();
 			params.put(TrainingParameters.ITERATIONS_PARAM, iterations + "");
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
-			//params.put(TrainingParameters.ALGORITHM_PARAM, "NAIVEBAYES");
+			params.put(TrainingParameters.ALGORITHM_PARAM, "NAIVEBAYES");
 			
 			model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), sampleStream, params, getDoccatFactory());
 
