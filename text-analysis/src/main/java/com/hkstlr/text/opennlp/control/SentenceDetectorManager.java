@@ -1,4 +1,4 @@
-package com.hkstlr.text.nlp.control;
+package com.hkstlr.text.opennlp.control;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,20 +13,20 @@ import opennlp.tools.sentdetect.SentenceDetector;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 
-public class OpenNLPSentenceDetector {
+public class SentenceDetectorManager {
 
-    private static final Logger LOG = Logger.getLogger(OpenNLPSentenceDetector.class.getName());
+    private static final Logger LOG = Logger.getLogger(SentenceDetectorManager.class.getName());
 
     private String modelFile;
     private SentenceModel model;
     private SentenceDetector sentenceDetector;
 
-    public OpenNLPSentenceDetector() {
+    public SentenceDetectorManager() {
         super();
         init();
     }
 
-    public OpenNLPSentenceDetector(String modelFile) {
+    public SentenceDetectorManager(String modelFile) {
         super();
         this.modelFile = modelFile;
         init();

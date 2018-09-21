@@ -14,9 +14,12 @@
  * see https://github.com/technobium/opennlp-categorizer
  * 
  */
-package com.hkstlr.text.nlp.control;
+package com.hkstlr.text.opennlp.control;
 
 import org.junit.Test;
+
+import com.hkstlr.text.opennlp.control.SentenceDetectorManager;
+
 import static org.junit.Assert.*;
 
 /**
@@ -25,7 +28,7 @@ import static org.junit.Assert.*;
  */
 public class OpenNLPSentenceDetectorTest {
 	
-	OpenNLPSentenceDetector cut;
+	SentenceDetectorManager cut;
 	
 	public OpenNLPSentenceDetectorTest() {
 	}
@@ -36,10 +39,10 @@ public class OpenNLPSentenceDetectorTest {
 	@Test
 	public void testInit() {
 		System.out.println("init");
-		cut = new OpenNLPSentenceDetector();
+		cut = new SentenceDetectorManager();
 		assertNotNull(cut.getSentenceDetector());
 		
-		cut = new OpenNLPSentenceDetector("/etc/config/models/en-sent.bin");
+		cut = new SentenceDetectorManager("/etc/config/models/en-sent.bin");
 		assertNotNull(cut.getSentenceDetector());
 	}
 	
@@ -47,7 +50,7 @@ public class OpenNLPSentenceDetectorTest {
 	@Test
 	public void testDetection() {
 		System.out.println("getSentenceDetector().sentDetect");
-		cut = new OpenNLPSentenceDetector();
+		cut = new SentenceDetectorManager();
 		String sentence = "Hi. How are you? Hello.";
 		//Detecting the sentence 
 		String sentences[] = cut.getSentenceDetector().sentDetect(sentence); 

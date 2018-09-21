@@ -14,7 +14,7 @@
  * see https://github.com/technobium/opennlp-categorizer
  * 
  */
-package com.hkstlr.text.nlp.control;
+package com.hkstlr.text.opennlp.control;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -45,9 +45,9 @@ import opennlp.tools.util.ObjectStream;
 import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 
-public class OpenNLPDocumentCategorizer {
+public class DocumentCategorizerManager {
 
-	static final Logger LOG = Logger.getLogger(OpenNLPDocumentCategorizer.class.getName());
+	static final Logger LOG = Logger.getLogger(DocumentCategorizerManager.class.getName());
 	
 	private DoccatModel model;
 	private DoccatFactory doccatFactory;
@@ -60,16 +60,16 @@ public class OpenNLPDocumentCategorizer {
 	private String trainingDataFile;
 	private String modelFile;
 
-	public OpenNLPDocumentCategorizer() {
+	public DocumentCategorizerManager() {
 		init();
 	}
 
-	public OpenNLPDocumentCategorizer(String modelFile) {
+	public DocumentCategorizerManager(String modelFile) {
 		this.modelFile = modelFile;
 		init();
 	}
 	
-	public OpenNLPDocumentCategorizer(String trainingDataFile,
+	public DocumentCategorizerManager(String trainingDataFile,
 			String modelFile) {
 		this.trainingDataFile = trainingDataFile;
 		this.modelFile = modelFile;
@@ -81,6 +81,7 @@ public class OpenNLPDocumentCategorizer {
 		if (new File(oModelFile.orElse("")).exists()) {
 			loadModelFromFile();
 		} else {
+			
 			trainModel();
 			
 			if(oModelFile.isPresent() && !oModelFile.get().isEmpty()) {

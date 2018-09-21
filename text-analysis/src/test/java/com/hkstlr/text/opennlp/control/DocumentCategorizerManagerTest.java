@@ -12,7 +12,7 @@
  * limitations under the License.
  * 
  */
-package com.hkstlr.text.nlp.control;
+package com.hkstlr.text.opennlp.control;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,18 +27,20 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
+
 import opennlp.tools.util.InputStreamFactory;
 
 /**
  *
  * @author henry.kastler
  */
-public class OpenNLPDocumentCategorizerTest {
+public class DocumentCategorizerManagerTest {
 
 	
-	OpenNLPDocumentCategorizer cut;
+	DocumentCategorizerManager cut;
 
-	public OpenNLPDocumentCategorizerTest() {
+	public DocumentCategorizerManagerTest() {
 	}
 
 	@Rule
@@ -51,7 +53,7 @@ public class OpenNLPDocumentCategorizerTest {
 		String tempModelFilePath = folder.getRoot().getAbsolutePath()
 				+ File.separator + "testGetTrainingDataFile.bin";
 		
-		cut = new OpenNLPDocumentCategorizer(testTrainFilepath.toString(), 
+		cut = new DocumentCategorizerManager(testTrainFilepath.toString(), 
 				tempModelFilePath);
 		
 	}
@@ -92,7 +94,7 @@ public class OpenNLPDocumentCategorizerTest {
 		Path testPath = Paths.get("src", "test", "resources", 
 				"test_twitter_sentiment_training_data.train");
 		Path tempFilePath = Paths.get(folder.getRoot().toString(), "testGetTrainingData.bin");
-		cut = new OpenNLPDocumentCategorizer(testPath.toString(), tempFilePath.toString());
+		cut = new DocumentCategorizerManager(testPath.toString(), tempFilePath.toString());
 		result = cut.getTrainingData();
 
 		assertNotNull(result);
@@ -147,7 +149,7 @@ public class OpenNLPDocumentCategorizerTest {
 	@Test
 	public void testGetTrainingDataFileEmptyConstructor() {
 		System.out.println("getTrainingDataFile");
-		cut = new OpenNLPDocumentCategorizer();
+		cut = new DocumentCategorizerManager();
 		String result = cut.getTrainingDataFile();
 		assertNull(result);
 
@@ -156,7 +158,7 @@ public class OpenNLPDocumentCategorizerTest {
 		String tempFilePath = folder.getRoot().getAbsolutePath()
 				+ File.separator + "testGetTrainingDataFile.bin";
 		
-		cut = new OpenNLPDocumentCategorizer(testPath.toString(), tempFilePath);
+		cut = new DocumentCategorizerManager(testPath.toString(), tempFilePath);
 		result = cut.getTrainingDataFile();
 		assertEquals(testPath.toString(), result);
 		
@@ -170,7 +172,7 @@ public class OpenNLPDocumentCategorizerTest {
 
 		String modelFile = cut.getModelFile();
 		
-		cut = new OpenNLPDocumentCategorizer(modelFile);
+		cut = new DocumentCategorizerManager(modelFile);
 		String result = cut.getModelFile();
 		assertEquals(modelFile, result);
 		assertNotNull(cut.getModel());

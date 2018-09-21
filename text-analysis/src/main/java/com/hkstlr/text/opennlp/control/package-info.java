@@ -5,4 +5,4 @@
  * @author henry.kastler
  *
  */
-package com.hkstlr.text.nlp.control;
+package com.hkstlr.text.opennlp.control;

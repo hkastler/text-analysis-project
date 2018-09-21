@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.hkstlr.text.nlp.control.OpenNLPDocumentCategorizer;
+import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -22,7 +22,7 @@ public class TweetAnalyzer {
 	private static final Logger LOG = Logger.getLogger(TweetAnalyzer.class.getName());
 	private static final Level LOG_LEVEL = Level.INFO;
 
-	private OpenNLPDocumentCategorizer cat;
+	private DocumentCategorizerManager cat;
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
@@ -35,7 +35,7 @@ public class TweetAnalyzer {
 	
 	public TweetAnalyzer(String trainingDataFile, String modelOutputFile) {
 		super();
-		this.cat = new OpenNLPDocumentCategorizer(trainingDataFile, modelOutputFile);
+		this.cat = new DocumentCategorizerManager(trainingDataFile, modelOutputFile);
 		init();
 	}
 
@@ -83,39 +83,43 @@ public class TweetAnalyzer {
 		int positive = 0;
 		int negative = 0;
 		int neutral = 0;
+		Object[] returnAry = new Object[2];
 		
 		tweets = tc.getTweets(this.queryTerms,this.tweetCount);
-
+		
 		String msgTemplate = "{0};{1};{2};{3}\n";
 
-		String tweetCategory;
+		String sentiment;
 		StringBuilder tweetSAResults = new StringBuilder("sentiment;tweet;p1;p2\n");
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
 			
-			String[] tokenText = cat.getTokenize(tweetText);
-			// print the probabilities of the categories
-			Map<String,Double> probMap = cat.getDoccat().scoreMap(tokenText);
+			//the category, in this use case, sentiment
+			sentiment = cat.getBestCategory(tweetText);
 			
-			Map<Double, Set<String>> sortedMap = cat.getDoccat().sortedScoreMap(tokenText);
+			//tokens
+			String[] textTokens = cat.getTokenize(tweetText);
+			// print the probabilities of the categories
+			Map<String,Double> probMap = cat.getDoccat().scoreMap(textTokens);
+			//and sorted
+			Map<Double, Set<String>> sortedMap = cat.getDoccat().sortedScoreMap(textTokens);
 			sortedMap = sortedMap.entrySet().stream()
 					.sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())) 			
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 					(oldValue, newValue) -> oldValue, LinkedHashMap::new));
 			
-			tweetCategory = cat.getBestCategory(tweetText);
 			//for the csv
 			tweetText = tweetText.replaceAll(";", "");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
-					{ tweetCategory, tweetText, probMap.toString(), sortedMap.toString() });
+					{ sentiment, tweetText, probMap.toString(), sortedMap.toString() });
 			tweetSAResults.append(rtn);
 			
 
-			if ("positive".equals(tweetCategory)) {
+			if ("positive".equals(sentiment)) {
 				positive++;
-			} else if ("negative".equals(tweetCategory)) {
+			} else if ("negative".equals(sentiment)) {
 				negative++;
-			} else if ("neutral".equals(tweetCategory)){
+			} else if ("neutral".equals(sentiment)){
 				neutral++;
 			}
 		}
@@ -125,8 +129,6 @@ public class TweetAnalyzer {
 		results.put("negative", negative);
 		results.put("neutral", neutral);
 		
-		
-		Object[] returnAry = new Object[2];
 		returnAry[0] = results;
 		returnAry[1] = tweetSAResults.toString();
 		return returnAry;
@@ -134,19 +136,19 @@ public class TweetAnalyzer {
 
 	
 	
-	public OpenNLPDocumentCategorizer getCat() {
+	public DocumentCategorizerManager getCat() {
 		return cat;
 	}
 
 	public void setCat() {
 		if(null == this.cat) {
-			this.cat = new OpenNLPDocumentCategorizer("/etc/config/twitter_sentiment_training_data.train",
+			this.cat = new DocumentCategorizerManager("/etc/config/twitter_sentiment_training_data.train",
 					"/etc/config/twitter_sa_model.bin");
 		}
 		
 	}
 
-	public void setCat(OpenNLPDocumentCategorizer cat) {
+	public void setCat(DocumentCategorizerManager cat) {
 		this.cat = cat;
 	}
 
