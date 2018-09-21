@@ -43,7 +43,7 @@ public class TweetAnalysisMain {
 	public static void main(String[] args) throws IOException, TwitterException {
 
 		TweetAnalyzer ta = new TweetAnalyzer("/etc/config/twitter_sentiment_training_data.train",
-				"/etc/config/twitter_sa_project_model.bin");
+				"");
 
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
@@ -76,6 +76,8 @@ public class TweetAnalysisMain {
 		if(writeToDesktop) {
 			ta.writeTweets(getFilePath("TweetAnalysisResults_",".txt"), strMsg);
 		}
+		
+		
 	}
 	private static String getFilePath(String fileNameBase, String fileExtension) {
 		StringBuilder filePath = new StringBuilder(System.getProperty("user.home"))
