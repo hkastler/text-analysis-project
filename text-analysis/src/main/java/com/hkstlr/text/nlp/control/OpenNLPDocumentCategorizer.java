@@ -98,6 +98,10 @@ public class OpenNLPDocumentCategorizer {
 		return doccat.getBestCategory(getCategorize(str));
 	}
 
+	public String[] getTokenize(String str) {
+		return opennlp.tools.tokenize.SimpleTokenizer.INSTANCE.tokenize(str);
+	}
+	
 	
 	public double[] getCategorize(String str) {
 		return doccat.categorize(opennlp.tools.tokenize.SimpleTokenizer.INSTANCE.tokenize(str));
