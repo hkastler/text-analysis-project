@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -56,7 +56,7 @@ public class TweetAnalyzer {
 	}
 
 	void init() {
-		getCat();
+		setCat();
 		tc = new TwitterClient(new Config().getProps());
 		
 	}
@@ -86,29 +86,30 @@ public class TweetAnalyzer {
 		
 		tweets = tc.getTweets(this.queryTerms,this.tweetCount);
 
-		String msgTemplate = "{0};{1};{2}\n";
+		String msgTemplate = "{0};{1};{2};{3}\n";
 
 		String tweetCategory;
-		StringBuilder probResults = new StringBuilder("sentiment;tweet;probabilities\n");
+		StringBuilder tweetSAResults = new StringBuilder("sentiment;tweet;p1;p2\n");
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
-			Object[] outcomeAndtresult = this.cat.getCategorizeAndBestCategory(tweetText);
-			double[] outcome = (double[]) outcomeAndtresult[0];
-
+			
+			String[] tokenText = cat.getTokenize(tweetText);
 			// print the probabilities of the categories
-			Map<String,Double> probMap = new HashMap<>();
+			Map<String,Double> probMap = cat.getDoccat().scoreMap(tokenText);
 			
-			for (int i = 0; i < cat.getDoccat().getNumberOfCategories(); i++) {
-				probMap.put(cat.getDoccat().getCategory(i), outcome[i]);
-				
-			}
-			probMap = probMap.entrySet().stream()
-					.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-					.collect(Collectors.toMap(
-								Map.Entry::getKey, 
-								Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+			Map<Double, Set<String>> sortedMap = cat.getDoccat().sortedScoreMap(tokenText);
+			sortedMap = sortedMap.entrySet().stream()
+					.sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())) 			
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+					(oldValue, newValue) -> oldValue, LinkedHashMap::new));
 			
-			tweetCategory = (String) outcomeAndtresult[1];
+			tweetCategory = cat.getBestCategory(tweetText);
+			//for the csv
+			tweetText = tweetText.replaceAll(";", "");
+			String rtn = MessageFormat.format(msgTemplate, new Object[] 
+					{ tweetCategory, tweetText, probMap.toString(), sortedMap.toString() });
+			tweetSAResults.append(rtn);
+			
 
 			if ("positive".equals(tweetCategory)) {
 				positive++;
@@ -117,11 +118,6 @@ public class TweetAnalyzer {
 			} else if ("neutral".equals(tweetCategory)){
 				neutral++;
 			}
-			
-			String rtn = MessageFormat.format(msgTemplate, new Object[] 
-					{ tweetCategory, tweetText, probMap.toString() });
-			probResults.append(rtn);
-			
 		}
 		Map<String, Integer> results = new LinkedHashMap<>();
 		results.put("total", tweets.size());
@@ -132,11 +128,17 @@ public class TweetAnalyzer {
 		
 		Object[] returnAry = new Object[2];
 		returnAry[0] = results;
-		returnAry[1] = probResults.toString();
+		returnAry[1] = tweetSAResults.toString();
 		return returnAry;
 	}
 
-	public void getCat() {
+	
+	
+	public OpenNLPDocumentCategorizer getCat() {
+		return cat;
+	}
+
+	public void setCat() {
 		if(null == this.cat) {
 			this.cat = new OpenNLPDocumentCategorizer("/etc/config/twitter_sentiment_training_data.train",
 					"/etc/config/twitter_sa_model.bin");
