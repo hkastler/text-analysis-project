@@ -37,6 +37,7 @@ import opennlp.tools.doccat.DocumentSample;
 import opennlp.tools.doccat.DocumentSampleStream;
 import opennlp.tools.doccat.FeatureGenerator;
 import opennlp.tools.doccat.NGramFeatureGenerator;
+import opennlp.tools.ml.naivebayes.NaiveBayesTrainer;
 import opennlp.tools.util.InputStreamFactory;
 import opennlp.tools.util.InvalidFormatException;
 import opennlp.tools.util.MarkableFileInputStreamFactory;
@@ -245,7 +246,7 @@ public class OpenNLPDocumentCategorizer {
 			TrainingParameters params = new TrainingParameters();
 			params.put(TrainingParameters.ITERATIONS_PARAM, iterations + "");
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
-			params.put(TrainingParameters.ALGORITHM_PARAM, "NAIVEBAYES");
+			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 			
 			model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), sampleStream, params, getDoccatFactory());
 
