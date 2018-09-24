@@ -54,7 +54,7 @@ public class DocumentCategorizerManager {
 	private DoccatModel model;
 	private DoccatFactory doccatFactory;
 	private DocumentCategorizer doccat;
-	private Tokenizer tokenizer = SimpleTokenizer.INSTANCE;;
+	private Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
 	private int minNgramSize = 2;
 	private int maxNgramSize = 8;
 	private int iterations = 100;
