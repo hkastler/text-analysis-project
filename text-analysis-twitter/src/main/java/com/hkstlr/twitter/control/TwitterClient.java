@@ -2,6 +2,7 @@ package com.hkstlr.twitter.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +58,9 @@ public class TwitterClient {
 
 		long lastID = Long.MAX_VALUE;
 
+		//filter by lang in query
+		query.setLang(Locale.ENGLISH.getLanguage());
+		
 		while (tweets.size() < numberOfTweets) {
 
 			if (numberOfTweets - tweets.size() > queryCount) {
