@@ -15,12 +15,15 @@
 package com.hkstlr.text.opennlp.control;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,6 +32,9 @@ import org.junit.rules.TemporaryFolder;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
+import opennlp.tools.tokenize.SimpleTokenizer;
+import opennlp.tools.tokenize.Tokenizer;
+import opennlp.tools.tokenize.WhitespaceTokenizer;
 import opennlp.tools.util.InputStreamFactory;
 
 /**
@@ -95,6 +101,35 @@ public class DocumentCategorizerManagerTest {
 				"test_twitter_sentiment_training_data.train");
 		Path tempFilePath = Paths.get(folder.getRoot().toString(), "testGetTrainingData.bin");
 		cut = new DocumentCategorizerManager(testPath.toString(), tempFilePath.toString());
+		result = cut.getTrainingData();
+
+		assertNotNull(result);
+		
+		System.out.println("getTrainingData2");
+		cut = new DocumentCategorizerManager();
+		cut.setTrainingDataFile("");
+
+		
+		result = cut.getTrainingData();
+
+		assertNotNull(result);
+		
+		System.out.println("getTrainingData3");
+		cut = new DocumentCategorizerManager();
+		cut.setTrainingDataFile("/dev/null/no.props");
+
+		
+		result = cut.getTrainingData();
+
+		assertNotNull(result);
+		
+		System.out.println("getTrainingData4");
+		Path testPath4 = Paths.get("src", "test", "resources", 
+				"test_twitter_sentiment_training_data.train");
+		cut = new DocumentCategorizerManager(testPath4.toString(),"");
+		
+
+		
 		result = cut.getTrainingData();
 
 		assertNotNull(result);
@@ -179,5 +214,21 @@ public class DocumentCategorizerManagerTest {
 		assertEquals("DoccatModel",cut.getModel().getClass().getSimpleName());
 	}
 	
+	
+	@Test
+	public void testGetTokenize() {
+		Tokenizer tk = SimpleTokenizer.INSTANCE;
+		
+		String str = "Hello World this is a test of getTokenize to ensure is is calling the expected tokenizer!";
+		String[] mtk = cut.getTokenize(str);
+		String[] ctk = tk.tokenize(str);
+		
+		assertTrue(Arrays.deepEquals(ctk, mtk));
+		
+		tk = WhitespaceTokenizer.INSTANCE;
+		ctk = tk.tokenize(str);
+		assertFalse(Arrays.deepEquals(ctk, mtk));
+		
+	}
 
 }

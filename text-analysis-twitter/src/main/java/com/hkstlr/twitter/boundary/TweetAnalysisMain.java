@@ -14,17 +14,16 @@
  */
 package com.hkstlr.twitter.boundary;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.hkstlr.twitter.control.FileWR;
 import com.hkstlr.twitter.control.TweetAnalyzer;
 
 import twitter4j.TwitterException;
@@ -41,10 +40,13 @@ public class TweetAnalysisMain {
 	private static final Level LOG_LEVEL = Level.INFO;
 
 	public static void main(String[] args) throws IOException, TwitterException {
-
-		TweetAnalyzer ta = new TweetAnalyzer("/etc/config/twitter_sentiment_training_data.train",
+		
+		TweetAnalyzer ta = new TweetAnalyzer(
+				Paths.get("src","main","resources","twitter_sentiment_training_data.train")
+				.toString(),
 				"");
-
+		
+		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
 		boolean writeToDesktop = true;
@@ -54,41 +56,43 @@ public class TweetAnalysisMain {
 		}
 
 		Object[] saResultObj = (Object[]) ta.getSAAnalysis(queryTerms, numberOfTweetsToGet);
-		Object saResult = saResultObj[0];
+		Map<String, Integer> results = (HashMap<String, Integer>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
-		if(writeToDesktop) {
-			ta.writeTweets(getFilePath("TweetAnalysis_",".csv"), probResults);
-		}
-		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
-		LOG.log(LOG_LEVEL, "{0}", new Object[] { saResult.toString() });
 		
-		Map<?, ?> results = (HashMap<?, ?>) saResult;
+		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
+		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
+		
 		String message = String.format(queryTerms +"%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
 		
 		String strMsg = new MessageFormat(message).format(new Object[] { 
-							(double) (int) results.get("positive") / (int) results.get("total") * 100,
-							(double) (int) results.get("negative") / (int) results.get("total") * 100,
-							(double) (int) results.get("neutral") / (int) results.get("total") * 100 
+							((double) results.get("positive") / results.get("total")) * 100,
+							(double) results.get("negative") / results.get("total") * 100,
+							(double) results.get("neutral") / results.get("total") * 100 
 						});
 		
 		LOG.log(LOG_LEVEL, strMsg);
-		strMsg+=saResult.toString();
+		strMsg+=results.toString();
 		if(writeToDesktop) {
-			ta.writeTweets(getFilePath("TweetAnalysisResults_",".txt"), strMsg);
+			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_"+ queryTerms + "_",".csv"),
+					probResults);
+			writeTweets(FileWR.getDesktopFilePath("TweetAnalysisResults_" + queryTerms + "_",".txt"),
+					strMsg);
 		}
 		
 		
 	}
-	private static String getFilePath(String fileNameBase, String fileExtension) {
-		StringBuilder filePath = new StringBuilder(System.getProperty("user.home"))
-				.append(File.separator)
-				.append("Desktop")
-				.append(File.separator)
-				.append(fileNameBase)
-				.append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
-				.append(fileExtension);
-		return filePath.toString();
-		
+	
+
+	public static void writeTweets(String filePath, String tweets) {
+		FileWR writer = new FileWR(filePath);
+
+		try {
+			writer.writeFile(tweets);
+		} catch (IOException e) {
+			LOG.log(LOG_LEVEL, "", e);
+		}
+
+		writer.close();
 	}
 
 }

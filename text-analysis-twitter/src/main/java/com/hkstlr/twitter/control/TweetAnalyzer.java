@@ -1,6 +1,5 @@
 package com.hkstlr.twitter.control;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,9 +72,20 @@ public class TweetAnalyzer {
 	}
 
 	public String getTweetTextForCategorization(String tweetText) {
+		
+		String rtnStr = tweetText;
 		//thanks to https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
-		String TWITTER_TEXT_REGEX = "(@[A-Za-z0-9]+)|(\\w+:\\/\\/\\S+)|(\\r\\n|\\r|\\n)"; //([^0-9A-Za-z \\t]) removes hashtags
-		return tweetText.replaceAll(TWITTER_TEXT_REGEX, " ");
+		String TWITTER_SCREENNAME_REGEX = "(@[A-Za-z0-9]+)"; //([^0-9A-Za-z \\t]) removes hashtags
+		String URL_REGEX = "(\\w+:\\/\\/\\S+)";
+		String NEWLINE_REGEX = "(\\r\\n|\\r|\\n)";
+		
+		rtnStr =  rtnStr.replaceAll(NEWLINE_REGEX, " ");
+		
+		rtnStr = rtnStr.replaceAll(TWITTER_SCREENNAME_REGEX, " ");
+		
+		rtnStr = rtnStr.replaceAll(URL_REGEX, " ");
+		
+		return rtnStr;
 	}
 	
 	public Object getSAAnalysis() throws TwitterException {
@@ -152,16 +162,6 @@ public class TweetAnalyzer {
 		this.cat = cat;
 	}
 
-	public void writeTweets(String filePath, String tweets) {
-		FileWR writer = new FileWR(filePath);
-		
-		try {
-			writer.writeFile(tweets);
-		} catch (IOException e) {
-			LOG.log(LOG_LEVEL,"",e);
-		}
- 
-		writer.close();
-	}
+	
 
 }

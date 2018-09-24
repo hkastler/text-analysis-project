@@ -38,6 +38,8 @@ import opennlp.tools.doccat.DocumentSampleStream;
 import opennlp.tools.doccat.FeatureGenerator;
 import opennlp.tools.doccat.NGramFeatureGenerator;
 import opennlp.tools.ml.naivebayes.NaiveBayesTrainer;
+import opennlp.tools.tokenize.SimpleTokenizer;
+import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.util.InputStreamFactory;
 import opennlp.tools.util.InvalidFormatException;
 import opennlp.tools.util.MarkableFileInputStreamFactory;
@@ -52,10 +54,13 @@ public class DocumentCategorizerManager {
 	private DoccatModel model;
 	private DoccatFactory doccatFactory;
 	private DocumentCategorizer doccat;
-	private int minNgramSize = 1;
-	private int maxNgramSize = 4;
+	private Tokenizer tokenizer = SimpleTokenizer.INSTANCE;;
+	private int minNgramSize = 2;
+	private int maxNgramSize = 8;
 	private int iterations = 100;
-	private int cutoff = 0;
+	private int cutoff = 2;
+	private boolean printMessages = false;
+	
 	
 	private String trainingDataFile;
 	private String modelFile;
@@ -100,12 +105,12 @@ public class DocumentCategorizerManager {
 	}
 
 	public String[] getTokenize(String str) {
-		return opennlp.tools.tokenize.SimpleTokenizer.INSTANCE.tokenize(str);
+		return tokenizer.tokenize(str);
 	}
 	
 	
 	public double[] getCategorize(String str) {
-		return doccat.categorize(opennlp.tools.tokenize.SimpleTokenizer.INSTANCE.tokenize(str));
+		return doccat.categorize(tokenizer.tokenize(str));
 	}
 
 	
@@ -148,31 +153,23 @@ public class DocumentCategorizerManager {
 
 		InputStreamFactory tdata = null;
 		Optional<String> tdataCustomFile = Optional.ofNullable(trainingDataFile);
-		if (tdataCustomFile.isPresent() && !tdataCustomFile.get().isEmpty()) {
+		if (tdataCustomFile.isPresent() && Paths.get(tdataCustomFile.get()).toFile().exists()) {
 			try {
-				tdata = new MarkableFileInputStreamFactory(Paths.get(tdataCustomFile.get()).toFile());
-
-			} catch (FileNotFoundException e) {
-				LOG.log(Level.SEVERE, null, e);
-			}
-			return tdata;
-		}
-
-		try {
-
-			tdata = new MarkableFileInputStreamFactory(
-					Paths.get("/etc/config/twitter_sentiment_training_data.train").toFile());
-
-		} catch (FileNotFoundException ne) {
-
-			try {
-
 				tdata = new MarkableFileInputStreamFactory(
-						Paths.get("src", "main", "resources", "twitter_sentiment_training_data.train").toFile());
+						Paths.get(tdataCustomFile.get()).toFile());
 
-			} catch (FileNotFoundException e) {
-				LOG.log(Level.SEVERE, null, e);
+			} catch (IOException e) {
+				LOG.log(Level.WARNING, null, e);
 			}
+			if(null != tdata)
+				return tdata;
+		}
+		Optional<File> defaultFile = Optional.ofNullable(defaultTrainingDataFile());
+		try {
+			
+			tdata = new MarkableFileInputStreamFactory(
+					defaultFile.orElseThrow(() -> new FileNotFoundException()));
+		
 		} catch (Exception e) {
 
 			LOG.log(Level.SEVERE, null, e);
@@ -180,6 +177,22 @@ public class DocumentCategorizerManager {
 		return tdata;
 	}
 
+	public File defaultTrainingDataFile() {
+		
+		File defaultTrainingFile = null;
+		
+		File externalFile = Paths.get("/etc/config/twitter_sentiment_training_data.train").toFile();
+		if(externalFile.exists()) {
+			return externalFile;
+		} else {
+			File codebaseFile = Paths.get("src", "main", "resources", "sentiment_training_data.train").toFile();
+			if(codebaseFile.exists()) {
+				return codebaseFile;
+			}
+		}
+		
+		return defaultTrainingFile;
+	}
 	
 	public String getTrainingDataFile() {
 		return trainingDataFile;
@@ -187,28 +200,34 @@ public class DocumentCategorizerManager {
 
 
 	private void loadModelFromFile() {
-
-		try {
-
-			this.model = new DoccatModel(Paths.get(modelFile));
-			
-
-		} catch (IOException e) {
-			LOG.log(Level.SEVERE, "", e);
-
+		Optional<String> oModelFile = Optional.ofNullable(modelFile);
+		if(new File(oModelFile.get()).exists()) {
+			try {
+				this.model = new DoccatModel(Paths.get(modelFile));
+				
+			} catch (IOException e) {
+				this.model = null;
+				LOG.log(Level.SEVERE, "", e);
+			}
 		}
-		
 	}
 
 	private void saveModelToFile() {
 
-		BufferedOutputStream modelOut;
+		BufferedOutputStream modelOut = null;
 		try {
 			modelOut = new BufferedOutputStream(new FileOutputStream(modelFile));
 			model.serialize(modelOut);
 			modelOut.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
+		} finally {
+			if(null != modelOut)
+				try {
+					modelOut.close();
+				} catch (IOException e) {
+					LOG.log(Level.SEVERE, "", e);
+				}
 		}
 
 	}
@@ -225,7 +244,7 @@ public class DocumentCategorizerManager {
 					new NGramFeatureGenerator(minNgramSize, maxNgramSize) });
 		} catch (InvalidFormatException e) {
 			doccatFactory = new DoccatFactory();
-			LOG.log(Level.SEVERE, "", e);
+			LOG.log(Level.WARNING, "default DocccatFactory created", e);
 		}
 	}
 
@@ -253,6 +272,7 @@ public class DocumentCategorizerManager {
 			ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);
 
 			TrainingParameters params = new TrainingParameters();
+			params.put("PrintMessages", printMessages);
 			params.put(TrainingParameters.ITERATIONS_PARAM, iterations + "");
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
 			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
