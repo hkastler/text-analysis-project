@@ -108,7 +108,6 @@ public class TweetAnalyzer {
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
 			
-			Language language = ldm.getLanguageDetector().predictLanguage(tweet.getText());
 			//the category, in this use case, sentiment
 			sentiment = cat.getBestCategory(tweetText);
 			
@@ -122,7 +121,8 @@ public class TweetAnalyzer {
 					.sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())) 			
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 					(oldValue, newValue) -> oldValue, LinkedHashMap::new));
-			
+			//language detection
+			Language language = ldm.getLanguageDetector().predictLanguage(tweet.getText());
 			//for the csv
 			tweetText = tweetText.replaceAll(";", "");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
