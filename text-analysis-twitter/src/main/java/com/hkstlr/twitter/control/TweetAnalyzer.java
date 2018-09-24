@@ -12,7 +12,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
+import com.hkstlr.text.opennlp.control.LanguageDetectorManager;
 
+import opennlp.tools.langdetect.Language;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -22,6 +24,7 @@ public class TweetAnalyzer {
 	private static final Level LOG_LEVEL = Level.INFO;
 
 	private DocumentCategorizerManager cat;
+	LanguageDetectorManager ldm;
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
@@ -57,6 +60,7 @@ public class TweetAnalyzer {
 	void init() {
 		setCat();
 		tc = new TwitterClient(new Config().getProps());
+		ldm = new LanguageDetectorManager();
 		
 	}
 
@@ -97,13 +101,14 @@ public class TweetAnalyzer {
 		
 		tweets = tc.getTweets(this.queryTerms,this.tweetCount);
 		
-		String msgTemplate = "{0};{1};{2};{3}\n";
+		String msgTemplate = "{0};{1};{2};{3};{4}\n";
 
 		String sentiment;
-		StringBuilder tweetSAResults = new StringBuilder("sentiment;tweet;p1;p2\n");
+		StringBuilder tweetSAResults = new StringBuilder("sentiment;tweet;p1;p2;language\n");
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
 			
+			Language language = ldm.getLanguageDetector().predictLanguage(tweet.getText());
 			//the category, in this use case, sentiment
 			sentiment = cat.getBestCategory(tweetText);
 			
@@ -121,7 +126,7 @@ public class TweetAnalyzer {
 			//for the csv
 			tweetText = tweetText.replaceAll(";", "");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
-					{ sentiment, tweetText, probMap.toString(), sortedMap.toString() });
+					{ sentiment, tweetText, probMap.toString(), sortedMap.toString(), language.getLang() });
 			tweetSAResults.append(rtn);
 			
 
