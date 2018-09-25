@@ -212,20 +212,27 @@ public class DocumentCategorizerManager {
 	}
 
 
-	private void loadModelFromFile() {
+	void loadModelFromFile() {
 		Optional<String> oModelFile = Optional.ofNullable(modelFile);
-		if(new File(oModelFile.get()).exists()) {
+		this.model = loadModelFromFile(oModelFile.orElse(""));
+		
+		
+	}
+	
+	DoccatModel loadModelFromFile(String modelFile) {
+		DoccatModel dcm = null;
+		if(new File(modelFile).exists()) {
 			try {
-				this.model = new DoccatModel(Paths.get(modelFile));
+				dcm = new DoccatModel(Paths.get(modelFile));
 				
 			} catch (IOException e) {
-				this.model = null;
 				LOG.log(Level.SEVERE, "", e);
 			}
 		}
+		return dcm;
 	}
 
-	private void saveModelToFile() {
+	void saveModelToFile() {
 
 		BufferedOutputStream modelOut = null;
 		try {

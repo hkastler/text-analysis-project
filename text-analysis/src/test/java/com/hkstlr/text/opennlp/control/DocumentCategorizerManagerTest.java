@@ -19,8 +19,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -29,9 +31,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*; 
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
+import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.tokenize.SimpleTokenizer;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
@@ -41,6 +49,7 @@ import opennlp.tools.util.InputStreamFactory;
  *
  * @author henry.kastler
  */
+
 public class DocumentCategorizerManagerTest {
 
 	
@@ -51,6 +60,9 @@ public class DocumentCategorizerManagerTest {
 
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
+	
+	@Mock
+	public DocumentCategorizerManager mcut = mock(DocumentCategorizerManager.class);
 
 	@Before
 	public void setUp() {
@@ -231,4 +243,12 @@ public class DocumentCategorizerManagerTest {
 		
 	}
 
+	@Test
+	public void loadModelFromFile(){
+		
+		 when(mcut.loadModelFromFile("")).thenThrow(IOException.class);
+		 
+		 assertThatThrownBy(() -> mcut.loadModelFromFile("")).isInstanceOf(IOException.class);
+       
+	}
 }
