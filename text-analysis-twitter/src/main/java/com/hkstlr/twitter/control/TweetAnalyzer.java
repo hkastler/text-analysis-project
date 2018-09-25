@@ -83,7 +83,7 @@ public class TweetAnalyzer {
 		String URL_REGEX = "(\\w+:\\/\\/\\S+)";
 		String NEWLINE_REGEX = "(\\r\\n|\\r|\\n)";
 		
-		rtnStr =  rtnStr.replaceAll(NEWLINE_REGEX, " ");
+		rtnStr = rtnStr.replaceAll(NEWLINE_REGEX, " ");
 		
 		rtnStr = rtnStr.replaceAll(TWITTER_SCREENNAME_REGEX, " ");
 		
@@ -98,8 +98,8 @@ public class TweetAnalyzer {
 		int negative = 0;
 		int neutral = 0;
 		Object[] returnAry = new Object[2];
-		
-		tweets = tc.getTweets(this.queryTerms,this.tweetCount);
+		//LOG.log(LOG_LEVEL, "{0}", new Object[] {cat.getLanguageCode()});
+		tweets = tc.getTweets(this.queryTerms,this.tweetCount, cat.getLanguageCode());
 		
 		String msgTemplate = "{0};{1};{2};{3};{4}\n";
 

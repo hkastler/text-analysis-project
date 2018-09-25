@@ -55,8 +55,9 @@ public class DocumentCategorizerManager {
 	private DoccatFactory doccatFactory;
 	private DocumentCategorizer doccat;
 	private Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
+	private String languageCode;
 	private int minNgramSize = 2;
-	private int maxNgramSize = 8;
+	private int maxNgramSize = 10;
 	private int iterations = 100;
 	private int cutoff = 2;
 	private boolean printMessages = false;
@@ -66,7 +67,7 @@ public class DocumentCategorizerManager {
 	private String modelFile;
 
 	public DocumentCategorizerManager() {
-		init();
+		
 	}
 
 	public DocumentCategorizerManager(String modelFile) {
@@ -82,6 +83,11 @@ public class DocumentCategorizerManager {
 	}
 
 	void init() {
+		
+		Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
+		languageCode = oLanguageCode.orElse(Locale.getDefault().getLanguage());
+		
+		
 		Optional<String> oModelFile = Optional.ofNullable(modelFile);
 		if (new File(oModelFile.orElse("")).exists()) {
 			loadModelFromFile();
@@ -110,7 +116,7 @@ public class DocumentCategorizerManager {
 	
 	
 	public double[] getCategorize(String str) {
-		return doccat.categorize(tokenizer.tokenize(str));
+		return doccat.categorize(getTokenize(str));
 	}
 
 	
@@ -138,7 +144,14 @@ public class DocumentCategorizerManager {
 
 	}
 
-	
+	public String getLanguageCode() {
+		return languageCode;
+	}
+
+	public void setLanguageCode(String languageCode) {
+		this.languageCode = languageCode;
+	}
+
 	public DoccatModel getModel() {
 		return model;
 	}
@@ -277,7 +290,7 @@ public class DocumentCategorizerManager {
 			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
 			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 			
-			this.model = DocumentCategorizerME.train(Locale.ENGLISH.getLanguage(), 
+			this.model = DocumentCategorizerME.train(languageCode, 
 					sampleStream, params, getDoccatFactory());
 			
 			

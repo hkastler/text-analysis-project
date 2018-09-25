@@ -2,7 +2,6 @@ package com.hkstlr.twitter.control;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TwitterClient {
 
 	private Twitter twitter;
-	
+
 	private static final Logger LOG = Logger.getLogger(TwitterClient.class.getName());
 
 	public TwitterClient() {
@@ -42,13 +41,12 @@ public class TwitterClient {
 		twitter = new TwitterFactory(cb.build()).getInstance();
 	}
 
-	public List<Status> getTweets(String queryTerms){
+	public List<Status> getTweets(String queryTerms) {
 		return getTweets(queryTerms, 100);
 	}
-	
-	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-	public List<Status> getTweets(String queryTerms, int tweetCount) {
 
+	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
+	public List<Status> getTweets(String queryTerms, int tweetCount, String lang) {
 		List<Status> tweets = new ArrayList<>();
 		int numberOfTweets = tweetCount;
 		int queryCount = 100;
@@ -58,9 +56,10 @@ public class TwitterClient {
 
 		long lastID = Long.MAX_VALUE;
 
-		//filter by lang in query
-		query.setLang(Locale.ENGLISH.getLanguage());
-		
+		// filter by lang in query
+		if (!lang.isEmpty())
+			query.setLang(lang);
+
 		while (tweets.size() < numberOfTweets) {
 
 			if (numberOfTweets - tweets.size() > queryCount) {
@@ -78,7 +77,7 @@ public class TwitterClient {
 					if (t.getId() < lastID)
 						lastID = t.getId();
 				}
-	
+
 			} catch (TwitterException te) {
 				LOG.log(Level.SEVERE, "", te);
 			}
@@ -86,6 +85,13 @@ public class TwitterClient {
 			query.setMaxId(lastID - 1);
 		}
 		return tweets;
+
+	}
+
+	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
+	public List<Status> getTweets(String queryTerms, int tweetCount) {
+		return getTweets(queryTerms, tweetCount, "");
+
 	}
 
 	/**
