@@ -49,7 +49,7 @@ public class TweetAnalysisMain {
 		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
-		boolean writeToDesktop = true;
+		boolean writeToDesktop = false;
 
 		if (args.length > 0) {
 			queryTerms = Arrays.toString(args);
