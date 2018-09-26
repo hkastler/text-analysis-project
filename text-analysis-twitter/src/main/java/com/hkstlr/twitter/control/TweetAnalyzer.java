@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 import com.hkstlr.text.opennlp.control.LanguageDetectorManager;
 
@@ -57,6 +59,7 @@ public class TweetAnalyzer {
 		this.tweetCount = tweetCount;
 	}
 
+	@PostConstruct
 	void init() {
 		setCat();
 		tc = new TwitterClient(new Config().getProps());

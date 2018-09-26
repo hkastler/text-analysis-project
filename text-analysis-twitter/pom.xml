@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>text-analysis-twitter</artifactId>
 	<name>sentiment-analysis-twitter</name>
-	
+	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
