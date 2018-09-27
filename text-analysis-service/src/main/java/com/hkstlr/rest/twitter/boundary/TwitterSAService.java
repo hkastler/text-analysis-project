@@ -1,9 +1,5 @@
 package com.hkstlr.rest.twitter.boundary;
 
-import java.nio.file.Paths;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,8 +20,7 @@ public class TwitterSAService {
 	public TwitterSAService() {
 		super();
 		ta = new TweetAnalyzer(
-				Paths.get("src","main","resources","twitter_sentiment_training_data.train")
-				.toString(),
+				"/etc/config/twitter_sentiment_training_data.train",
 				"");
 	}
 
