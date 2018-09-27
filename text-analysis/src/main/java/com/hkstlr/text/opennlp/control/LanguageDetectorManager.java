@@ -11,7 +11,8 @@ import opennlp.tools.langdetect.LanguageDetectorME;
 import opennlp.tools.langdetect.LanguageDetectorModel;
 
 public class LanguageDetectorManager {
-
+	
+	private String modelFilePath = "/etc/config/models/langdetect-183.bin";
 	private File modelFile;
 	private LanguageDetectorModel model = null;
 	private LanguageDetector languageDetector;
@@ -25,7 +26,7 @@ public class LanguageDetectorManager {
 	}
 	
 	void init() {
-		modelFile = Paths.get("/etc/config/models/langdetect-183.bin").toFile();
+		modelFile = Paths.get(modelFilePath).toFile();
 		setModel(modelFile);
 		languageDetector = new LanguageDetectorME(model);
 		
