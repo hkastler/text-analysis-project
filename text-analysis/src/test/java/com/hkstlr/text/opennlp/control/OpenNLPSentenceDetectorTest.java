@@ -42,7 +42,7 @@ public class OpenNLPSentenceDetectorTest {
 		cut = new SentenceDetectorManager();
 		assertNotNull(cut.getSentenceDetector());
 		
-		cut = new SentenceDetectorManager("/etc/config/models/en-sent.bin");
+		cut = new SentenceDetectorManager("/etc/opt/text-analysis-project/text-analysis/models/en-sent.bin");
 		assertNotNull(cut.getSentenceDetector());
 	}
 	

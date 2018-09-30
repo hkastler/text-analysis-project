@@ -194,7 +194,7 @@ public class DocumentCategorizerManager {
 		
 		File defaultTrainingFile = null;
 		
-		File externalFile = Paths.get("/etc/config/twitter_sentiment_training_data.train").toFile();
+		File externalFile = Paths.get("/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train").toFile();
 		if(externalFile.exists()) {
 			return externalFile;
 		} else {

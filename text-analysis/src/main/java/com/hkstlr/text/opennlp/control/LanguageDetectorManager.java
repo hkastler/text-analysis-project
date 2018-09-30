@@ -12,7 +12,7 @@ import opennlp.tools.langdetect.LanguageDetectorModel;
 
 public class LanguageDetectorManager {
 	
-	private String modelFilePath = "/etc/config/models/langdetect-183.bin";
+	private String modelFilePath = "/etc/opt/text-analysis-project/text-analysis/models/langdetect-183.bin";
 	private File modelFile;
 	private LanguageDetectorModel model = null;
 	private LanguageDetector languageDetector;

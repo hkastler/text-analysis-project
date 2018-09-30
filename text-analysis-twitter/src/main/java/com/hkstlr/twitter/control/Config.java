@@ -30,7 +30,7 @@ public class Config {
 
 	private Properties props = new Properties();
 	private Logger log = Logger.getLogger(this.getClass().getName());
-	private String configFile = "/etc/config/twitter_sentiment_app_properties";
+	private String configFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
 
 	public Config() {
 		checkSystemConfig();
