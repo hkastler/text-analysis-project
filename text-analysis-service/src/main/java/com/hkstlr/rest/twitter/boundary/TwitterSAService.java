@@ -20,7 +20,7 @@ public class TwitterSAService {
 	public TwitterSAService() {
 		super();
 		ta = new TweetAnalyzer(
-				"/etc/config/twitter_sentiment_training_data.train",
+				TweetAnalyzer.getTrainingDataFilepath(),
 				"");
 	}
 

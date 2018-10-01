@@ -26,7 +26,9 @@ public class TweetAnalyzer {
 	private static final Level LOG_LEVEL = Level.INFO;
 
 	private DocumentCategorizerManager cat;
-	LanguageDetectorManager ldm;
+	private static final String TRAINING_DATA_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
+	private static final String MODEL_OUT_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
+	private LanguageDetectorManager ldm;
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
@@ -160,14 +162,22 @@ public class TweetAnalyzer {
 
 	public void setCat() {
 		if(null == this.cat) {
-			this.cat = new DocumentCategorizerManager("/etc/config/twitter_sentiment_training_data.train",
-					"/etc/config/twitter_sa_model.bin");
+			this.cat = new DocumentCategorizerManager(TRAINING_DATA_FILEPATH,
+					MODEL_OUT_FILEPATH);
 		}
 		
 	}
 
 	public void setCat(DocumentCategorizerManager cat) {
 		this.cat = cat;
+	}
+
+	public static String getTrainingDataFilepath() {
+		return TRAINING_DATA_FILEPATH;
+	}
+
+	public static String getModelOutFilepath() {
+		return MODEL_OUT_FILEPATH;
 	}
 
 	
