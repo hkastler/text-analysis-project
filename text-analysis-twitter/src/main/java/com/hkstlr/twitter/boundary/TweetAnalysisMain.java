@@ -42,7 +42,8 @@ public class TweetAnalysisMain {
 	public static void main(String[] args) throws IOException, TwitterException {
 		
 		TweetAnalyzer ta = new TweetAnalyzer(
-				"",
+				Paths.get("src","main","resources","twitter_sentiment_training_data.train")
+				.toString(),
 				"");
 		
 		
