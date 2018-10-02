@@ -178,6 +178,7 @@ public class DocumentCategorizerManager {
 				return tdata;
 		}
 		Optional<File> defaultFile = Optional.ofNullable(defaultTrainingDataFile());
+		LOG.info(defaultFile.get().getName());
 		try {
 			
 			tdata = new MarkableFileInputStreamFactory(
@@ -193,16 +194,13 @@ public class DocumentCategorizerManager {
 	public File defaultTrainingDataFile() {
 		
 		File defaultTrainingFile = null;
-		
-		File externalFile = Paths.get("/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train").toFile();
-		if(externalFile.exists()) {
-			return externalFile;
-		} else {
-			File codebaseFile = Paths.get("src", "main", "resources", "sentiment_training_data.train").toFile();
-			if(codebaseFile.exists()) {
-				return codebaseFile;
-			}
+		String codebaseFilePath = this.getClass().getClassLoader().getResource("sentiment_training_data.train").getFile();
+		File codebaseFile = new File(codebaseFilePath);
+		if(codebaseFile.exists()) {
+			LOG.info("using jar file trainer");
+			return codebaseFile;
 		}
+		
 		
 		return defaultTrainingFile;
 	}
