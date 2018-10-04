@@ -15,7 +15,6 @@
 package com.hkstlr.twitter.boundary;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,8 +41,7 @@ public class TweetAnalysisMain {
 	public static void main(String[] args) throws IOException, TwitterException {
 		
 		TweetAnalyzer ta = new TweetAnalyzer(
-				Paths.get("src","main","resources","twitter_sentiment_training_data.train")
-				.toString(),
+				TweetAnalyzer.getTrainingDataFilepath(),
 				"");
 		
 		
@@ -55,7 +53,7 @@ public class TweetAnalysisMain {
 			queryTerms = Arrays.toString(args);
 		}
 
-		Object[] saResultObj = (Object[]) ta.getSAAnalysis(queryTerms, numberOfTweetsToGet);
+		Object[] saResultObj = (Object[]) ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
 		Map<String, Integer> results = (HashMap<String, Integer>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
 		

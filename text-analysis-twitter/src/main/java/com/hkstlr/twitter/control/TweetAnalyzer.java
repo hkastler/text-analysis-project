@@ -69,15 +69,15 @@ public class TweetAnalyzer {
 		
 	}
 
-	public Object getSAAnalysis(String queryTerms) throws TwitterException {
+	public Object getSentimentAnalysis(String queryTerms) throws TwitterException {
 		this.queryTerms = queryTerms;
-		return getSAAnalysis();
+		return getSentimentAnalysis();
 	}
 	
-	public Object getSAAnalysis(String queryTerms, int tweetCount) throws TwitterException {
+	public Object getSentimentAnalysis(String queryTerms, int tweetCount) throws TwitterException {
 		this.queryTerms = queryTerms;
 		this.tweetCount = tweetCount;
-		return getSAAnalysis();
+		return getSentimentAnalysis();
 	}
 
 	public String getTweetTextForCategorization(String tweetText) {
@@ -97,7 +97,7 @@ public class TweetAnalyzer {
 		return rtnStr;
 	}
 	
-	public Object getSAAnalysis() throws TwitterException {
+	public Object getSentimentAnalysis() throws TwitterException {
 
 		int positive = 0;
 		int negative = 0;
