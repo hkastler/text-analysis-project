@@ -3,6 +3,10 @@ package com.hkstlr.rest.twitter.boundary;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,25 +17,31 @@ import com.hkstlr.twitter.control.TweetAnalyzer;
 
 import twitter4j.TwitterException;
 
+@Stateless
 @Path("twittersa")
 public class TwitterSAService {
 
 	private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
 	
-	private TweetAnalyzer ta;
+	@Inject
+	TweetAnalyzerBean tab;
 	
+	private TweetAnalyzer ta;
 	
 	public TwitterSAService() {
 		super();
-		ta = new TweetAnalyzer(
-				TweetAnalyzer.getTrainingDataFilepath(),
-				"");
+		
+	}
+	
+	@PostConstruct
+	void init() {
+		this.ta = tab.getTa();
 	}
 
 	@GET
 	@Path("/results/{queryTerms}")
 	@Produces(MediaType.APPLICATION_JSON)
-    public String[] getResults(@PathParam("queryTerms") String queryTerms) {
+    public String[] getResults(@DefaultValue(value = "pizza") @PathParam("queryTerms") String queryTerms) {
 		return getSentimentAnalysis(queryTerms, ta.getTweetCount());
     }
 	@GET
