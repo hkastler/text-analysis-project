@@ -1,0 +1,54 @@
+{
+  "name": "text-analysis-service",
+  "version": "1.0.0",
+  "description": "Simple Single Page Application with Java EE REST API",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swhp/javaee-angularjs.git"
+  },
+  "keywords": [
+    "angularjs",
+    "REST",
+    "Java",
+    "EE"
+  ],
+  "author": "Sukma Wardana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swhp/javaee-angularjs/issues"
+  },
+  "homepage": "https://github.com/swhp/javaee-angularjs#readme",
+  "devDependencies": {
+    "angular-mocks": "^1.7.5",
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-jsdoc": "^2.3.0",
+    "grunt-karma": "^3.0.0",
+    "grunt-serve": "0.1.6",
+    "karma": "^1.6.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4"
+  },
+  "dependencies": {
+    "angular": "1.7.5",
+    "angular-animate": "1.7.5",
+    "angular-bootstrap": "0.12.2",
+    "angular-resource": "1.7.5",
+    "angular-route": "1.7.5",
+    "angular-touch": "1.7.5",
+    "bootstrap": "4.1.3",
+    "popper.js": "1.14.4",
+    "d3": "5.7.0",
+    "jasmine": "^3.2.0",
+    "jasmine-core": "^2.8.0",
+    "jquery": "3.3.1"
+  },
+  "engines": {
+    "yarn": ">= 1.0.0"
+  }
+}
