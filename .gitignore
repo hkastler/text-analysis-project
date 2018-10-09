@@ -7,3 +7,9 @@
 text-analysis-webclient/.vscode/settings.json
 text-analysis-webclient/package-lock.json
 text-analysis-webclient/yarn.lock
+text-analysis-webclient/node_modules/**
+text-analysis-webclient/docs/**
+text-analysis-service/src/main/webapp/assets/**
+text-analysis-service/src/main/webapp/node_modules/**
+text-analysis-service/src/main/webapp/views/**
+text-analysis-service/src/main/webapp/index.html
