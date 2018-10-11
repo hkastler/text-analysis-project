@@ -1,18 +1,19 @@
-<div ng-controller="mainCtrl" class="panel panel-primary">
+<div data-ng-controller="mainCtrl" class="panel panel-primary" ng-init="tweetCount=100;queryTerms='chicago pizza'">
+
     <div class="panel-body">
 
         <form ng-submit="getResults()">
             <fieldset>
-                <legend></legend>
+
                 <div class="form-group">
                     <label for="queryTerms" class="form-control-label">Query Terms</label>
                     <input type="text" data-ng-model="queryTerms" name="queryTerms" class="form-control form-control-lg" />
                 </div>
                 <div class="form-group">
                     <label for="tweetCount" class="form-control-label"># of Tweets</label>
-                    <output name="tweetCountOutput" id="tweetCountOutput">100</output>
-                    <input type="range" class="form-control" data-ng-model="tweetCount" id="tweetCount" name="tweetCount" min="0" max="500"
-                        step="10" oninput="tweetCountOutput.value = tweetCount.value" />
+                    <output name="tweetCountOutput" id="tweetCountOutput">{{tweetCount}}</output>
+                    <input type="range" class="form-control" data-ng-model="tweetCount" id="tweetCount" name="tweetCount"
+                        min="0" max="500" step="10" oninput="tweetCountOutput.value = tweetCount.value" />
                 </div>
 
                 <input type="submit" class="btn btn-primary" />
@@ -20,7 +21,8 @@
         </form>
 
         {{resultsTotal}}
-        <hr/>
+        <hr />
         <div id="resultsTable"></div>
     </div>
+
 </div>
