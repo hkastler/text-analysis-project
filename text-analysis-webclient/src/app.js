@@ -6,7 +6,7 @@
      * @ngdoc overview
      * @name twitterSAApp
      * @description
-     * # Single Page Application with Java EE 7
+     * # Simple Angular Application
      */
     angular
         .module('twitterSAApp', [
@@ -37,38 +37,30 @@
                 return viewLocation === $location.path();
             };
         })
-        .controller('mainCtrl', function ($log, $scope, $http) {
-
-
-            $scope.queryTerms = 'chicago pizza';
-            $scope.tweetCount = 100;
-
-            $scope.resultsTotal = '';
-            $scope.resultsData = [];
-
-            var serviceLoc = 'http://localhost:8080/text-analysis-service/';
-            var urlBase = 'rest/twittersa/';
-
-
+        .controller('mainCtrl', function ($log, $scope, TwitterSAService, $route) {
+          
             $scope.getResults = function () {
+                TwitterSAService.getSAResults($scope.queryTerms,$scope.tweetCount)
+                    .then(function (response) {
 
-                $http.get(serviceLoc + urlBase + 'sa/' + $scope.queryTerms + "/" + $scope.tweetCount)
-                    .then(function (data) {
-
-                        $scope.resultsTotal = data.data[0];
-                        tabulateDsv(data.data[1],";", "#resultsTable");
-
-                    });
-
+                        $scope.resultsTotal = response.data[0];
+                        tabulateDsv(response.data[1], ";", "#resultsTable"); 
+                        $log.debug($route);
+                    })
+                    .catch(function (resp) {
+                        $scope.resultsTotal = "An error has occurred";
+                        $log.debug(resp);
+                    });                    
             };
+
             function tabulateDsv(dsvdata, delimiter, target) {
-                
+
                 var rows = d3.dsvFormat(delimiter).parseRows(dsvdata);
 
                 var container = d3.select(target);
                 container.html('');
 
-                var table = d3.select(target).append("table")
+                var table = container.append("table")
                     .attr("class", "table table-striped");
 
                 //proper table header 
@@ -91,8 +83,8 @@
                     .data(function (d) { return d; }).enter()
                     .append("td")
                     .text(function (d) { return d; });
-               
-            }
 
+            }
+            
         });
 })();

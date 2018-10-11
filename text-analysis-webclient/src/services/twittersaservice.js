@@ -8,20 +8,15 @@
      * # Service to call rest endpoint
      */
     angular.module('twitterSAApp')
-        .factory('TwitterSAService', ['$http', function ($http) {
+        .service('TwitterSAService', ['$http', function ($http) {
 
-            var urlBase = '/rest/twittersa/';
-            var dataFactory = {};
+            var serviceLoc = 'http://localhost:8080/text-analysis-service/';
+            var serviceUrl = 'rest/twittersa/';            
 
-
-
-            dataFactory.getResults = function (queryTerms) {
-                return $http.get(urlBase + 'results/' + queryTerms);
+            this.getSAResults = function (queryTerms, tweetCount) {
+                return  $http.get(serviceLoc + serviceUrl + 'sa/' + queryTerms + "/" + tweetCount);
             };
 
-
-
-            return dataFactory;
         }]);
     })  ();
 
