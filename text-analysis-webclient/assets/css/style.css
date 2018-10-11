@@ -1,3 +1,7 @@
+.panel-primary{
+    padding-top: 20px;
+}
+
 
 /* https://ihatetomatoes.net/create-custom-preloading-screen/ */
 #loader-wrapper {
