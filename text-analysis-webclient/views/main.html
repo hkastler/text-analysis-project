@@ -1,11 +1,26 @@
-<div ng-controller="mainCtrl">
-    <form ng-submit="getResults()">
-        <label for="queryTerms">Query Terms</label>
-        <input type="text" data-ng-model="queryTerms" name="queryTerms" class="form-control" />
-        <input type="submit" class="btn btn-primary" />
-    </form>
-    {{resultsTotal}}
-    <hr/>
-    <div id="resultsTable"></div>
+<div ng-controller="mainCtrl" class="panel panel-primary">
+    <div class="panel-body">
 
+        <form ng-submit="getResults()">
+            <fieldset>
+                <legend></legend>
+                <div class="form-group">
+                    <label for="queryTerms" class="form-control-label">Query Terms</label>
+                    <input type="text" data-ng-model="queryTerms" name="queryTerms" class="form-control form-control-lg" />
+                </div>
+                <div class="form-group">
+                    <label for="tweetCount" class="form-control-label"># of Tweets</label>
+                    <output name="tweetCountOutput" id="tweetCountOutput">100</output>
+                    <input type="range" class="form-control" data-ng-model="tweetCount" id="tweetCount" name="tweetCount" min="0" max="500"
+                        step="10" oninput="tweetCountOutput.value = tweetCount.value" />
+                </div>
+
+                <input type="submit" class="btn btn-primary" />
+            </fieldset>
+        </form>
+
+        {{resultsTotal}}
+        <hr/>
+        <div id="resultsTable"></div>
+    </div>
 </div>

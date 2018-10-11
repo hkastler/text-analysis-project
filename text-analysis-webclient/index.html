@@ -24,13 +24,13 @@
         </button>
 
 
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" ng-controller="navCtrl">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#!/">Home</a>
+                <li class="nav-item" ng-class="{ active: isActive('/')}">
+                    <a class="nav-link" href="#!/"  >Home</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" ng-class="{ active: isActive('/about')}">
                     <a class="nav-link" href="#!/about">About</a>
                 </li>
             </ul>
