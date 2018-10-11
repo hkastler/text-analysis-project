@@ -45,7 +45,7 @@
 
                         $scope.resultsTotal = response.data[0];
                         tabulateDsv(response.data[1], ";", "#resultsTable"); 
-                        $log.debug($route);
+                        
                     })
                     .catch(function (resp) {
                         $scope.resultsTotal = "An error has occurred";
