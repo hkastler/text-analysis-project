@@ -41,13 +41,13 @@ public class TwitterSAService {
 
 	@GET
 	@Path("/results/{queryTerms}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
     public Object[] getResults(@DefaultValue(value = "pizza") @PathParam("queryTerms") String queryTerms) {
 		return getSentimentAnalysis(queryTerms, ta.getTweetCount());
     }
 	@GET
 	@Path("/sa/{queryTerms}/{tweetCount}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
     public Object[] getSA(@PathParam("queryTerms") String queryTerms,
     		@PathParam("tweetCount") int tweetCount) {
 		return getSentimentAnalysis(queryTerms, tweetCount);
