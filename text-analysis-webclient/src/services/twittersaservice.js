@@ -9,12 +9,15 @@
      */
     angular.module('twitterSAApp')
         .service('TwitterSAService', ['$http', function ($http) {
-
-            var serviceLoc = 'http://localhost:8080/text-analysis-service/';
-            var serviceUrl = 'rest/twittersa/';            
+           
+            var host = "localhost";
+            var port = window.location.href.indexOf("https://")==0?"8443":"8080";
+            //var port = "8080";
+            var serviceLoc = "//" + host + ":" + port;
+            var serviceUrl = '/text-analysis-service/rest/twittersa/sa/';            
 
             this.getSAResults = function (queryTerms, tweetCount) {
-                return  $http.get(serviceLoc + serviceUrl + 'sa/' + queryTerms + "/" + tweetCount);
+                return  $http.get(serviceLoc + serviceUrl + queryTerms + "/" + tweetCount);
             };
 
         }]);
