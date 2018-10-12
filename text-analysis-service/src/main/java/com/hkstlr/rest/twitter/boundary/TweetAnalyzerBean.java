@@ -1,10 +1,12 @@
 package com.hkstlr.rest.twitter.boundary;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.hkstlr.twitter.control.TweetAnalyzer;
 
+@Startup
 @ApplicationScoped
 public class TweetAnalyzerBean {
 
