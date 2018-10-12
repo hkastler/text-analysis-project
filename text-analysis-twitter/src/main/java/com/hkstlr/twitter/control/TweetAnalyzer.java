@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 import com.hkstlr.text.opennlp.control.LanguageDetectorManager;
 
-import opennlp.tools.langdetect.Language;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -86,13 +85,9 @@ public class TweetAnalyzer {
 		String URL_REGEX = "(\\w+:\\/\\/\\S+)";
 		String NEWLINE_REGEX = "(\\r\\n|\\r|\\n)";
 		
-		rtnStr = rtnStr.replaceAll(NEWLINE_REGEX, " ");
-		
-		rtnStr = rtnStr.replaceAll(TWITTER_SCREENNAME_REGEX, " ");
-		
-		rtnStr = rtnStr.replaceAll(URL_REGEX, " ");
-		
-		return rtnStr;
+		return rtnStr.replaceAll(NEWLINE_REGEX, " ")
+				.replaceAll(TWITTER_SCREENNAME_REGEX, " ")
+				.replaceAll(URL_REGEX, " ");
 	}
 	
 	public Object getSentimentAnalysis() throws TwitterException {
@@ -103,11 +98,23 @@ public class TweetAnalyzer {
 		Object[] returnAry = new Object[2];
 		//LOG.log(LOG_LEVEL, "{0}", new Object[] {cat.getLanguageCode()});
 		tweets = tc.getTweets(this.queryTerms,this.tweetCount, cat.getLanguageCode());
-		
-		String msgTemplate = "{0};{1};{2};{3};{4}\n";
+		String delimiter = "~";
+		String newLine = "\n";
+		StringBuilder msgSb = new StringBuilder("{0}")
+				.append(delimiter)
+				.append("{1}")
+				.append(delimiter)
+				.append("{2}")
+				.append(newLine);
+		String msgTemplate = msgSb.toString();
 
 		String sentiment;
-		StringBuilder tweetSAResults = new StringBuilder("sentiment;tweet;p1;p2;language\n");
+		StringBuilder tweetSAResults = new StringBuilder("sentiment")
+				.append(delimiter )
+				.append("tweet")
+				.append(delimiter)
+				.append("probs")
+				.append(newLine);
 		for (Status tweet : tweets) {
 			String tweetText = getTweetTextForCategorization(tweet.getText());
 			
@@ -125,11 +132,11 @@ public class TweetAnalyzer {
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 					(oldValue, newValue) -> oldValue, LinkedHashMap::new));
 			//language detection
-			Language language = ldm.getLanguageDetector().predictLanguage(tweet.getText());
+			//String language = ldm.getLanguageDetector().predictLanguage(tweet.getText()).getLang();
 			//for the csv
-			tweetText = tweetText.replaceAll(";", "");
+			tweetText = tweetText.replaceAll(delimiter, " ").replace("\"", "&quot;");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
-					{ sentiment, tweetText, probMap.toString(), sortedMap.toString(), language.getLang() });
+					{ sentiment, tweetText, probMap.toString() });
 			tweetSAResults.append(rtn);
 			
 

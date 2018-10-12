@@ -37,20 +37,20 @@
                 return viewLocation === $location.path();
             };
         })
-        .controller('mainCtrl', function ($log, $scope, TwitterSAService, $route) {
-          
+        .controller('mainCtrl', function ($log, $scope, TwitterSAService) {
+
             $scope.getResults = function () {
-                TwitterSAService.getSAResults($scope.queryTerms,$scope.tweetCount)
+                TwitterSAService.getSAResults($scope.queryTerms, $scope.tweetCount)
                     .then(function (response) {
 
                         $scope.resultsTotal = response.data[0];
-                        tabulateDsv(response.data[1], ";", "#resultsTable"); 
+                        tabulateDsv(response.data[1], "~", "#resultsTable");
                         
                     })
                     .catch(function (resp) {
                         $scope.resultsTotal = "An error has occurred";
                         $log.debug(resp);
-                    });                    
+                    });
             };
 
             function tabulateDsv(dsvdata, delimiter, target) {
@@ -82,9 +82,10 @@
                     .selectAll("td")
                     .data(function (d) { return d; }).enter()
                     .append("td")
-                    .text(function (d) { return d; });
+                    .text(function (d) { return d.replace(/&quot;/g,"\""); });
 
             }
+
             
         });
 })();
