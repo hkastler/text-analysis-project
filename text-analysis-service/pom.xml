@@ -27,7 +27,7 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.hkstlr</groupId>
 			<artifactId>text-analysis-twitter</artifactId>
@@ -37,6 +37,16 @@
 	</dependencies>
 	<build>
 		<finalName>text-analysis-service</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<warSourceExcludes>assets/**,node_modules/**,views/**,index.html</warSourceExcludes>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
