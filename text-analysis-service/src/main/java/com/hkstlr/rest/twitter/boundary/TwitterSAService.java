@@ -59,13 +59,8 @@ public class TwitterSAService {
 			results = (Object[]) ta.getSentimentAnalysis(queryTerms,tweetCount);
 		} catch (TwitterException e) {
 			LOG.log(Level.INFO,"", e);
-		}
-		Map<String,String> resultMap = (Map<String, String>) results[0];
-		String csv = (String)results[1];
-		Object[] obj = new Object[2];
-		obj[0] = resultMap;
-		obj[1] = csv;
+		}		
 
-		return obj;
+		return results;
 	}
 }
