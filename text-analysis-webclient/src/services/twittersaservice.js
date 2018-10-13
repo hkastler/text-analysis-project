@@ -12,7 +12,7 @@
            
             var host = "localhost";
             var port = window.location.href.indexOf("https://")==0?"8443":"8080";
-            //var port = "8080";
+            
             var serviceLoc = "//" + host + ":" + port;
             var serviceUrl = '/text-analysis-service/rest/twittersa/sa/';            
 
