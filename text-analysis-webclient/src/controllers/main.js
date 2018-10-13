@@ -8,9 +8,6 @@
      * # controls twitter sa main page
      */
     angular.module('twitterSAApp')
-
-       
-
         .controller('mainCtrl', function ($log, $scope, TwitterSAService) {
 
             $scope.getResults = function () {
@@ -56,7 +53,7 @@
                     .selectAll("td")
                     .data(function (d) { return d; }).enter()
                     .append("td")
-                    .text(function (d) { return d.replace(/&quot;/g, "\""); });
+                    .text(function (d) { return d; });
 
             }
 
