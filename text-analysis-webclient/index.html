@@ -1,10 +1,10 @@
 <!doctype html>
-<html>
+<html data-ng-app="twitterSAApp">
 
 <head>
     <meta charset="utf-8">
     <title>Twitter Sentiment Analysis</title>
-    <meta name="description" content="">
+    <meta name="description" content="{{metaDescription}}">
     <meta name="author" content="hkstlr.com">
     <meta name="tag" content="">
     <meta name="viewport" content="width=device-width">
@@ -12,30 +12,10 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body data-ng-app="twitterSAApp">
+<body >
     <an-loader></an-loader>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
-            Twitter Sentiment Analysis
-        </a>
-        
-        <button class="navbar-toggler" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" ng-controller="navCtrl">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item" ng-class="{ active: isActive('/')}">
-                    <a class="nav-link" href="#!/"  >Home</a>
-                </li>
-
-                <li class="nav-item" ng-class="{ active: isActive('/about')}">
-                    <a class="nav-link" href="#!/about">About</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+    <nav-bar></nav-bar>
+    
     <div class="container">
         <!-- Content will loaded in here -->
         <div ng-view></div>
