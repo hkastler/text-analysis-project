@@ -134,7 +134,7 @@ public class TweetAnalyzer {
 			//language detection
 			//String language = ldm.getLanguageDetector().predictLanguage(tweet.getText()).getLang();
 			//for the csv
-			tweetText = tweetText.replaceAll(delimiter, " ");//.replace("\"", "&quot;");
+			tweetText = tweetText.replaceAll(delimiter, " ").replace("\"", "&quot;");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
 					{ sentiment, tweetText, probMap.toString() });
 			tweetSAResults.append(rtn);
