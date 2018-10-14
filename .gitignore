@@ -4,6 +4,7 @@
 */nbproject/
 .settings/*
 */.settings/*
+*/.vscode/*
 text-analysis-webclient/.vscode/settings.json
 text-analysis-webclient/package-lock.json
 text-analysis-webclient/yarn.lock
