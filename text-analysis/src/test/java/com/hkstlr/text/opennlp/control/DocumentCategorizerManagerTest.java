@@ -14,12 +14,14 @@
  */
 package com.hkstlr.text.opennlp.control;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,15 +33,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.*; 
-import org.mockito.runners.MockitoJUnitRunner;
 
-import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
-
-import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.tokenize.SimpleTokenizer;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
@@ -52,7 +47,6 @@ import opennlp.tools.util.InputStreamFactory;
 
 public class DocumentCategorizerManagerTest {
 
-	
 	DocumentCategorizerManager cut;
 
 	public DocumentCategorizerManagerTest() {
@@ -60,19 +54,16 @@ public class DocumentCategorizerManagerTest {
 
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
-	
+
 	@Mock
 	public DocumentCategorizerManager mcut = mock(DocumentCategorizerManager.class);
 
 	@Before
 	public void setUp() {
-		Path testTrainFilepath = Paths.get("src", "test", "resources", 
-				"test_twitter_sentiment_training_data.train");
-		String tempModelFilePath = folder.getRoot().getAbsolutePath()
-				+ File.separator + "testGetTrainingDataFile.bin";
-		
-		cut = new DocumentCategorizerManager(testTrainFilepath.toString(), 
-				tempModelFilePath);
+		Path testTrainFilepath = Paths.get("src", "test", "resources", "test_twitter_sentiment_training_data.train");
+		String tempModelFilePath = folder.getRoot().getAbsolutePath() + File.separator + "testGetTrainingDataFile.bin";
+
+		cut = new DocumentCategorizerManager(testTrainFilepath.toString(), tempModelFilePath);
 		
 	}
 
