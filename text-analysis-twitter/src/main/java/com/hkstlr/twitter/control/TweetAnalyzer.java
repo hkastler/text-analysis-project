@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
-import com.hkstlr.text.opennlp.control.LanguageDetectorManager;
 
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -25,7 +24,7 @@ public class TweetAnalyzer {
 	private DocumentCategorizerManager cat;
 	private static final String TRAINING_DATA_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
 	private static final String MODEL_OUT_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
-	private LanguageDetectorManager ldm;
+	
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
@@ -61,9 +60,7 @@ public class TweetAnalyzer {
 	
 	void init() {
 		setCat();
-		tc = new TwitterClient(new Config().getProps());
-		ldm = new LanguageDetectorManager();
-		
+		tc = new TwitterClient(new Config().getProps());		
 	}
 
 	public Object getSentimentAnalysis(String queryTerms) throws TwitterException {
@@ -96,7 +93,7 @@ public class TweetAnalyzer {
 		int negative = 0;
 		int neutral = 0;
 		Object[] returnAry = new Object[2];
-		//LOG.log(LOG_LEVEL, "{0}", new Object[] {cat.getLanguageCode()});
+		
 		tweets = tc.getTweets(this.queryTerms,this.tweetCount, cat.getLanguageCode());
 		String delimiter = "~";
 		String newLine = "\n";
@@ -131,14 +128,11 @@ public class TweetAnalyzer {
 					.sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())) 			
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 					(oldValue, newValue) -> oldValue, LinkedHashMap::new));
-			//language detection
-			//String language = ldm.getLanguageDetector().predictLanguage(tweet.getText()).getLang();
-			//for the csv
+			
 			tweetText = tweetText.replaceAll(delimiter, " ").replace("\"", "&quot;");
 			String rtn = MessageFormat.format(msgTemplate, new Object[] 
 					{ sentiment, tweetText, probMap.toString() });
 			tweetSAResults.append(rtn);
-			
 
 			if ("positive".equals(sentiment)) {
 				positive++;
