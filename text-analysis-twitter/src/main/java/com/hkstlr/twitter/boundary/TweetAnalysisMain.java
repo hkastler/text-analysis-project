@@ -17,7 +17,7 @@ package com.hkstlr.twitter.boundary;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,18 +54,19 @@ public class TweetAnalysisMain {
 		}
 
 		Object[] saResultObj = (Object[]) ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
-		Map<String, Integer> results = (HashMap<String, Integer>) saResultObj[0];
+		Map<?, ?> results = (LinkedHashMap<?, ?>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
 		
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
 		
 		String message = String.format(queryTerms +"%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
+		double total = (double)(Integer)results.get("total");
 		
 		String strMsg = new MessageFormat(message).format(new Object[] { 
-							((double) results.get("positive") / results.get("total")) * 100,
-							(double) results.get("negative") / results.get("total") * 100,
-							(double) results.get("neutral") / results.get("total") * 100 
+							(Integer) results.get("positive") / total * 100,
+							(Integer) results.get("negative") / total * 100,
+							(Integer) results.get("neutral") / total * 100 
 						});
 		
 		LOG.log(LOG_LEVEL, strMsg);
