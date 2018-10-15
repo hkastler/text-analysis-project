@@ -118,17 +118,6 @@ public class DocumentCategorizerManager {
 	public double[] getCategorize(String str) {
 		return doccat.categorize(getTokenize(str));
 	}
-
-	
-	public Object[] getCategorizeAndBestCategory(String str) {
-		Object[] returnObj = new Object[2];
-
-		returnObj[0] = getCategorize(str);
-		returnObj[1] = doccat.getBestCategory((double[]) returnObj[0]);
-
-		return returnObj;
-	}
-
 	
 	public DocumentCategorizer getDoccat() {
 		return doccat;
