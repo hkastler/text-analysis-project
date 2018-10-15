@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "text-analysis"
+		},
+		{
+			"path": "text-analysis-service"
+		},
+		{
+			"path": "text-analysis-twitter"
+		},
+		{
+			"path": "text-analysis-webclient"
+		}
+	],
+	"settings": {}
+}
