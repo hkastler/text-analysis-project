@@ -38,7 +38,7 @@
     bottom: 5px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #e74c3c;
+    border-top-color: #ff7f0e;
     -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
       animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }
@@ -52,7 +52,7 @@
     bottom: 15px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #f9c922;
+    border-top-color: #2ca02c;
     -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
       animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }
@@ -121,3 +121,32 @@
 .loaded #loader-wrapper {
     visibility: hidden;
 }
+
+#resultsChart {
+    height: 360px;
+    position: relative;
+    width: 360px; 
+  }       
+
+  .resultsChartTooltip {
+    background: #eee;
+    box-shadow: 0 0 5px #999999;
+    color: #333;
+    display: none;
+    font-size: 12px;
+    left: 140px;
+    padding: 10px;
+    position: absolute;
+    text-align: center;
+    top: 95px;
+    width: 80px;
+    z-index: 10;
+  }       
+
+  .legend {
+    font-size: 12px;
+  }
+
+  rect {
+    stroke-width: 2;
+  }
