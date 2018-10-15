@@ -71,9 +71,9 @@ module.exports = function(grunt) {
             'options': {
                 'mangle': false,
             },
-            '../text-analysis-service/src/main/webapp': {
+            'assets/js': {
                 'files': {
-                    '../text-analysis-service/src/main/webapp/assets/js/jar.min.js': ['../text-analysis-service/src/main/webapp/assets/js/jar.js']
+                    'assets/js/jar.min.js': ['assets/js/jar.js']
                 }
             }
         },
