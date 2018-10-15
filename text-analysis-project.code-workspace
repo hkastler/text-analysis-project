@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "text-analysis-webclient"
+		},
+		{
+			"path": "."
 		}
 	],
 	"settings": {}
