@@ -92,10 +92,8 @@ public class TweetAnalyzer {
 		String dsvRow;
 		String tweetText;
 
-		StringBuilder tweetSAResults = new StringBuilder();
-		Arrays.stream(headers).forEach(h -> tweetSAResults.append(h).append(delimiter));
-		tweetSAResults.append(newLine);
-
+		StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate, headers ));
+		
 		Map<String, Double> probMap;
 		int positive = 0;
 		int negative = 0;
@@ -141,7 +139,11 @@ public class TweetAnalyzer {
 	public String getDsvTemplate(int cols, String delimiter, String newLine) {
 		StringBuilder msgSb = new StringBuilder();
 		for (int x = 0; x <= cols - 1; x++) {
-			msgSb.append("{").append(Integer.toString(x)).append("}").append(delimiter);
+			msgSb.append("{").append(Integer.toString(x)).append("}");
+			if(x < cols-1){
+				msgSb.append(delimiter);
+			}
+				
 		}
 		msgSb.append(newLine);
 
