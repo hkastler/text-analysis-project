@@ -29,7 +29,8 @@
 
             function tabulateDsv(dsvdata, delimiter, target) {
 
-                var rows = d3.dsvFormat(delimiter).parseRows(dsvdata);
+                var data = d3.dsvFormat(delimiter).parse(dsvdata);
+                var cols = d3.keys(data[0]);
 
                 var container = d3.select(target);
                 container.html('');
@@ -37,27 +38,52 @@
                 var table = container.append("table")
                     .attr("class", "table table-striped");
 
+                var sortAscending = true;
                 //table header 
                 var thead = table.append("thead").append("tr");
-                thead.selectAll("th")
-                    .data(rows[0]).enter()
+                var headers = thead.selectAll("th")
+                    .data(cols).enter()
                     .append("th")
-                    .text(function (column) { return column; });
+                    .text(function (col) { return col; })
+                    .on('click', function (d) {
+                        headers.attr('class', 'header');
+
+                        if (sortAscending) {
+                            rows.sort(function (a, b) { return b[d] < a[d]; });
+                            sortAscending = false;
+                            this.className = 'aes';
+                        } else {
+                            rows.sort(function (a, b) { return b[d] > a[d]; });
+                            sortAscending = true;
+                            this.className = 'des';
+                        }
+
+                    });
                 //delete the header row
-                rows.shift();
+                data.shift();
 
                 //table body
                 var tbody = table.append("tbody");
 
-                tbody.selectAll("tr")
+                var rows = tbody.selectAll("tr")
                     //output remaining rows
-                    .data(rows).enter()
-                    .append("tr")
-                    .selectAll("td")
-                    .data(function (d) { return d; }).enter()
-                    .append("td")
-                    .text(function (d) { return d.replace(/&quot;/g, "\""); });
+                    .data(data).enter()
+                    .append("tr");
 
+                // http://bl.ocks.org/AMDS/4a61497182b8fcb05906
+                rows.selectAll('td')
+                    .data(function (d) {
+                        return cols.map(function (k) {
+                            return { 'value': d[k], 'name': k };
+                        });
+                    }).enter()
+                    .append('td')
+                    .attr('data-th', function (d) {
+                        return d.name;
+                    })
+                    .text(function (d) {
+                        return d.value.replace(/&quot;/g, "\"");
+                    });
             }
 
             //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
