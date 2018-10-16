@@ -15,9 +15,9 @@
     <dependencies>
         <dependency>
             <groupId>com.hkstlr</groupId>
-            <artifactId>text-analysis</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
+            <artifactId>text-analysis-service</artifactId>
+            <version>1</version>
+            <type>war</type>
         </dependency>
     </dependencies>
     <build>
