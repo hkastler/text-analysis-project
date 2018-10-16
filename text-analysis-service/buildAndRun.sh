@@ -1,6 +1,7 @@
 #!/bin/sh
 mvn clean install -f ../text-analysis/pom.xml
 mvn clean install -f ../text-analysis-twitter/pom.xml
+mvn clean install -f ../text-analysis-webclient/pom.xml
 mvn clean install && docker build -t com.hkstlr/text-analysis-service .
 OPT_PATH=c:/etc/opt/text-analysis-project
 WEBCLIENT_PATH=c:/Users/henry.kastler/Documents/GitHub/text-analysis-project/text-analysis-webclient
