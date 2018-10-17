@@ -2,7 +2,6 @@ package com.hkstlr.twitter.control;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,25 +78,33 @@ public class TweetAnalyzer {
 				" ");
 	}
 
-	public Object getSentimentAnalysis() throws TwitterException {
+	public Object[] getSentimentAnalysis() throws TwitterException {
 
-		tweets = tc.getTweets(this.queryTerms, this.tweetCount, cat.getLanguageCode());
+		String POSITIVE = "positive";
+		String NEGATIVE = "negative";
+		String NEUTRAL = "neutral";
 
-		String[] headers = { "sentiment", "tweet", "scores" };
+		String[] headers = { "sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL };
 		String delimiter = "~";
-		String newLine = "\n";
+		String newLine = System.getProperty("line.separator");
 		
 		String dsvTemplate = getDsvTemplate(headers.length, delimiter, newLine);
 		String sentiment;
 		String dsvRow;
 		String tweetText;
 
-		StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate, headers ));
+		StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate,(Object[]) headers ));
 		
 		Map<String, Double> probMap;
-		int positive = 0;
-		int negative = 0;
-		int neutral = 0;
+		Double posScore;
+		Double negScore;
+		Double neuScore;
+
+		int posCount = 0;
+		int negCount = 0;
+		int neuCount = 0;
+		
+		tweets = tc.getTweets(this.queryTerms, this.tweetCount, cat.getLanguageCode());
 		
 		for (Status tweet : tweets) {
 			tweetText = getTweetTextForCategorization(tweet.getText());
@@ -109,26 +116,30 @@ public class TweetAnalyzer {
 			sentiment = probMap.entrySet().stream()
 							.max(Map.Entry.comparingByValue())
 							.map(Map.Entry::getKey)
-							.orElse("neutral");
+							.orElse(NEUTRAL);
+			
+			posScore = probMap.get(POSITIVE);
+			negScore = probMap.get(NEGATIVE);
+			neuScore = probMap.get(NEUTRAL);				
 
 			tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
-			dsvRow = MessageFormat.format(dsvTemplate, new Object[] { sentiment, tweetText, probMap.toString() });
+			dsvRow = MessageFormat.format(dsvTemplate, new Object[] { sentiment, tweetText, posScore, negScore, neuScore });
 			tweetSAResults.append(dsvRow);
 
-			if ("positive".equals(sentiment)) {
-				positive++;
-			} else if ("negative".equals(sentiment)) {
-				negative++;
-			} else if ("neutral".equals(sentiment)) {
-				neutral++;
+			if (POSITIVE.equals(sentiment)) {
+				posCount++;
+			} else if (NEGATIVE.equals(sentiment)) {
+				negCount++;
+			} else if (NEUTRAL.equals(sentiment)) {
+				neuCount++;
 			}
 		}
 		
 		Map<String, Integer> results = new LinkedHashMap<>();
 		results.put("total", tweets.size());
-		results.put("positive", positive);
-		results.put("negative", negative);
-		results.put("neutral", neutral);
+		results.put(POSITIVE, posCount);
+		results.put(NEGATIVE, negCount);
+		results.put(NEUTRAL, neuCount);
 
 		Object[] returnAry = new Object[2];
 		returnAry[0] = results;
