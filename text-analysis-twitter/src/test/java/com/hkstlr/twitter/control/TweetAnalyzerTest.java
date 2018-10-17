@@ -1,8 +1,7 @@
-package com.hkstlr.twitter.boundary;
+package com.hkstlr.twitter.control;
 
 import static org.junit.Assert.assertEquals;
 
-import com.hkstlr.twitter.control.TweetAnalyzer;
 
 import org.junit.Before;
 import org.junit.Test;
