@@ -111,7 +111,8 @@
                 var legendRectSize = 18;
                 var legendSpacing = 4;
                 var color = d3.scaleOrdinal(d3.schemeCategory10);
-                var svg = container.append('svg')
+                var figure = container.append("figure");
+                var svg = figure.append('svg')
                     .attr('width', width)
                     .attr('height', height)
                     .append('g')
