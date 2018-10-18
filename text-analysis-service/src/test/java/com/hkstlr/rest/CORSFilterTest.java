@@ -35,7 +35,7 @@ class CORSFilterTest {
 		LOG.info(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS + "=" + allowMethods);
 
 		Assertions.assertTrue("[*]".equals(allowOrigin));
-		Assertions.assertTrue("[GET, POST, PUT, DELETE]".equals(allowMethods));
+		Assertions.assertTrue("[GET]".equals(allowMethods));
 
 	}
 
