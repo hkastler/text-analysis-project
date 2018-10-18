@@ -38,6 +38,8 @@
                 var table = container.append("table")
                     .attr("class", "table table-striped");
 
+                var caption = table.append("caption").text("Tweets");
+                
                 var sortAscending = true;
                 //table header 
                 var thead = table.append("thead").append("tr");
