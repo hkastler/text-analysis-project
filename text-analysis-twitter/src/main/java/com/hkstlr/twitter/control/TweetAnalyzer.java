@@ -54,12 +54,12 @@ public class TweetAnalyzer {
 		tc = new TwitterClient(new Config().getProps());
 	}
 
-	public Object getSentimentAnalysis(String queryTerms) throws TwitterException {
+	public Object[] getSentimentAnalysis(String queryTerms) throws TwitterException {
 		this.queryTerms = queryTerms;
 		return getSentimentAnalysis();
 	}
 
-	public Object getSentimentAnalysis(String queryTerms, int tweetCount) throws TwitterException {
+	public Object[] getSentimentAnalysis(String queryTerms, int tweetCount) throws TwitterException {
 		this.queryTerms = queryTerms;
 		this.tweetCount = tweetCount;
 		return getSentimentAnalysis();
