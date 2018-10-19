@@ -21,8 +21,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -62,7 +65,6 @@ public class DocumentCategorizerManager {
 	private int cutoff = 2;
 	private boolean printMessages = false;
 	
-	
 	private String trainingDataFile;
 	private String modelFile;
 
@@ -87,7 +89,6 @@ public class DocumentCategorizerManager {
 		Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
 		languageCode = oLanguageCode.orElse(Locale.getDefault().getLanguage());
 		
-		
 		Optional<String> oModelFile = Optional.ofNullable(modelFile);
 		if (new File(oModelFile.orElse("")).exists()) {
 			loadModelFromFile();
@@ -104,7 +105,6 @@ public class DocumentCategorizerManager {
 		doccat = new DocumentCategorizerME(model);
 		
 	}
-
 	
 	public String getBestCategory(String str) {
 		return doccat.getBestCategory(getCategorize(str));
@@ -167,7 +167,6 @@ public class DocumentCategorizerManager {
 				return tdata;
 		}
 		Optional<File> defaultFile = Optional.ofNullable(defaultTrainingDataFile());
-		LOG.info(defaultFile.get().getName());
 		try {
 			
 			tdata = new MarkableFileInputStreamFactory(
@@ -183,15 +182,44 @@ public class DocumentCategorizerManager {
 	public File defaultTrainingDataFile() {
 		
 		File defaultTrainingFile = null;
-		String codebaseFilePath = this.getClass().getClassLoader().getResource("sentiment_training_data.train").getFile();
-		File codebaseFile = new File(codebaseFilePath);
-		if(codebaseFile.exists()) {
-			LOG.info("using jar file trainer");
-			return codebaseFile;
-		}
+		InputStream codebaseIs = this.getClass().getClassLoader().getResourceAsStream("sentiment_training_data.train");
 		
+		try {
+			File codebaseTrainerFile = streamToFile(codebaseIs);
+
+			if(codebaseTrainerFile.exists()) {
+				LOG.warning("using jar file .train file...is this expected?");
+				LOG.warning("see TweetAnalyzer for default external file path");
+				return codebaseTrainerFile;
+			}
+		} catch (Exception e) {
+			LOG.log(Level.INFO,"",e);
+		} 
 		
 		return defaultTrainingFile;
+	}
+
+	public File streamToFile(InputStream in){
+		String PREFIX = "trainer";
+		String SUFFIX = ".train";
+
+		File tempFile = null;
+		try {
+			tempFile = File.createTempFile(PREFIX, SUFFIX);
+			try {
+				FileOutputStream out = new FileOutputStream(tempFile);
+				Files.copy(in, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				in.close();
+				out.close();
+				tempFile.deleteOnExit();
+			}catch(Exception e){
+				LOG.log(Level.WARNING,"",e);
+			}
+			
+		} catch (IOException e) {
+			LOG.log(Level.WARNING,"",e);
+		}
+		return tempFile;
 	}
 	
 	public String getTrainingDataFile() {
@@ -202,8 +230,6 @@ public class DocumentCategorizerManager {
 	void loadModelFromFile() {
 		Optional<String> oModelFile = Optional.ofNullable(modelFile);
 		this.model = loadModelFromFile(oModelFile.orElse(""));
-		
-		
 	}
 	
 	DoccatModel loadModelFromFile(String modelFile) {
@@ -286,8 +312,6 @@ public class DocumentCategorizerManager {
 			
 			this.model = DocumentCategorizerME.train(languageCode, 
 					sampleStream, params, getDoccatFactory());
-			
-			
 
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, null, e);

@@ -70,11 +70,10 @@ public class Config {
 			is.close();
 		} catch (FileNotFoundException ne) {
 			try {
-				Path appPropsPath = Paths.get("src", "main", "resources", "app.properties");
-				this.configFile = appPropsPath.toString();
-				InputStream is = new FileInputStream(new File(configFile));
-				props.load(is);
-				is.close();
+				
+				InputStream appFileIs = this.getClass().getClassLoader().getResourceAsStream("app.properties");
+				props.load(appFileIs);
+				appFileIs.close();
 				
 			} catch (IOException e) {
 				log.log(Level.SEVERE, null, e);
