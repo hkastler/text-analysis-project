@@ -15,7 +15,6 @@
 package com.hkstlr.twitter.boundary;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -50,7 +49,7 @@ public class TweetAnalysisMain {
 		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
-		String writeToDesktop = "yes";
+		String writeToDesktop = "no";
 
 		if (args.length > 0) {
 			queryTerms = Arrays.toString(args);
