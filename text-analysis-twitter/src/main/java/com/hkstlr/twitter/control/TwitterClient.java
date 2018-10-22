@@ -73,15 +73,16 @@ public class TwitterClient {
 				if (result.getTweets().size() < queryCount) {
 					break;
 				}
-				for (Status t : tweets) {
-					if (t.getId() < lastID)
-						lastID = t.getId();
-				}
 
 			} catch (TwitterException te) {
 				LOG.log(Level.SEVERE, "", te);
 			}
-
+			
+			for (Status t : tweets) {
+				if (t.getId() < lastID){
+					lastID = t.getId();
+				}
+			}
 			query.setMaxId(lastID - 1);
 		}
 		return tweets;

@@ -68,16 +68,18 @@ public class TweetAnalysisMain {
 		results.remove("total");
 
 		String lineSep = System.getProperty("line.separator");
+		String openBracket = "{";
+		String closeBracket = "}";
 		String perc = "% ";
 		StringBuilder messageSb = new StringBuilder(queryTerms)
 		.append(lineSep)		
 		.append("Results").append(lineSep);
+
 		int i = 0;
-		// Iterating over keys only
 		for (String key : results.keySet()) {
-			messageSb.append("{");
+			messageSb.append(openBracket);
 			messageSb.append(i);
-			messageSb.append("}");
+			messageSb.append(closeBracket);
 			messageSb.append(perc).append(key).append(lineSep);
 			i++;
 		}
