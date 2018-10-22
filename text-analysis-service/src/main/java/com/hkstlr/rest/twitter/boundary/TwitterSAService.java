@@ -49,7 +49,7 @@ public class TwitterSAService {
 	private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
 		Object[] results = null;
 		try {
-			results = (Object[]) tab.getTa().getSentimentAnalysis(queryTerms,tweetCount);
+			results = tab.getTa().getSentimentAnalysis(queryTerms,tweetCount);
 		} catch (TwitterException e) {
 			LOG.log(Level.INFO,"", e);
 		}		
