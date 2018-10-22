@@ -111,8 +111,7 @@ public class TweetAnalyzer {
 
 			// the probabilities of the categories
 			probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
-			// the category, in this use case, sentiment
-			// sentiment = cat.getBestCategory(tweetText);
+			// the category, in this use case, sentiment			
 			sentiment = probMap.entrySet().stream()
 							.max(Map.Entry.comparingByValue())
 							.map(Map.Entry::getKey)
@@ -182,6 +181,10 @@ public class TweetAnalyzer {
 
 	public static String getModelOutFilepath() {
 		return MODEL_OUT_FILEPATH;
+	}
+
+	public List<Status> getTweets() {
+		return tweets;
 	}
 
 }
