@@ -244,12 +244,13 @@ public class DocumentCategorizerManager {
 
 	void saveModelToFile() {
 
-		try {
+		try(
 			FileOutputStream fos = new FileOutputStream(modelFile);
-			BufferedOutputStream modelOut = new BufferedOutputStream(fos);
+			BufferedOutputStream modelOut= new BufferedOutputStream(fos);
+			) {
+			
 			model.serialize(modelOut);
-			modelOut.close();
-			fos.close();
+			
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
 		} 
