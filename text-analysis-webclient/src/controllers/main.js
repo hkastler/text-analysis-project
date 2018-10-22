@@ -84,7 +84,7 @@
                         return d.name;
                     })
                     .text(function (d) {
-                        return d.value.replace(/&quot;/g, "\"");
+                        return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
                     });
             }
 
