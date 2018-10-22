@@ -19,13 +19,16 @@ import twitter4j.TwitterException;
 public class TwitterSAService {
 
 	private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
-	
-	@Inject
+		
 	TweetAnalyzerBean tab;
-
 		
 	public TwitterSAService() {
 		super();		
+	}
+
+	@Inject
+	public TwitterSAService(TweetAnalyzerBean tab) {
+		this.tab = tab;	
 	}
 
 	@GET
