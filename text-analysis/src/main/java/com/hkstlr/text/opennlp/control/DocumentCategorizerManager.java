@@ -290,12 +290,12 @@ public class DocumentCategorizerManager {
 
 	
 	private void trainModel() {
-		ObjectStream<String> lineStream = null;
-		try {
-
-			lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
+		
+		try( 
+			ObjectStream<String> lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8); 
 			ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);
-
+			) {
+			
 			TrainingParameters params = new TrainingParameters();
 			params.put("PrintMessages", printMessages);
 			params.put(TrainingParameters.ITERATIONS_PARAM,  Integer.toString(iterations));
@@ -305,19 +305,8 @@ public class DocumentCategorizerManager {
 			this.model = DocumentCategorizerME.train(languageCode, 
 					sampleStream, params, getDoccatFactory());
 
-			lineStream.close();
-
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, null, e);
-		} finally{
-			if(null != lineStream){
-				try{
-					lineStream.close();
-				}catch(Exception e){
-					LOG.log(Level.WARNING, "lineStream", e);
-				}
-				
-			}
 		}
 		
 	}
