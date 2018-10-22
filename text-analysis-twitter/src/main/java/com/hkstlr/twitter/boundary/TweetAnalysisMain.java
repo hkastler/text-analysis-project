@@ -48,7 +48,6 @@ public class TweetAnalysisMain {
 				TweetAnalyzer.getTrainingDataFilepath(),
 				"");
 		
-		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
 		String writeToDesktop = "yes";
@@ -65,32 +64,25 @@ public class TweetAnalysisMain {
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
 
 		double total = (double) (Integer) results.get("total");
-		results.remove("total");
+		
 
 		String lineSep = System.getProperty("line.separator");
-		String openBracket = "{";
-		String closeBracket = "}";
 		String perc = "% ";
 		StringBuilder messageSb = new StringBuilder(queryTerms)
 		.append(lineSep)		
 		.append("Results").append(lineSep);
-
-		int i = 0;
-		for (String key : results.keySet()) {
-			messageSb.append(openBracket);
-			messageSb.append(i);
-			messageSb.append(closeBracket);
-			messageSb.append(perc).append(key).append(lineSep);
-			i++;
+		
+		for (Map.Entry<String, Integer> entry : results.entrySet()) {
+			if(!"total".equals(entry.getKey())){
+				double percentResult = entry.getValue() / total * 100;
+				messageSb.append((int)Math.round(percentResult) );
+				messageSb.append(perc).append(entry.getKey()).append(lineSep);			
+			}
 		}
 		
-		String message = messageSb.toString();		
+		String strMsg = messageSb.toString();
 		
-		String strMsg = new MessageFormat(message).format(new Object[] { 
-				(Integer) results.get("positive") / total * 100, (Integer) results.get("negative") / total * 100,
-				(Integer) results.get("neutral") / total * 100 });
-		
-		LOG.log(LOG_LEVEL, strMsg);
+		LOG.log(LOG_LEVEL, messageSb.toString());
 		strMsg += results.toString();
 		if ("yes".equals(writeToDesktop)) {
 			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_" + queryTerms + "_", ".csv"), probResults);
