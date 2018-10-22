@@ -13,11 +13,11 @@ import opennlp.tools.langdetect.LanguageDetectorModel;
 public class LanguageDetectorManager {
 	
 	private String modelFilePath = "/etc/opt/text-analysis-project/text-analysis/models/langdetect-183.bin";
-	private File modelFile;
+	
 	private LanguageDetectorModel model = null;
 	private LanguageDetector languageDetector;
 	
-	private static Logger LOG = Logger.getLogger(LanguageDetectorManager.class.getName());
+	private static final Logger LOG = Logger.getLogger(LanguageDetectorManager.class.getName());
 	
 	
 	public LanguageDetectorManager() {
@@ -26,8 +26,8 @@ public class LanguageDetectorManager {
 	}
 	
 	void init() {
-		modelFile = Paths.get(modelFilePath).toFile();
-		setModel(modelFile);
+		
+		setModel(Paths.get(modelFilePath).toFile());
 		languageDetector = new LanguageDetectorME(model);
 		
 	}
