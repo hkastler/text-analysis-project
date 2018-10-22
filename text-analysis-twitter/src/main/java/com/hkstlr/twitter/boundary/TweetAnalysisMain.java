@@ -51,7 +51,7 @@ public class TweetAnalysisMain {
 		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
-		boolean writeToDesktop = true;
+		String writeToDesktop = "yes";
 
 		if (args.length > 0) {
 			queryTerms = Arrays.toString(args);
@@ -92,7 +92,7 @@ public class TweetAnalysisMain {
 		
 		LOG.log(LOG_LEVEL, strMsg);
 		strMsg += results.toString();
-		if (writeToDesktop) {
+		if ("yes".equals(writeToDesktop)) {
 			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_" + queryTerms + "_", ".csv"), probResults);
 			writeTweets(FileWR.getDesktopFilePath("TweetAnalysisResults_" + queryTerms + "_", ".txt"), strMsg);
 		}
