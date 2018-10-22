@@ -204,21 +204,18 @@ public class DocumentCategorizerManager {
 		String SUFFIX = ".train";
 
 		File tempFile = null;
-		try {
-			tempFile = File.createTempFile(PREFIX, SUFFIX);
+	
 			try {
-				FileOutputStream out = new FileOutputStream(tempFile);
-				Files.copy(in, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				tempFile = File.createTempFile(PREFIX, SUFFIX);				
+				Files.copy(in, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);	
 				in.close();
-				out.close();
-				tempFile.deleteOnExit();
+				tempFile.deleteOnExit();		
+				
 			}catch(Exception e){
 				LOG.log(Level.WARNING,"",e);
 			}
 			
-		} catch (IOException e) {
-			LOG.log(Level.WARNING,"",e);
-		}
+		
 		return tempFile;
 	}
 	
@@ -306,8 +303,8 @@ public class DocumentCategorizerManager {
 
 			TrainingParameters params = new TrainingParameters();
 			params.put("PrintMessages", printMessages);
-			params.put(TrainingParameters.ITERATIONS_PARAM, iterations + "");
-			params.put(TrainingParameters.CUTOFF_PARAM, cutoff + "");
+			params.put(TrainingParameters.ITERATIONS_PARAM,  Integer.toString(iterations));
+			params.put(TrainingParameters.CUTOFF_PARAM,  Integer.toString(cutoff));
 			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 			
 			this.model = DocumentCategorizerME.train(languageCode, 
