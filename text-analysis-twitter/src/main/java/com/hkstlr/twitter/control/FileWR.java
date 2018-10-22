@@ -11,55 +11,30 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * 
- * @authorcoding-guru.com
- *
- */
 public class FileWR {
 	
 	private static final Logger LOG = Logger.getLogger(FileWR.class.getName());
-	Writer writer;
+	private String fileName;
 	
 	public FileWR(String fileName){
-		FileOutputStream fos = null;
-		writer = null;
-		try {
-		    fos = new FileOutputStream(fileName);
-			writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-			fos.close();
-			writer.close();
-		} catch (IOException e) {
-			LOG.log(Level.SEVERE,"",e);
-		}finally{
-			if(null != fos){
-				try{
-					fos.close();
-				}catch(Exception e){
-					LOG.log(Level.SEVERE,"",e);
-				}
-			}
-			if(null != writer){
-				try{
-					writer.close();
-				}catch(Exception e){
-					LOG.log(Level.SEVERE,"",e);
-				}
-			}
-		}
+		this.fileName = fileName;
 	}
  
 	public void writeFile(String text) throws IOException {
-		writer.write(text);
-	}
- 
-	public void close(){
-		try {
-			writer.close();
+		
+		try(
+			FileOutputStream fos = new FileOutputStream(fileName);
+			Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+		) {
+			writer.write(text);		
+			
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE,"",e);
 		}
+		
 	}
+ 
+	
 	
 	public static String getDesktopFilePath(String fileNameBase, String fileExtension) {
 
