@@ -254,7 +254,16 @@ public class DocumentCategorizerManager {
 			fos.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
-		} 
+		} finally{
+			if(null != fos){
+				try{
+					fos.close();
+				} catch(Exception e){
+					LOG.log(Level.WARNING,"",e);
+				}
+				
+			}
+		}
 
 	}
 
