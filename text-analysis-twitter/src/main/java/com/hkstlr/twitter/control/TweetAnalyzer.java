@@ -70,21 +70,21 @@ public class TweetAnalyzer {
 		String rtnStr = tweetText;
 		// thanks to
 		// https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
-		String TWITTER_SCREENNAME_REGEX = "(@[A-Za-z0-9]+)"; // ([^0-9A-Za-z \\t]) removes hashtags
-		String URL_REGEX = "(\\w+:\\/\\/\\S+)";
-		String NEWLINE_REGEX = "(\\r\\n|\\r|\\n)";
+		String twitterScreennameRegex = "(@[A-Za-z0-9]+)"; // ([^0-9A-Za-z \\t]) removes hashtags
+		String urlRegex = "(\\w+:\\/\\/\\S+)";
+		String newlineRegex = "(\\r\\n|\\r|\\n)";
 
-		return rtnStr.replaceAll(NEWLINE_REGEX, " ").replaceAll(TWITTER_SCREENNAME_REGEX, " ").replaceAll(URL_REGEX,
+		return rtnStr.replaceAll(newlineRegex, " ").replaceAll(twitterScreennameRegex, " ").replaceAll(urlRegex,
 				" ");
 	}
 
 	public Object[] getSentimentAnalysis() throws TwitterException {
 
-		String POSITIVE = "positive";
-		String NEGATIVE = "negative";
-		String NEUTRAL = "neutral";
+		String positive = "positive";
+		String negative = "negative";
+		String neutral = "neutral";
 
-		String[] headers = { "sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL };
+		String[] headers = { "sentiment", "tweet", positive, negative, neutral };
 		String delimiter = "~";
 		String newLine = System.getProperty("line.separator");
 		
@@ -116,30 +116,30 @@ public class TweetAnalyzer {
 			sentiment = probMap.entrySet().stream()
 							.max(Map.Entry.comparingByValue())
 							.map(Map.Entry::getKey)
-							.orElse(NEUTRAL);
+							.orElse(neutral);
 			
-			posScore = probMap.get(POSITIVE);
-			negScore = probMap.get(NEGATIVE);
-			neuScore = probMap.get(NEUTRAL);				
+			posScore = probMap.get(positive);
+			negScore = probMap.get(negative);
+			neuScore = probMap.get(neutral);				
 
 			tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
 			dsvRow = MessageFormat.format(dsvTemplate, new Object[] { sentiment, tweetText, posScore, negScore, neuScore });
 			tweetSAResults.append(dsvRow);
 
-			if (POSITIVE.equals(sentiment)) {
+			if (positive.equals(sentiment)) {
 				posCount++;
-			} else if (NEGATIVE.equals(sentiment)) {
+			} else if (negative.equals(sentiment)) {
 				negCount++;
-			} else if (NEUTRAL.equals(sentiment)) {
+			} else if (neutral.equals(sentiment)) {
 				neuCount++;
 			}
 		}
 		
 		Map<String, Integer> results = new LinkedHashMap<>();
 		results.put("total", tweets.size());
-		results.put(POSITIVE, posCount);
-		results.put(NEGATIVE, negCount);
-		results.put(NEUTRAL, neuCount);
+		results.put(positive, posCount);
+		results.put(negative, negCount);
+		results.put(neutral, neuCount);
 
 		Object[] returnAry = new Object[2];
 		returnAry[0] = results;

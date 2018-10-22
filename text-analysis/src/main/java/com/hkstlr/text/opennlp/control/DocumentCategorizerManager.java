@@ -69,7 +69,7 @@ public class DocumentCategorizerManager {
 	private String modelFile;
 
 	public DocumentCategorizerManager() {
-		
+		super();
 	}
 
 	public DocumentCategorizerManager(String modelFile) {
@@ -200,13 +200,13 @@ public class DocumentCategorizerManager {
 	}
 
 	public File streamToFile(InputStream in){
-		String PREFIX = "trainer";
-		String SUFFIX = ".train";
+		String prefix = "trainer";
+		String suffix = ".train";
 
 		File tempFile = null;
 	
 			try {
-				tempFile = File.createTempFile(PREFIX, SUFFIX);				
+				tempFile = File.createTempFile(prefix, suffix);				
 				Files.copy(in, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);	
 				in.close();
 				tempFile.deleteOnExit();		
@@ -254,24 +254,7 @@ public class DocumentCategorizerManager {
 			fos.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
-		} finally {
-			if(null != modelOut){
-				try {
-					modelOut.close();
-				} catch (IOException e) {
-					LOG.log(Level.SEVERE, "", e);
-				}
-			}
-				
-			if(null != fos){
-				try {
-					fos.close();
-				} catch (IOException e) {
-					LOG.log(Level.SEVERE, "", e);
-				}
-			}
-				
-		}
+		} 
 
 	}
 
