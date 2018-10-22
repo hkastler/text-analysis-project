@@ -245,19 +245,32 @@ public class DocumentCategorizerManager {
 	void saveModelToFile() {
 
 		BufferedOutputStream modelOut = null;
+		FileOutputStream fos = null;
 		try {
-			modelOut = new BufferedOutputStream(new FileOutputStream(modelFile));
+			fos = new FileOutputStream(modelFile);
+			modelOut = new BufferedOutputStream(fos);
 			model.serialize(modelOut);
 			modelOut.close();
+			fos.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
 		} finally {
-			if(null != modelOut)
+			if(null != modelOut){
 				try {
 					modelOut.close();
 				} catch (IOException e) {
 					LOG.log(Level.SEVERE, "", e);
 				}
+			}
+				
+			if(null != fos){
+				try {
+					fos.close();
+				} catch (IOException e) {
+					LOG.log(Level.SEVERE, "", e);
+				}
+			}
+				
 		}
 
 	}
@@ -295,10 +308,10 @@ public class DocumentCategorizerManager {
 
 	
 	private void trainModel() {
-
+		ObjectStream<String> lineStream = null;
 		try {
 
-			ObjectStream<String> lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
+			lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
 			ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);
 
 			TrainingParameters params = new TrainingParameters();
@@ -310,8 +323,19 @@ public class DocumentCategorizerManager {
 			this.model = DocumentCategorizerME.train(languageCode, 
 					sampleStream, params, getDoccatFactory());
 
+			lineStream.close();
+
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, null, e);
+		} finally{
+			if(null != lineStream){
+				try{
+					lineStream.close();
+				}catch(Exception e){
+					LOG.log(Level.WARNING, "lineStream", e);
+				}
+				
+			}
 		}
 		
 	}
