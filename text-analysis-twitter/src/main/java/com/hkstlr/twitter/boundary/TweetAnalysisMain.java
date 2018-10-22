@@ -38,6 +38,10 @@ public class TweetAnalysisMain {
 	private static final Logger LOG = Logger.getLogger(TweetAnalysisMain.class.getName());
 	private static final Level LOG_LEVEL = Level.INFO;
 
+	private TweetAnalysisMain() {
+		super();
+	}
+
 	public static void main(String[] args) throws IOException, TwitterException {
 		
 		TweetAnalyzer ta = new TweetAnalyzer(
