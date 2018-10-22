@@ -50,9 +50,8 @@ public class TwitterClient {
 		List<Status> tweets = new ArrayList<>();
 		int numberOfTweets = tweetCount;
 		int queryCount = 100;
-		String queryTerms = qTerms;
+		String queryTerms = qTerms.concat("+exclude:retweets");
 
-		queryTerms.concat("+exclude:retweets");
 		Query query = new Query(queryTerms);
 
 		long lastID = Long.MAX_VALUE;
