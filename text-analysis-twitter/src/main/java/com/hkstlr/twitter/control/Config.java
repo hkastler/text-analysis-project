@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -64,11 +63,11 @@ public class Config {
 				
 		try {
 
-			InputStream is = null;
-			is = new FileInputStream(new File(configFile));
+			InputStream is = new FileInputStream(new File(configFile));
 			props.load(is);
 			is.close();
 		} catch (FileNotFoundException ne) {
+			log.log(Level.WARNING, null, ne);
 			try {
 				
 				InputStream appFileIs = this.getClass().getClassLoader().getResourceAsStream("app.properties");

@@ -46,12 +46,13 @@ public class TwitterClient {
 	}
 
 	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-	public List<Status> getTweets(String queryTerms, int tweetCount, String lang) {
+	public List<Status> getTweets(String qTerms, int tweetCount, String lang) {
 		List<Status> tweets = new ArrayList<>();
 		int numberOfTweets = tweetCount;
 		int queryCount = 100;
+		String queryTerms = qTerms;
 
-		queryTerms += " +exclude:retweets";
+		queryTerms.concat("+exclude:retweets");
 		Query query = new Query(queryTerms);
 
 		long lastID = Long.MAX_VALUE;

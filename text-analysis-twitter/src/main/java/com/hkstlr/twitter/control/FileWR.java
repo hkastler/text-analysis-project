@@ -22,11 +22,30 @@ public class FileWR {
 	Writer writer;
 	
 	public FileWR(String fileName){
+		FileOutputStream fos = null;
+		writer = null;
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(fileName), "UTF-8"));
+		    fos = new FileOutputStream(fileName);
+			writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+			fos.close();
+			writer.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE,"",e);
+		}finally{
+			if(null != fos){
+				try{
+					fos.close();
+				}catch(Exception e){
+					LOG.log(Level.SEVERE,"",e);
+				}
+			}
+			if(null != writer){
+				try{
+					writer.close();
+				}catch(Exception e){
+					LOG.log(Level.SEVERE,"",e);
+				}
+			}
 		}
 	}
  
@@ -58,7 +77,7 @@ public class FileWR {
 
 	private static String fileNameSafeString(String fileName) {
 		String r = fileName;
-		String FILENAME_REGEX = "[\\/:*?<>|]+";
-		return r.replaceAll(FILENAME_REGEX, " ");
+		String filenameRegex = "[\\/:*?<>|]+";
+		return r.replaceAll(filenameRegex, " ");
 	}
 }
