@@ -58,14 +58,31 @@ public class TweetAnalysisMain {
 		}
 
 		Object[] saResultObj = ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
-		Map<?, ?> results = (LinkedHashMap<?, ?>) saResultObj[0];
+		Map<String, Integer> results = (LinkedHashMap<String, Integer>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
 		
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
-		
-		String message = String.format(queryTerms + "%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
+
 		double total = (double) (Integer) results.get("total");
+		results.remove("total");
+
+		String lineSep = System.getProperty("line.separator");
+		String perc = "% ";
+		StringBuilder messageSb = new StringBuilder(queryTerms)
+		.append(lineSep)		
+		.append("Results").append(lineSep);
+		int i = 0;
+		// Iterating over keys only
+		for (String key : results.keySet()) {
+			messageSb.append("{");
+			messageSb.append(i);
+			messageSb.append("}");
+			messageSb.append(perc).append(key).append(lineSep);
+			i++;
+		}
+		
+		String message = messageSb.toString();		
 		
 		String strMsg = new MessageFormat(message).format(new Object[] { 
 				(Integer) results.get("positive") / total * 100, (Integer) results.get("negative") / total * 100,
