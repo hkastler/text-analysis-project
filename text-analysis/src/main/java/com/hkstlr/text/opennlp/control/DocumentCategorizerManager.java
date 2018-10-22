@@ -244,26 +244,15 @@ public class DocumentCategorizerManager {
 
 	void saveModelToFile() {
 
-		BufferedOutputStream modelOut = null;
-		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(modelFile);
-			modelOut = new BufferedOutputStream(fos);
+			FileOutputStream fos = new FileOutputStream(modelFile);
+			BufferedOutputStream modelOut = new BufferedOutputStream(fos);
 			model.serialize(modelOut);
 			modelOut.close();
 			fos.close();
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "", e);
-		} finally{
-			if(null != fos){
-				try{
-					fos.close();
-				} catch(Exception e){
-					LOG.log(Level.WARNING,"",e);
-				}
-				
-			}
-		}
+		} 
 
 	}
 
