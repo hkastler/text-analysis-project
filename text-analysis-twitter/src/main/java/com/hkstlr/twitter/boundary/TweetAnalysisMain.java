@@ -47,41 +47,35 @@ public class TweetAnalysisMain {
 		
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
-		boolean writeToDesktop = false;
+		boolean writeToDesktop = true;
 
 		if (args.length > 0) {
 			queryTerms = Arrays.toString(args);
 		}
 
-		Object[] saResultObj = (Object[]) ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
+		Object[] saResultObj = ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
 		Map<?, ?> results = (LinkedHashMap<?, ?>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
 		
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
 		
-		String message = String.format(queryTerms +"%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
-		double total = (double)(Integer)results.get("total");
+		String message = String.format(queryTerms + "%nResults%n{0}%% positive%n{1}%% negative%n{2}%% neutral%n");
+		double total = (double) (Integer) results.get("total");
 		
 		String strMsg = new MessageFormat(message).format(new Object[] { 
-							(Integer) results.get("positive") / total * 100,
-							(Integer) results.get("negative") / total * 100,
-							(Integer) results.get("neutral") / total * 100 
-						});
+				(Integer) results.get("positive") / total * 100, (Integer) results.get("negative") / total * 100,
+				(Integer) results.get("neutral") / total * 100 });
 		
 		LOG.log(LOG_LEVEL, strMsg);
-		strMsg+=results.toString();
-		if(writeToDesktop) {
-			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_"+ queryTerms + "_",".csv"),
-					probResults);
-			writeTweets(FileWR.getDesktopFilePath("TweetAnalysisResults_" + queryTerms + "_",".txt"),
-					strMsg);
+		strMsg += results.toString();
+		if (writeToDesktop) {
+			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_" + queryTerms + "_", ".csv"), probResults);
+			writeTweets(FileWR.getDesktopFilePath("TweetAnalysisResults_" + queryTerms + "_", ".txt"), strMsg);
 		}
-		
 		
 	}
 	
-
 	public static void writeTweets(String filePath, String tweets) {
 		FileWR writer = new FileWR(filePath);
 
@@ -90,8 +84,6 @@ public class TweetAnalysisMain {
 		} catch (IOException e) {
 			LOG.log(LOG_LEVEL, "", e);
 		}
-
-		writer.close();
 	}
 
 }
