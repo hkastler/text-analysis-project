@@ -61,7 +61,7 @@ public class DocumentCategorizerManager {
 	private String languageCode;
 	private int minNgramSize = 2;
 	private int maxNgramSize = 10;
-	private int iterations = 100;
+	private int iterations = 10000;
 	private int cutoff = 2;
 	private boolean printMessages = false;
 	
@@ -174,7 +174,7 @@ public class DocumentCategorizerManager {
 		
 		} catch (Exception e) {
 
-			LOG.log(Level.SEVERE, null, e);
+			LOG.log(Level.INFO, null, e);
 		}
 		return tdata;
 	}
