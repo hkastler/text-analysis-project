@@ -91,7 +91,7 @@ public class MockContainerRequestContext implements ContainerRequestContext {
 	@Override
 	public String getHeaderString(String name) {
 		// Auto-generated method stub
-		return null;
+		return headers.getFirst(name);
 	}
 
 	@Override

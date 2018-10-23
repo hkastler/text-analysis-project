@@ -1,6 +1,7 @@
 package com.hkstlr.rest;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -37,6 +38,20 @@ class CORSFilterTest {
 		Assertions.assertTrue("[*]".equals(allowOrigin));
 		Assertions.assertTrue("[GET]".equals(allowMethods));
 
+		request = new MockContainerRequestContext();
+		response = new MockContainerResponseContext();
+		request.getHeaders().putSingle(CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS, 
+		CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS);
+		cut.filter(request, response);
+		Optional<String> allowHeaders = Optional.ofNullable(
+			response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_HEADERS)
+			) ;
+		if(allowHeaders.isPresent()){
+			Assertions.assertEquals("["+CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS+"]", allowHeaders.get());
+		}else{
+			Assertions.fail("allowHeaders is null");
+		}
+		
 	}
 
 }
