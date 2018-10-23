@@ -41,12 +41,12 @@ public class TweetAnalysisMain {
 		super();
 	}
 
+	
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException, TwitterException {
-		
-		TweetAnalyzer ta = new TweetAnalyzer(
-				TweetAnalyzer.getTrainingDataFilepath(),
-				"");
-		
+
+		TweetAnalyzer ta = new TweetAnalyzer(TweetAnalyzer.getTrainingDataFilepath(), "");
+
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;
 		String writeToDesktop = "no";
@@ -58,38 +58,36 @@ public class TweetAnalysisMain {
 		Object[] saResultObj = ta.getSentimentAnalysis(queryTerms, numberOfTweetsToGet);
 		Map<String, Integer> results = (LinkedHashMap<String, Integer>) saResultObj[0];
 		String probResults = (String) saResultObj[1];
-		
+
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { probResults });
 		LOG.log(LOG_LEVEL, "{0}", new Object[] { results.toString() });
 
-		double total = (double) (Integer) results.get("total");
-		
+		String totalKey = "total";
+		double total = (double) (Integer) results.get(totalKey);
 
 		String lineSep = System.getProperty("line.separator");
 		String perc = "% ";
-		StringBuilder messageSb = new StringBuilder(queryTerms)
-		.append(lineSep)		
-		.append("Results").append(lineSep);
-		
+		StringBuilder messageSb = new StringBuilder(queryTerms).append(lineSep).append("Results").append(lineSep);
+
 		for (Map.Entry<String, Integer> entry : results.entrySet()) {
-			if(!"total".equals(entry.getKey())){
-				double percentResult = entry.getValue() / total * 100;
-				messageSb.append((int)Math.round(percentResult) );
-				messageSb.append(perc).append(entry.getKey()).append(lineSep);			
+			if (!totalKey.equals(entry.getKey())) {
+				int percentResult = (int) Math.round(entry.getValue() / total * 100);
+				messageSb.append(percentResult);
+				messageSb.append(perc).append(entry.getKey()).append(lineSep);
 			}
 		}
-		
+
 		String strMsg = messageSb.toString();
-		
+
 		LOG.log(LOG_LEVEL, messageSb.toString());
 		strMsg += results.toString();
 		if ("yes".equals(writeToDesktop)) {
 			writeTweets(FileWR.getDesktopFilePath("TweetAnalysis_" + queryTerms + "_", ".csv"), probResults);
 			writeTweets(FileWR.getDesktopFilePath("TweetAnalysisResults_" + queryTerms + "_", ".txt"), strMsg);
 		}
-		
+
 	}
-	
+
 	public static void writeTweets(String filePath, String tweets) {
 		FileWR writer = new FileWR(filePath);
 
