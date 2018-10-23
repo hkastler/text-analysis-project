@@ -43,7 +43,25 @@ public class FileWRTest {
             currentLine = reader.readLine();
         }
         
-        assertEquals(currentLine,text);
+        assertEquals(text,currentLine);
+        assertTrue(temp.delete());
+    }
+    
+     @Test
+    public void testWriteFileBadLoc() throws Exception {
+        LOG.info("testWriteFileBadLoc");
+        File temp = folder.newFile();
+        String text = "hello world";
+        String badLoc = temp.getPath().concat("/dev/null/");
+        cut = new FileWR(badLoc);
+        cut.writeFile(text);
+
+        String currentLine;
+        try (BufferedReader reader = new BufferedReader(new FileReader(temp))) {
+            currentLine = reader.readLine();
+        }
+        
+        assertNull(currentLine);
         assertTrue(temp.delete());
     }
 

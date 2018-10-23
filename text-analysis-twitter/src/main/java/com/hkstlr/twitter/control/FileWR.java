@@ -29,7 +29,7 @@ public class FileWR {
 			writer.write(text);		
 			
 		} catch (IOException e) {
-			LOG.log(Level.SEVERE,"",e);
+                    LOG.log(Level.SEVERE,"IOException",e);
 		}
 		
 	}
@@ -39,14 +39,14 @@ public class FileWR {
 	public static String getDesktopFilePath(String fileNameBase, String fileExtension) {
 
 		String fileName = fileNameSafeString(fileNameBase);
-		String filePath = System.getProperty("user.home")
+		return System.getProperty("user.home")
 				.concat(File.separator)
 				.concat("Desktop")
 				.concat(File.separator)
 				.concat(fileName)
 				.concat(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
 				.concat(fileExtension);
-		return filePath;
+		 
 
 	}
 
