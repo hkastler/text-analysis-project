@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class FileWR {
 	
 	private static final Logger LOG = Logger.getLogger(FileWR.class.getName());
-	private String fileName;
+	private final String fileName;
 	
 	public FileWR(String fileName){
 		this.fileName = fileName;
@@ -39,20 +39,20 @@ public class FileWR {
 	public static String getDesktopFilePath(String fileNameBase, String fileExtension) {
 
 		String fileName = fileNameSafeString(fileNameBase);
-		StringBuilder filePath = new StringBuilder(System.getProperty("user.home"))
-				.append(File.separator)
-				.append("Desktop")
-				.append(File.separator)
-				.append(fileName)
-				.append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
-				.append(fileExtension);
-		return filePath.toString();
+		String filePath = System.getProperty("user.home")
+				.concat(File.separator)
+				.concat("Desktop")
+				.concat(File.separator)
+				.concat(fileName)
+				.concat(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
+				.concat(fileExtension);
+		return filePath;
 
 	}
 
 	private static String fileNameSafeString(String fileName) {
 		String r = fileName;
 		String filenameRegex = "[\\/:*?<>|]+";
-		return r.replaceAll(filenameRegex, " ");
+		return r.replaceAll(filenameRegex, "");
 	}
 }
