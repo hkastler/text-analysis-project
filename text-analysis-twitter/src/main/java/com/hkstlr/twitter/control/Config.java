@@ -16,8 +16,6 @@ package com.hkstlr.twitter.control;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -62,23 +60,21 @@ public class Config {
 	void init() {
 				
 		try {
-
-			InputStream is = new FileInputStream(new File(configFile));
-			props.load(is);
-			is.close();
-		} catch (FileNotFoundException ne) {
-			log.log(Level.WARNING, null, ne);
-			try {
-				
-				InputStream appFileIs = this.getClass().getClassLoader().getResourceAsStream("app.properties");
-				props.load(appFileIs);
-				appFileIs.close();
-				
-			} catch (IOException e) {
-				log.log(Level.SEVERE, null, e);
+			File cf =  new File(configFile);
+			InputStream is;
+			if(cf.exists()){
+				is = new FileInputStream(cf);
+				props.load(is);
+				is.close();
+			}else{
+				is = this.getClass().getClassLoader().getResourceAsStream("app.properties");
+				props.load(is);
+				is.close();
 			}
+			
 		} catch (Exception e) {
-			log.log(Level.SEVERE, null, e);
+			log.log(Level.WARNING, null, e);
+			
 		}
 		
 	}
