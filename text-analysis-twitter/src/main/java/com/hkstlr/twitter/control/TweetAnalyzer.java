@@ -16,7 +16,11 @@ public class TweetAnalyzer {
 	private DocumentCategorizerManager cat;
 	private static final String TRAINING_DATA_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
 	private static final String MODEL_OUT_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
-
+        
+        private static final String POSITIVE = "positive";
+	private static final String NEGATIVE = "negative";
+	private static final String NEUTRAL = "neutral";
+                
 	private TwitterClient tc;
 	private String queryTerms;
 	int tweetCount = 100;
@@ -29,7 +33,7 @@ public class TweetAnalyzer {
 
 	public TweetAnalyzer(String trainingDataFile, String modelOutputFile) {
 		super();
-		this.cat = new DocumentCategorizerManager(trainingDataFile, modelOutputFile);
+		setCat(new DocumentCategorizerManager(trainingDataFile, modelOutputFile));
 		init();
 	}
 
@@ -80,11 +84,8 @@ public class TweetAnalyzer {
 
 	public Object[] getSentimentAnalysis() throws TwitterException {
 
-		String positive = "positive";
-		String negative = "negative";
-		String neutral = "neutral";
 
-		String[] headers = { "sentiment", "tweet", positive, negative, neutral };
+		String[] headers = { "sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL };
 		String delimiter = "~";
 		String newLine = System.getProperty("line.separator");
 		
@@ -115,30 +116,30 @@ public class TweetAnalyzer {
 			sentiment = probMap.entrySet().stream()
 							.max(Map.Entry.comparingByValue())
 							.map(Map.Entry::getKey)
-							.orElse(neutral);
+							.orElse(NEUTRAL);
 			
-			posScore = probMap.get(positive);
-			negScore = probMap.get(negative);
-			neuScore = probMap.get(neutral);				
+			posScore = probMap.get(POSITIVE);
+			negScore = probMap.get(NEGATIVE);
+			neuScore = probMap.get(NEUTRAL);				
 
 			tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
 			dsvRow = MessageFormat.format(dsvTemplate, new Object[] { sentiment, tweetText, posScore, negScore, neuScore });
 			tweetSAResults.append(dsvRow);
 
-			if (positive.equals(sentiment)) {
+			if (POSITIVE.equals(sentiment)) {
 				posCount++;
-			} else if (negative.equals(sentiment)) {
+			} else if (NEGATIVE.equals(sentiment)) {
 				negCount++;
-			} else if (neutral.equals(sentiment)) {
+			} else if (NEUTRAL.equals(sentiment)) {
 				neuCount++;
 			}
 		}
 		
 		Map<String, Integer> results = new LinkedHashMap<>();
 		results.put("total", tweets.size());
-		results.put(positive, posCount);
-		results.put(negative, negCount);
-		results.put(neutral, neuCount);
+		results.put(POSITIVE, posCount);
+		results.put(NEGATIVE, negCount);
+		results.put(NEUTRAL, neuCount);
 
 		Object[] returnAry = new Object[2];
 		returnAry[0] = results;
@@ -186,5 +187,15 @@ public class TweetAnalyzer {
 	public List<Status> getTweets() {
 		return tweets;
 	}
+
+    public TwitterClient getTc() {
+        return tc;
+    }
+
+    public void setTc(TwitterClient tc) {
+        this.tc = tc;
+    }
+        
+        
 
 }
