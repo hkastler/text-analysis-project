@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class MockContainerResponseContext implements ContainerResponseContext {
 	@Override
 	public String getHeaderString(String name) {
 		
-		return headers.get(name).toString();
+		return headers.getOrDefault(name, new ArrayList<Object>()).toString();
 	}
 
 	@Override

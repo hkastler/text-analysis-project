@@ -43,13 +43,26 @@ class CORSFilterTest {
 		request.getHeaders().putSingle(CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS, 
 		CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS);
 		cut.filter(request, response);
-		Optional<String> allowHeaders = Optional.ofNullable(
-			response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_HEADERS)
-			) ;
-		if(allowHeaders.isPresent()){
-			Assertions.assertEquals("["+CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS+"]", allowHeaders.get());
+		String allowHeaders = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_HEADERS);
+		LOG.info("allowHeaders: ".concat(allowHeaders));
+		LOG.info(Boolean.toString("[]".equals(allowHeaders)));
+		if("[]".equals(allowHeaders)){
+			Assertions.fail("allowHeaders is empty");
 		}else{
-			Assertions.fail("allowHeaders is null");
+			Assertions.assertEquals("["+CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS+"]", allowHeaders);
+			
+		}
+
+		
+		request = new MockContainerRequestContext();
+		response = new MockContainerResponseContext();
+		request.getHeaders().putSingle(CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS, "");
+		cut.filter(request, response);
+		allowHeaders = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_HEADERS);
+		if("[]".equals(allowHeaders)){
+			Assertions.assertTrue(true);
+		}else{
+			Assertions.fail("Filter should not place");
 		}
 		
 	}
