@@ -257,5 +257,6 @@ public class DocumentCategorizerManagerTest {
             DocumentCategorizer doccat = new MockDocumentCategorizer();
             cut.setDoccat(doccat);
             assertEquals(doccat,cut.getDoccat());
+            
         }
 }
