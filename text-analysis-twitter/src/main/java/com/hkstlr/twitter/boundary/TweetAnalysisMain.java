@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import com.hkstlr.twitter.control.FileWR;
 import com.hkstlr.twitter.control.TweetAnalyzer;
 
-import twitter4j.TwitterException;
 
 /**
  *  ref. https://milindjagre.co/2016/08/26/twitter-sentiment-analysis-using-opennlp-java-api/
