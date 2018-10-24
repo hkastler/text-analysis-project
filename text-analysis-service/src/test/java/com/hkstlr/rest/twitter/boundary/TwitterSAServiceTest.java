@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hkstlr.rest.twitter.boundary;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import javax.ejb.embeddable.EJBContainer;
 
 import com.hkstlr.twitter.control.TweetAnalyzer;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -50,6 +43,17 @@ public class TwitterSAServiceTest {
         TweetAnalyzerBean tab = new TweetAnalyzerBean();
         tab.setTa(new TweetAnalyzer());
         cut = new TwitterSAService(tab);
+        assertNotNull(cut.getSA("twitter",10));
+    }
+    
+    /**
+     * Test of getSA method, of class TwitterSAService.
+     */
+    @Test
+    public void testGetSANull() throws Exception {
+        TweetAnalyzerBean tab = new TweetAnalyzerBean();
+        tab.setTa(new TweetAnalyzer());
+        cut = new TwitterSAService();
         assertNotNull(cut.getSA("twitter",10));
     }
     

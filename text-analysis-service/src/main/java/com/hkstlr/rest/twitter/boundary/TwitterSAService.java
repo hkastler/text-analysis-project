@@ -57,13 +57,15 @@ public class TwitterSAService {
     }
 
     private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
-        Object[] results = null;
+       
         try {
-            results = tab.getTa().getSentimentAnalysis(queryTerms, tweetCount);
-        } catch (TwitterException e) {
+            return tab.getTa().getSentimentAnalysis(queryTerms, tweetCount);
+        } catch (NullPointerException e) {
             LOG.log(Level.INFO, "", e);
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterSAService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return results;
+        return new Object[2];
     }
 }
