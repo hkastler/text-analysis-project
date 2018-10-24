@@ -5,12 +5,10 @@
  */
 package com.hkstlr.twitter.control;
 
-import java.util.List;
 import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 
@@ -38,6 +36,7 @@ public class TwitterClientTest {
         cut = new TwitterClient();
         assertNotNull(cut);
         
+        
         Twitter tw = new TwitterFactory().getInstance();
         cut.setTwitter(tw);
         assertEquals(tw,cut.getTwitter());
@@ -50,6 +49,8 @@ public class TwitterClientTest {
 	props.put("oAuthAccessTokenSecret","");
         cut = new TwitterClient(props);
         assertNotNull(cut);
+        System.out.println("cut.getTweets");
+        cut.getTweets("hey");
         
         
        

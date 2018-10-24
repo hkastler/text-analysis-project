@@ -16,97 +16,99 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterClient {
 
-	private Twitter twitter;
+    private Twitter twitter;
 
-	private static final Logger LOG = Logger.getLogger(TwitterClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(TwitterClient.class.getName());
 
-	public TwitterClient() {
-		super();
-	}
+    public TwitterClient() {
+        super();
+    }
 
-	public TwitterClient(Properties props) {
-		super();
-		setTwitter(props);
-	}
+    public TwitterClient(Properties props) {
+        super();
+        setTwitter(props);
+    }
 
-	public void setTwitter(Properties props) {
+    public void setTwitter(Properties props) {
 
-		ConfigurationBuilder cb = new ConfigurationBuilder();
+        ConfigurationBuilder cb = new ConfigurationBuilder();
 
-		cb.setDebugEnabled(true).setOAuthConsumerKey(props.getProperty("oAuthConsumerKey"))
-				.setOAuthConsumerSecret(props.getProperty("oAuthConsumerSecret"))
-				.setOAuthAccessToken(props.getProperty("oAuthAccessToken"))
-				.setOAuthAccessTokenSecret(props.getProperty("oAuthAccessTokenSecret"));
+        cb.setDebugEnabled(true).setOAuthConsumerKey(props.getProperty("oAuthConsumerKey"))
+                .setOAuthConsumerSecret(props.getProperty("oAuthConsumerSecret"))
+                .setOAuthAccessToken(props.getProperty("oAuthAccessToken"))
+                .setOAuthAccessTokenSecret(props.getProperty("oAuthAccessTokenSecret"));
 
-		twitter = new TwitterFactory(cb.build()).getInstance();
-	}
+        twitter = new TwitterFactory(cb.build()).getInstance();
+    }
 
-	public List<Status> getTweets(String queryTerms) {
-		return getTweets(queryTerms, 100);
-	}
+    // http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
+    public List<Status> getTweets(String qTerms, int tweetCount, String lang) {
+        List<Status> tweets = new ArrayList<>();
+        int numberOfTweets = tweetCount;
+        int queryCount = 100;
+        String queryTerms = qTerms.concat("+exclude:retweets");
 
-	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-	public List<Status> getTweets(String qTerms, int tweetCount, String lang) {
-		List<Status> tweets = new ArrayList<>();
-		int numberOfTweets = tweetCount;
-		int queryCount = 100;
-		String queryTerms = qTerms.concat("+exclude:retweets");
+        Query query = new Query(queryTerms);
 
-		Query query = new Query(queryTerms);
+        long lastID = Long.MAX_VALUE;
 
-		long lastID = Long.MAX_VALUE;
+        // filter by lang in query
+        if (!lang.isEmpty()) {
+            query.setLang(lang);
+        }
 
-		// filter by lang in query
-		if (!lang.isEmpty())
-			query.setLang(lang);
+        while (tweets.size() < numberOfTweets) {
 
-		while (tweets.size() < numberOfTweets) {
+            if (numberOfTweets - tweets.size() > queryCount) {
+                query.setCount(queryCount);
+            } else {
+                query.setCount(numberOfTweets - tweets.size());
+            }
+            try {
+                QueryResult result = this.twitter.search(query);
+                tweets.addAll(result.getTweets());
+                if (result.getTweets().size() < queryCount) {
+                    break;
+                }
 
-			if (numberOfTweets - tweets.size() > queryCount) {
-				query.setCount(queryCount);
-			} else {
-				query.setCount(numberOfTweets - tweets.size());
-			}
-			try {
-				QueryResult result = this.twitter.search(query);
-				tweets.addAll(result.getTweets());
-				if (result.getTweets().size() < queryCount) {
-					break;
-				}
+            } catch (TwitterException te) {
+                LOG.log(Level.SEVERE, "", te);
+                break;
+            }
 
-			} catch (TwitterException te) {
-				LOG.log(Level.SEVERE, "", te);
-			}
-			
-			for (Status t : tweets) {
-				if (t.getId() < lastID){
-					lastID = t.getId();
-				}
-			}
-			query.setMaxId(lastID - 1);
-		}
-		return tweets;
+            for (Status t : tweets) {
+                if (t.getId() < lastID) {
+                    lastID = t.getId();
+                }
+            }
+            query.setMaxId(lastID - 1);
+        }
+        return tweets;
 
-	}
+    }
 
-	// http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-	public List<Status> getTweets(String queryTerms, int tweetCount) {
-		return getTweets(queryTerms, tweetCount, "");
+    public List<Status> getTweets(String queryTerms) {
+        return getTweets(queryTerms, 100);
+    }
+    // http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
 
-	}
+    public List<Status> getTweets(String queryTerms, int tweetCount) {
+        return getTweets(queryTerms, tweetCount, "");
 
-	/**
-	 * @return the twitter
-	 */
-	public Twitter getTwitter() {
-		return twitter;
-	}
+    }
 
-	/**
-	 * @param twitter the twitter to set
-	 */
-	public void setTwitter(Twitter twitter) {
-		this.twitter = twitter;
-	}
+    /**
+     * @return the twitter
+     */
+    public Twitter getTwitter() {
+        return twitter;
+    }
+
+    /**
+     * @param twitter the twitter to set
+     */
+    public void setTwitter(Twitter twitter) {
+        this.twitter = twitter;
+    }
 
 }
