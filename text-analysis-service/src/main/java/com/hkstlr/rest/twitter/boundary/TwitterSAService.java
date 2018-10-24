@@ -1,5 +1,6 @@
 package com.hkstlr.rest.twitter.boundary;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,42 +19,51 @@ import twitter4j.TwitterException;
 @Path("twittersa")
 public class TwitterSAService {
 
-	private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
-		
-	TweetAnalyzerBean tab;
-		
-	public TwitterSAService() {
-		super();		
-	}
+    private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
 
-	@Inject
-	public TwitterSAService(TweetAnalyzerBean tab) {
-		this.tab = tab;	
-	}
+    TweetAnalyzerBean tab;
 
-	@GET
-	@Path("/results/{queryTerms}")
-	@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
-    public Object[] getResults(@DefaultValue(value = "pizza") @PathParam("queryTerms") String queryTerms) {
-		return getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount());
-	}
-	
-	@GET
-	@Path("/sa/{queryTerms}/{tweetCount}")
-	@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
-    public Object[] getSA(@PathParam("queryTerms") String queryTerms,
-    		@PathParam("tweetCount") int tweetCount) {
-		return getSentimentAnalysis(queryTerms, tweetCount);
+    public TwitterSAService() {
+        super();
     }
-	
-	private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
-		Object[] results = null;
-		try {
-			results = tab.getTa().getSentimentAnalysis(queryTerms,tweetCount);
-		} catch (TwitterException e) {
-			LOG.log(Level.INFO,"", e);
-		}		
 
-		return results;
-	}
+    @Inject
+    public TwitterSAService(TweetAnalyzerBean tab) {
+        this.tab = tab;
+    }
+
+    @GET
+    @Path("/results/{queryTerms}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Object[] getResults(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms) {
+        Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount()));
+        if(response.isPresent()){
+            return response.get();
+        }
+       return new Object[2];
+    }
+
+    @GET
+    @Path("/sa/{queryTerms}/{tweetCount}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Object[] getSA(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms,
+           @DefaultValue(value = "1") @PathParam("tweetCount") int tweetCount) {
+        Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tweetCount));
+        if(response.isPresent()){
+            return response.get();
+        }
+       return new Object[2];
+        
+    }
+
+    private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
+        Object[] results = null;
+        try {
+            results = tab.getTa().getSentimentAnalysis(queryTerms, tweetCount);
+        } catch (TwitterException e) {
+            LOG.log(Level.INFO, "", e);
+        }
+
+        return results;
+    }
 }
