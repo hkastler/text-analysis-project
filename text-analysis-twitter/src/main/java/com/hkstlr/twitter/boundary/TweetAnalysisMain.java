@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import com.hkstlr.twitter.control.FileWR;
 import com.hkstlr.twitter.control.TweetAnalyzer;
+import java.io.FileNotFoundException;
 
 
 /**
@@ -87,7 +88,7 @@ public class TweetAnalysisMain {
 	}
 
 	public static void writeTweets(String filePath, String tweets) 
-                throws IOException, NullPointerException {
+                throws IOException, FileNotFoundException  {
 		
 		FileWR writer = new FileWR(filePath);
 		writer.writeFile(tweets);

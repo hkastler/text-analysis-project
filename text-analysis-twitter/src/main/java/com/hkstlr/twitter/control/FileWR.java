@@ -2,6 +2,7 @@ package com.hkstlr.twitter.control;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -20,17 +21,17 @@ public class FileWR {
 		this.fileName = fileName;
 	}
 
-	public void writeFile(String text) throws IOException  {
+	public void writeFile(String text) throws FileNotFoundException, IOException  {
 
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
 			writer.write(text);
 
-		} catch (IOException e) {
-			LOG.log(Level.SEVERE, "IOException", e);
-                        throw new IOException(e.getMessage());
+		} catch (FileNotFoundException  e) {
+			LOG.log(Level.SEVERE, "FileNotFoundException", e);
+                        throw new FileNotFoundException (e.getMessage());
 		} catch (NullPointerException ex){
-			LOG.log(Level.SEVERE, "Exception", ex);
+			LOG.log(Level.SEVERE, "NullPointerException", ex);
                         throw new NullPointerException(ex.getMessage());
 		} 
 
