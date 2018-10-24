@@ -27,9 +27,8 @@ import com.hkstlr.twitter.control.TweetAnalyzer;
 import twitter4j.TwitterException;
 
 /**
- * @author milind see
- *         https://milindjagre.co/2016/08/26/twitter-sentiment-analysis-using-opennlp-java-api/
- *         see also https://github.com/technobium/opennlp-categorizer
+ *  ref. https://milindjagre.co/2016/08/26/twitter-sentiment-analysis-using-opennlp-java-api/
+ *  ref. also https://github.com/technobium/opennlp-categorizer
  * @author henry.kastler
  */
 public class TweetAnalysisMain {
@@ -88,7 +87,8 @@ public class TweetAnalysisMain {
 
 	}
 
-	public static void writeTweets(String filePath, String tweets) throws Exception {
+	public static void writeTweets(String filePath, String tweets) 
+                throws IOException, NullPointerException {
 		
 		FileWR writer = new FileWR(filePath);
 		writer.writeFile(tweets);
