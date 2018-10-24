@@ -12,41 +12,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileWR {
-	
+
 	private static final Logger LOG = Logger.getLogger(FileWR.class.getName());
 	private final String fileName;
-	
-	public FileWR(String fileName){
+
+	public FileWR(String fileName) {
 		this.fileName = fileName;
 	}
- 
-	public void writeFile(String text) throws IOException {
-		
-		try(
-			FileOutputStream fos = new FileOutputStream(fileName);
-			Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-		) {
-			writer.write(text);		
-			
-		} catch (IOException e) {
-                    LOG.log(Level.SEVERE,"IOException",e);
+
+	public void writeFile(String text) {
+
+		try (FileOutputStream fos = new FileOutputStream(fileName);
+				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
+			writer.write(text);
+
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Exception", e);
 		}
-		
+
 	}
- 
-	
-	
+
 	public static String getDesktopFilePath(String fileNameBase, String fileExtension) {
 
 		String fileName = fileNameSafeString(fileNameBase);
-		return System.getProperty("user.home")
-				.concat(File.separator)
-				.concat("Desktop")
-				.concat(File.separator)
-				.concat(fileName)
-				.concat(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
+		return System.getProperty("user.home").concat(File.separator).concat("Desktop").concat(File.separator)
+				.concat(fileName).concat(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
 				.concat(fileExtension);
-		 
 
 	}
 
