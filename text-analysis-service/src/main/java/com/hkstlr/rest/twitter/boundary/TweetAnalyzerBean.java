@@ -10,7 +10,7 @@ import com.hkstlr.twitter.control.TweetAnalyzer;
 @ApplicationScoped
 public class TweetAnalyzerBean {
 
-	private TweetAnalyzer ta;
+	TweetAnalyzer ta;
 
 	public TweetAnalyzerBean() {
 		super();

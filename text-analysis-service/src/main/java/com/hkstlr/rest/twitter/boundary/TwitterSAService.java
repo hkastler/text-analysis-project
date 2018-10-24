@@ -37,10 +37,7 @@ public class TwitterSAService {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Object[] getResults(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms) {
         Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount()));
-        if(response.isPresent()){
-            return response.get();
-        }
-       return new Object[2];
+        return response.orElse(new Object[2]);
     }
 
     @GET
@@ -49,10 +46,7 @@ public class TwitterSAService {
     public Object[] getSA(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms,
            @DefaultValue(value = "1") @PathParam("tweetCount") int tweetCount) {
         Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tweetCount));
-        if(response.isPresent()){
-            return response.get();
-        }
-       return new Object[2];
+        return response.orElse(new Object[2]);
         
     }
 
@@ -60,10 +54,8 @@ public class TwitterSAService {
        
         try {
             return tab.getTa().getSentimentAnalysis(queryTerms, tweetCount);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | TwitterException e) {
             LOG.log(Level.INFO, "", e);
-        } catch (TwitterException ex) {
-            Logger.getLogger(TwitterSAService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return new Object[2];
