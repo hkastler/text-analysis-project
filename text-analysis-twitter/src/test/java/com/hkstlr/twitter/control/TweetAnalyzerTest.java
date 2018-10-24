@@ -32,7 +32,7 @@ public class TweetAnalyzerTest {
         cut = new TweetAnalyzer(TweetAnalyzer.getTrainingDataFilepath(),"");
         assertNotNull(cut.getCat());
         
-        String queryTerms = "twitter";
+        String queryTerms = "the";
         cut.setQueryTerms(queryTerms);
         assertEquals(queryTerms,cut.getQueryTerms());
         

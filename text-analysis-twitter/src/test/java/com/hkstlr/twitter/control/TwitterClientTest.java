@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hkstlr.twitter.control;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -51,15 +49,27 @@ public class TwitterClientTest {
         cut = new TwitterClient(props);
         assertNotNull(cut);
         System.out.println("cut.getTweets");
+        
+        List<Status> tweets = new ArrayList<>();
         boolean hasError = false;
         try{
-            cut.getTweets("hey");
+            tweets = cut.getTweets("hey");
         }catch(TwitterException e){
             hasError = true;
-            assertTrue(hasError);
+           
         }
         assertTrue(hasError);
-       
+        assertTrue(tweets.isEmpty());
+        
+        hasError = false;
+        try{
+            tweets = cut.getTweets("hey",10);
+        }catch(TwitterException e){
+           hasError = true;
+           
+        }
+        assertTrue(hasError);
+        assertTrue(tweets.isEmpty());
     }
 
     
