@@ -21,7 +21,7 @@ public class FileWR {
 		this.fileName = fileName;
 	}
 
-	public void writeFile(String text) throws FileNotFoundException, IOException  {
+	public void writeFile(String text) throws IOException  {
 
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
