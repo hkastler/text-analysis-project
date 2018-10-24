@@ -88,7 +88,7 @@ public class TweetAnalysisMain {
 	}
 
 	public static void writeTweets(String filePath, String tweets) 
-                throws IOException, FileNotFoundException  {
+                throws IOException {
 		
 		FileWR writer = new FileWR(filePath);
 		writer.writeFile(tweets);
