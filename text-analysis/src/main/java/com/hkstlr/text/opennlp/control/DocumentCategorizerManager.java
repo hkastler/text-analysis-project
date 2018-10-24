@@ -190,7 +190,7 @@ public class DocumentCategorizerManager {
 			if(codebaseTrainerFile.exists()) {
 				LOG.warning("using jar file .train file...is this expected?");
 				LOG.warning("see TweetAnalyzer for default external file path");
-				return codebaseTrainerFile;
+				defaultTrainingFile = codebaseTrainerFile;
 			}
 		} catch (Exception e) {
 			LOG.log(Level.INFO,"",e);
@@ -258,7 +258,7 @@ public class DocumentCategorizerManager {
 	}
 
 	
-	public void setDoccat(DocumentCategorizerME doccat) {
+	public void setDoccat(DocumentCategorizer doccat) {
 		this.doccat = doccat;
 	}
 
@@ -302,8 +302,8 @@ public class DocumentCategorizerManager {
 			params.put(TrainingParameters.CUTOFF_PARAM,  Integer.toString(cutoff));
 			params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 			
-			this.model = DocumentCategorizerME.train(languageCode, 
-					sampleStream, params, getDoccatFactory());
+			setModel(DocumentCategorizerME.train(languageCode, 
+					sampleStream, params, getDoccatFactory()));
 
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, null, e);

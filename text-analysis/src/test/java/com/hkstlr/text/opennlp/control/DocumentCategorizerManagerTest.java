@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import opennlp.tools.doccat.DocumentCategorizer;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -242,4 +243,19 @@ public class DocumentCategorizerManagerTest {
 		 assertThatThrownBy(() -> mcut.loadModelFromFile("")).isInstanceOf(IOException.class);
        
 	}
+        
+        @Test
+        public void testDCM(){
+            String langCode = "en";
+            cut.setLanguageCode(langCode);
+            assertEquals(langCode,cut.getLanguageCode());
+            
+            String modelFile = "/dev/null/model.bin";
+            cut.setModelFile(modelFile);
+            assertEquals(modelFile,cut.getModelFile());
+            
+            DocumentCategorizer doccat = new MockDocumentCategorizer();
+            cut.setDoccat(doccat);
+            assertEquals(doccat,cut.getDoccat());
+        }
 }
