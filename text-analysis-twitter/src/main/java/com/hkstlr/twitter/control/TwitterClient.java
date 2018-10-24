@@ -42,7 +42,7 @@ public class TwitterClient {
     }
 
     // http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-    public List<Status> getTweets(String qTerms, int tweetCount, String lang) {
+    public List<Status> getTweets(String qTerms, int tweetCount, String lang) throws TwitterException {
         List<Status> tweets = new ArrayList<>();
         int numberOfTweets = tweetCount;
         int queryCount = 100;
@@ -73,7 +73,7 @@ public class TwitterClient {
 
             } catch (TwitterException te) {
                 LOG.log(Level.SEVERE, "", te);
-                break;
+                throw new TwitterException(te);               
             }
 
             for (Status t : tweets) {
@@ -87,12 +87,12 @@ public class TwitterClient {
 
     }
 
-    public List<Status> getTweets(String queryTerms) {
+    public List<Status> getTweets(String queryTerms) throws TwitterException {
         return getTweets(queryTerms, 100);
     }
     // http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
 
-    public List<Status> getTweets(String queryTerms, int tweetCount) {
+    public List<Status> getTweets(String queryTerms, int tweetCount) throws TwitterException {
         return getTweets(queryTerms, tweetCount, "");
 
     }

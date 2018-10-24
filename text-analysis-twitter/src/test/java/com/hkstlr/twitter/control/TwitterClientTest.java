@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 /**
@@ -50,9 +51,14 @@ public class TwitterClientTest {
         cut = new TwitterClient(props);
         assertNotNull(cut);
         System.out.println("cut.getTweets");
-        cut.getTweets("hey");
-        
-        
+        boolean hasError = false;
+        try{
+            cut.getTweets("hey");
+        }catch(TwitterException e){
+            hasError = true;
+            assertTrue(hasError);
+        }
+        assertTrue(hasError);
        
     }
 
