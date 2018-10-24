@@ -20,7 +20,7 @@ public class FileWR {
 		this.fileName = fileName;
 	}
 
-	public void writeFile(String text) throws Exception {
+	public void writeFile(String text) throws IOException, NullPointerException  {
 
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
@@ -28,11 +28,13 @@ public class FileWR {
 
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "IOException", e);
-                        throw new Exception();
-		} catch (Exception ex){
+                        throw new IOException(e.getMessage());
+		} catch (NullPointerException ex){
 			LOG.log(Level.SEVERE, "Exception", ex);
-                        throw new Exception();
-		}
+                        throw new NullPointerException(ex.getMessage());
+		} catch (Exception exc){
+                    LOG.log(Level.SEVERE, "Exception", exc);
+                }
 
 	}
 
