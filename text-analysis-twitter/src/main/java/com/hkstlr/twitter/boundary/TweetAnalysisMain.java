@@ -89,13 +89,10 @@ public class TweetAnalysisMain {
 	}
 
 	public static void writeTweets(String filePath, String tweets) {
+		
 		FileWR writer = new FileWR(filePath);
-
-		try {
-			writer.writeFile(tweets);
-		} catch (IOException e) {
-			LOG.log(LOG_LEVEL, "", e);
-		}
+		writer.writeFile(tweets);
+		
 	}
 
 }

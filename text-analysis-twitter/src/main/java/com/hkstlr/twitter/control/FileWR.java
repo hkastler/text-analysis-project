@@ -26,8 +26,10 @@ public class FileWR {
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
 			writer.write(text);
 
-		} catch (Exception e) {
+		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "Exception", e);
+		} catch (Exception ex){
+			LOG.log(Level.SEVERE, "Exception", ex);
 		}
 
 	}
