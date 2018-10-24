@@ -43,7 +43,7 @@ public class TweetAnalysisMain {
 
 	
 	@SuppressWarnings("unchecked")
-	public static void main(String[] args) throws IOException, TwitterException {
+	public static void main(String[] args) throws Exception {
 
 		TweetAnalyzer ta = new TweetAnalyzer(TweetAnalyzer.getTrainingDataFilepath(), "");
 
@@ -88,7 +88,7 @@ public class TweetAnalysisMain {
 
 	}
 
-	public static void writeTweets(String filePath, String tweets) {
+	public static void writeTweets(String filePath, String tweets) throws Exception {
 		
 		FileWR writer = new FileWR(filePath);
 		writer.writeFile(tweets);

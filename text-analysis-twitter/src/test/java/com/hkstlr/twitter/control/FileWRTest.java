@@ -2,6 +2,7 @@ package com.hkstlr.twitter.control;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.logging.Logger;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class FileWRTest {
         assertTrue(temp.delete());
     }
     
-     @Test
+    @Test(expected = Exception.class)
     public void testWriteFileBadLoc() throws Exception {
         LOG.info("testWriteFileBadLoc");
         File temp = folder.newFile();
@@ -62,6 +63,17 @@ public class FileWRTest {
         }
         
         assertNull(currentLine);
+        assertTrue(temp.delete());
+    }
+    
+    @Test(expected = Exception.class)
+    public void testWriteFileNull() throws Exception {
+        LOG.info("testWriteFileNull");
+        File temp = folder.newFile();
+        String text = "hello world";
+        String badLoc = temp.getPath();
+        cut = new FileWR(badLoc);
+        cut.writeFile(null);
         assertTrue(temp.delete());
     }
 

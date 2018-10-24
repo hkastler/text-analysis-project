@@ -20,16 +20,18 @@ public class FileWR {
 		this.fileName = fileName;
 	}
 
-	public void writeFile(String text) {
+	public void writeFile(String text) throws Exception {
 
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
 			writer.write(text);
 
 		} catch (IOException e) {
-			LOG.log(Level.SEVERE, "Exception", e);
+			LOG.log(Level.SEVERE, "IOException", e);
+                        throw new Exception();
 		} catch (Exception ex){
 			LOG.log(Level.SEVERE, "Exception", ex);
+                        throw new Exception();
 		}
 
 	}
