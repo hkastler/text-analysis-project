@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 import com.hkstlr.twitter.control.FileWR;
 import com.hkstlr.twitter.control.TweetAnalyzer;
-import java.io.FileNotFoundException;
+
 
 
 /**
@@ -31,12 +31,12 @@ import java.io.FileNotFoundException;
  *  ref. also https://github.com/technobium/opennlp-categorizer
  * @author henry.kastler
  */
-public class TweetAnalysisTest {
+public class TweetAnalysisMain {
 
-	private static final Logger LOG = Logger.getLogger(TweetAnalysisTest.class.getName());
+	private static final Logger LOG = Logger.getLogger(TweetAnalysisMain.class.getName());
 	private static final Level LOG_LEVEL = Level.INFO;
 
-	private TweetAnalysisTest() {
+	private TweetAnalysisMain() {
 		super();
 	}
 
