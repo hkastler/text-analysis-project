@@ -22,10 +22,15 @@ public class FileWR {
 	}
 
 	public void writeFile(String text) throws IOException  {
-
-		try (FileOutputStream fos = new FileOutputStream(fileName);
-				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
-			writer.write(text);
+                FileOutputStream fos = null;
+                Writer writer = null;
+		try{
+                    fos = new FileOutputStream(fileName);
+                    writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+		    writer.write(text);
+                    
+                    writer.close();
+                    fos.close();
 
 		} catch (FileNotFoundException  e) {
 			LOG.log(Level.SEVERE, "FileNotFoundException", e);
