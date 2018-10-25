@@ -38,7 +38,14 @@ public class FileWR {
 		} catch (NullPointerException ex){
 			LOG.log(Level.SEVERE, "NullPointerException", ex);
                         throw new NullPointerException(ex.getMessage());
-		} 
+		} finally {
+                    if(null != writer){
+                        writer.close();
+                    }
+                    if(null != fos){
+                        fos.close();
+                    }
+                }
 
 	}
 
