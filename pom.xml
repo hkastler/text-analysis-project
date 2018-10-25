@@ -15,7 +15,13 @@ the specific language governing permissions and limitations under the License. -
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-         <sonar.exclusions>**/Test*.java</sonar.exclusions>
+        <!-- sonar props -->
+        <sonar.host.url>http://sonar:9000</sonar.host.url>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
+        
     </properties>
     <modules>
         <module>text-analysis</module>
@@ -38,6 +44,13 @@ the specific language governing permissions and limitations under the License. -
                     <execution>
                         <id>report</id>
                         <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
