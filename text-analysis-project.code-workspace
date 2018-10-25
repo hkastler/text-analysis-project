@@ -14,7 +14,12 @@
 		},
 		{
 			"path": "."
+		},
+		{
+			"path": "C:\\Users\\henry.kastler\\Documents\\GitHub\\docker-ci-tool-stack"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
 }

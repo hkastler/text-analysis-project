@@ -31,12 +31,12 @@ import java.io.FileNotFoundException;
  *  ref. also https://github.com/technobium/opennlp-categorizer
  * @author henry.kastler
  */
-public class TweetAnalysisMain {
+public class TweetAnalysisTest {
 
-	private static final Logger LOG = Logger.getLogger(TweetAnalysisMain.class.getName());
+	private static final Logger LOG = Logger.getLogger(TweetAnalysisTest.class.getName());
 	private static final Level LOG_LEVEL = Level.INFO;
 
-	private TweetAnalysisMain() {
+	private TweetAnalysisTest() {
 		super();
 	}
 
