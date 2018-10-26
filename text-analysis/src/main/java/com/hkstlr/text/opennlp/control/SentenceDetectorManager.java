@@ -35,16 +35,18 @@ public class SentenceDetectorManager {
     void init() {
 
         Path modelPath = Paths.get("src", "main", "resources", "models", "en-sent.bin");
-
-        if (Optional.ofNullable(modelFile).isPresent()) {
-            modelPath = Paths.get(Optional.ofNullable(modelFile).get());
+        Optional<String> oModelFile = Optional.ofNullable(modelFile);
+        if (oModelFile.isPresent()) {
+            modelPath = Paths.get(oModelFile.get());
         }
         InputStream modelIn;
 
         try {
             modelIn = new FileInputStream(modelPath.toFile());
-            this.model = new SentenceModel(modelIn);
-            this.sentenceDetector = new SentenceDetectorME(this.model);
+            
+            setModel(new SentenceModel(modelIn));
+            setSentenceDetector(new SentenceDetectorME(getModel()));
+            
             modelIn.close();
         } catch (IOException e) {
             LOG.log(Level.SEVERE,"", e);
