@@ -13,9 +13,10 @@
     <name>text-analysis-webclient</name>
     <packaging>pom</packaging>
     <properties>
-            <sonar.sources>/</sonar.sources>
-            <sonar.exclusions>/node_modules/**,/docs/**,Gruntfile.js</sonar.exclusions>
-            <sonar.web.file.suffixes>.html,.js</sonar.web.file.suffixes>
+            <sonar.sources>./</sonar.sources>
+            <sonar.exclusions>**/node_modules/**,**/docs/**,**/Gruntfile.js</sonar.exclusions>
+            <sonar.language>web</sonar.language>
+             <sonar.web.file.suffixes>.html,.js</sonar.web.file.suffixes>
     </properties>
     <dependencies>
         <dependency>
