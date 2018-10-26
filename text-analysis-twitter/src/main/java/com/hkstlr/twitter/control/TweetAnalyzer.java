@@ -17,7 +17,7 @@ public class TweetAnalyzer {
 	private static final String TRAINING_DATA_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
 	private static final String MODEL_OUT_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
         
-        private static final String POSITIVE = "positive";
+    private static final String POSITIVE = "positive";
 	private static final String NEGATIVE = "negative";
 	private static final String NEUTRAL = "neutral";
                 
@@ -112,7 +112,7 @@ public class TweetAnalyzer {
 
 			// the probabilities of the categories
 			probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
-			// the category, in this use case, sentiment			
+			// the category, in this use case, sentiment
 			sentiment = probMap.entrySet().stream()
 							.max(Map.Entry.comparingByValue())
 							.map(Map.Entry::getKey)
@@ -120,10 +120,10 @@ public class TweetAnalyzer {
 			
 			posScore = probMap.get(POSITIVE);
 			negScore = probMap.get(NEGATIVE);
-			neuScore = probMap.get(NEUTRAL);				
+			neuScore = probMap.get(NEUTRAL);
 
 			tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
-			dsvRow = MessageFormat.format(dsvTemplate, new Object[] { sentiment, tweetText, posScore, negScore, neuScore });
+			dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, posScore, negScore, neuScore );
 			tweetSAResults.append(dsvRow);
 
 			if (POSITIVE.equals(sentiment)) {
