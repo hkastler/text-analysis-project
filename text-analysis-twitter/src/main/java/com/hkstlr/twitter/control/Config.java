@@ -16,6 +16,7 @@ package com.hkstlr.twitter.control;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -72,7 +73,7 @@ public class Config {
 				is.close();
 			}
 			
-		} catch (Exception e) {
+		} catch (IOException e) {
 			log.log(Level.WARNING, null, e);
 			
 		}
