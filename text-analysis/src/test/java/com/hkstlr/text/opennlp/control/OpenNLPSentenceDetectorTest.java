@@ -16,9 +16,10 @@
  */
 package com.hkstlr.text.opennlp.control;
 
+import java.io.FileInputStream;
+import opennlp.tools.sentdetect.SentenceModel;
 import org.junit.Test;
 
-import com.hkstlr.text.opennlp.control.SentenceDetectorManager;
 
 import static org.junit.Assert.*;
 
@@ -61,5 +62,14 @@ public class OpenNLPSentenceDetectorTest {
 			
 		
 	}
+        
+        @Test
+        public void testModelFile(){
+            cut = new SentenceDetectorManager();
+            String modelFilePath = "/dev/null/model.bin";
+            cut.setModelFile(modelFilePath);
+            assertEquals(modelFilePath, cut.getModelFile());
+        }
+        
 }
 
