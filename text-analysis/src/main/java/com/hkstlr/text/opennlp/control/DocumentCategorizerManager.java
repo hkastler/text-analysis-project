@@ -178,9 +178,8 @@ public class DocumentCategorizerManager {
             tdata = new MarkableFileInputStreamFactory(
                     defaultFile.orElseThrow(() -> new FileNotFoundException()));
 
-        } catch (Exception e) {
-
-            LOG.log(Level.INFO, null, e);
+        } catch (FileNotFoundException e) {
+            LOG.log(Level.INFO, "getTrainingData() defaultFile not found", e);
         }
         return tdata;
     }
@@ -217,7 +216,7 @@ public class DocumentCategorizerManager {
             in.close();
             tempFile.deleteOnExit();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.log(Level.WARNING, "", e);
         }
 
@@ -314,14 +313,14 @@ public class DocumentCategorizerManager {
             if(null != sampleStream){
                try {
                    sampleStream.close();
-               } catch (Exception e) {
+               } catch (IOException e) {
                 LOG.log(Level.INFO, null, e);
                }
             }
             if(null != lineStream){
                 try {
                     lineStream.close();
-                } catch (Exception e) {
+                } catch (IOException e) {
                     LOG.log(Level.INFO, null, e);
                 }
              }
