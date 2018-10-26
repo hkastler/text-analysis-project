@@ -12,6 +12,9 @@
     <artifactId>text-analysis-twitter</artifactId>
     <name>text-analysis-twitter</name>
     <packaging>jar</packaging>
+     <properties>
+            <sonar.exclusions>**/*Main*</sonar.exclusions>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

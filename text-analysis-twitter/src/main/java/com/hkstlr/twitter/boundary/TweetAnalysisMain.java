@@ -44,7 +44,7 @@ public class TweetAnalysisMain {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws Exception {
 
-		TweetAnalyzer ta = new TweetAnalyzer(TweetAnalyzer.getTrainingDataFilepath(), "");
+		TweetAnalyzer ta = new TweetAnalyzer();
 
 		String queryTerms = "chicago pizza";
 		int numberOfTweetsToGet = 100;

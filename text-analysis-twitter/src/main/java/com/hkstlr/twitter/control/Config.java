@@ -16,7 +16,6 @@ package com.hkstlr.twitter.control;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class Config {
 
 	private Properties props = new Properties();
 	private Logger log = Logger.getLogger(this.getClass().getName());
-	private String configFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
+	private String configFile;
 
 	public Config() {
 		checkSystemConfig();
@@ -36,48 +35,64 @@ public class Config {
 	}
 
 	public Config(Path filepath) {
-		
 		this.configFile = filepath.toString();
 		init();
 	}
+
 	public Config(String pathstring) {
-		
 		this.configFile = pathstring;
 		init();
 	}
 
 	public Config(Properties props) {
-		
 		this.props = props;
 	}
 
 	private void checkSystemConfig() {
-		String systemPropsKey = "com.hkstlr.twitter.control.Config";
+		String systemPropsKey = this.getClass().getCanonicalName();
 		Optional<String> systemProps = Optional.ofNullable(System.getProperty(systemPropsKey));
 		configFile = systemProps.orElse(configFile);
-		
 	}
 
-	void init() {
-				
-		try {
-			File cf =  new File(configFile);
-			InputStream is;
-			if(cf.exists()){
-				is = new FileInputStream(cf);
-				props.load(is);
-				is.close();
-			}else{
-				is = this.getClass().getClassLoader().getResourceAsStream("app.properties");
-				props.load(is);
-				is.close();
-			}
-			
-		} catch (IOException e) {
-			log.log(Level.WARNING, null, e);
-			
+	final void init() {
+		Optional<String> oConfigFile = Optional.ofNullable(configFile);
+		File cf = null;
+		if (oConfigFile.isPresent()) {
+			cf = new File(configFile);
 		}
-		
+		Optional<File> oFile = Optional.ofNullable(cf);
+		if (oFile.isPresent() && oFile.get().exists()) {
+			loadFromFileStream(cf);
+		} else {
+			loadFromResourceStream(configFile);
+		}
+		 
+		if (props.isEmpty()) {
+			loadFromResourceStream("app.properties");
+		}
+
+	}
+
+	public void loadFromFileStream(File file) {
+
+		try (InputStream is = new FileInputStream(file);) {
+			
+				props.load(is);
+				
+		} catch (Exception e) {
+			log.log(Level.WARNING, null, e.getMessage());
+		}
+
+	}
+
+	public void loadFromResourceStream(String resourceName) {
+
+		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(resourceName);) {
+			props.load(is);
+		} catch (Exception e) {
+			log.log(Level.WARNING, null, e.getMessage());
+		}
+
 	}
 
 	public Properties getProps() {

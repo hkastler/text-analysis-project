@@ -13,180 +13,194 @@ import twitter4j.TwitterException;
 
 public class TweetAnalyzer {
 
-	private DocumentCategorizerManager cat;
-	private static final String TRAINING_DATA_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
-	private static final String MODEL_OUT_FILEPATH = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
-        
+    private DocumentCategorizerManager cat;
+    private String trainingDataFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
+    private String modelOutFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
+
     private static final String POSITIVE = "positive";
-	private static final String NEGATIVE = "negative";
-	private static final String NEUTRAL = "neutral";
-                
-	private TwitterClient tc;
-	private String queryTerms;
-	int tweetCount = 100;
-	private List<Status> tweets = new ArrayList<>();
+    private static final String NEGATIVE = "negative";
+    private static final String NEUTRAL = "neutral";
 
-	public TweetAnalyzer() {
-		super();
-		init();
-	}
+    private TwitterClient tc;
+    private String queryTerms;
+    int tweetCount = 100;
+    private List<Status> tweets = new ArrayList<>();
 
-	public TweetAnalyzer(String trainingDataFile, String modelOutputFile) {
-		super();
-		setCat(new DocumentCategorizerManager(trainingDataFile, modelOutputFile));
-		init();
-	}
+    public TweetAnalyzer() {
+        super();
+        init();
+    }
 
-	public String getQueryTerms() {
-		return queryTerms;
-	}
+    public TweetAnalyzer(String trainingDataFile, String modelOutFile) {
+        super();
+        setTrainingDataFile(trainingDataFile);
+        setModelOutFile(modelOutFile);
+        init();
+    }
 
-	public void setQueryTerms(String queryTerms) {
-		this.queryTerms = queryTerms;
-	}
-
-	public int getTweetCount() {
-		return tweetCount;
-	}
-
-	public void setTweetCount(int tweetCount) {
-		this.tweetCount = tweetCount;
-	}
-
-	void init() {
+    void init() {
+		
+		Config analyzerConfig = new Config("tweetAnalyzer.properties");		
+        setTrainingDataFile(analyzerConfig.getProps().getProperty("trainingDataFilePath", getTrainingDataFile()) );
+        setModelOutFile(analyzerConfig.getProps().getProperty("modelOutFile", getModelOutFile()));
 		setCat();
-		tc = new TwitterClient(new Config().getProps());
-	}
 
-	public Object[] getSentimentAnalysis(String queryTerms) throws TwitterException {
-		this.queryTerms = queryTerms;
-		return getSentimentAnalysis();
-	}
+		Config twitterClientConfig = new Config(analyzerConfig.getProps().getProperty("twitterClientConfigPath"));
+        setTc(new TwitterClient(twitterClientConfig.getProps()));
+    }
 
-	public Object[] getSentimentAnalysis(String queryTerms, int tweetCount) throws TwitterException {
-		this.queryTerms = queryTerms;
-		this.tweetCount = tweetCount;
-		return getSentimentAnalysis();
-	}
+    public String getQueryTerms() {
+        return queryTerms;
+    }
 
-	public String getTweetTextForCategorization(String tweetText) {
+    public void setQueryTerms(String queryTerms) {
+        this.queryTerms = queryTerms;
+    }
 
-		String rtnStr = tweetText;
-		// thanks to
-		// https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
-		String twitterScreennameRegex = "(@[A-Za-z0-9]+)"; // ([^0-9A-Za-z \\t]) removes hashtags
-		String urlRegex = "(\\w+:\\/\\/\\S+)";
-		String newlineRegex = "(\\r\\n|\\r|\\n)";
+    public int getTweetCount() {
+        return tweetCount;
+    }
 
-		return rtnStr.replaceAll(newlineRegex, " ").replaceAll(twitterScreennameRegex, " ").replaceAll(urlRegex,
-				" ");
-	}
+    public void setTweetCount(int tweetCount) {
+        this.tweetCount = tweetCount;
+    }
 
-	public Object[] getSentimentAnalysis() throws TwitterException {
+    public Object[] getSentimentAnalysis(String queryTerms) throws TwitterException {
+        this.queryTerms = queryTerms;
+        return getSentimentAnalysis();
+    }
 
+    public Object[] getSentimentAnalysis(String queryTerms, int tweetCount) throws TwitterException {
+        this.queryTerms = queryTerms;
+        this.tweetCount = tweetCount;
+        return getSentimentAnalysis();
+    }
 
-		String[] headers = { "sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL };
-		String delimiter = "~";
-		String newLine = System.getProperty("line.separator");
-		
-		String dsvTemplate = getDsvTemplate(headers.length, delimiter, newLine);
-		String sentiment;
-		String dsvRow;
-		String tweetText;
+    public String getTweetTextForCategorization(String tweetText) {
 
-		StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate,(Object[]) headers ));
-		
-		Map<String, Double> probMap;
-		Double posScore;
-		Double negScore;
-		Double neuScore;
+        String rtnStr = tweetText;
+        // thanks to
+        // https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
+        String twitterScreennameRegex = "(@[A-Za-z0-9]+)"; // ([^0-9A-Za-z \\t]) removes hashtags
+        String urlRegex = "(\\w+:\\/\\/\\S+)";
+        String newlineRegex = "(\\r\\n|\\r|\\n)";
 
-		int posCount = 0;
-		int negCount = 0;
-		int neuCount = 0;
-		
-		tweets = tc.getTweets(this.queryTerms, this.tweetCount, cat.getLanguageCode());
-		
-		for (Status tweet : tweets) {
-			tweetText = getTweetTextForCategorization(tweet.getText());
+        return rtnStr.replaceAll(newlineRegex, " ").replaceAll(twitterScreennameRegex, " ").replaceAll(urlRegex,
+                " ");
+    }
 
-			// the probabilities of the categories
-			probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
-			// the category, in this use case, sentiment
-			sentiment = probMap.entrySet().stream()
-							.max(Map.Entry.comparingByValue())
-							.map(Map.Entry::getKey)
-							.orElse(NEUTRAL);
-			
-			posScore = probMap.get(POSITIVE);
-			negScore = probMap.get(NEGATIVE);
-			neuScore = probMap.get(NEUTRAL);
+    public Object[] getSentimentAnalysis() throws TwitterException {
 
-			tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
-			dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, posScore, negScore, neuScore );
-			tweetSAResults.append(dsvRow);
+        String[] headers = {"sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL};
+        String delimiter = "~";
+        String newLine = System.getProperty("line.separator");
 
-			if (POSITIVE.equals(sentiment)) {
-				posCount++;
-			} else if (NEGATIVE.equals(sentiment)) {
-				negCount++;
-			} else if (NEUTRAL.equals(sentiment)) {
-				neuCount++;
-			}
-		}
-		
-		Map<String, Integer> results = new LinkedHashMap<>();
-		results.put("total", tweets.size());
-		results.put(POSITIVE, posCount);
-		results.put(NEGATIVE, negCount);
-		results.put(NEUTRAL, neuCount);
+        String dsvTemplate = getDsvTemplate(headers.length, delimiter, newLine);
+        String sentiment;
+        String dsvRow;
+        String tweetText;
 
-		Object[] returnAry = new Object[2];
-		returnAry[0] = results;
-		returnAry[1] = tweetSAResults.toString();
-		return returnAry;
-	}
+        StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate, (Object[]) headers));
 
-	public String getDsvTemplate(int cols, String delimiter, String newLine) {
-		StringBuilder msgSb = new StringBuilder();
-		for (int x = 0; x <= cols - 1; x++) {
-			msgSb.append("{").append(Integer.toString(x)).append("}");
-			if(x < cols-1){
-				msgSb.append(delimiter);
-			}
-				
-		}
-		msgSb.append(newLine);
+        Map<String, Double> probMap;
+        Double posScore;
+        Double negScore;
+        Double neuScore;
 
-		return msgSb.toString();
-	}
+        int posCount = 0;
+        int negCount = 0;
+        int neuCount = 0;
 
-	public DocumentCategorizerManager getCat() {
-		return cat;
-	}
+        tweets = tc.getTweets(this.queryTerms, this.tweetCount, cat.getLanguageCode());
 
-	public void setCat() {
-		if (null == this.cat) {
-			this.cat = new DocumentCategorizerManager(TRAINING_DATA_FILEPATH, MODEL_OUT_FILEPATH);
-		}
+        for (Status tweet : tweets) {
+            tweetText = getTweetTextForCategorization(tweet.getText());
 
-	}
+            // the probabilities of the categories
+            probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
+            // the category, in this use case, sentiment
+            sentiment = probMap.entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse(NEUTRAL);
 
-	public void setCat(DocumentCategorizerManager cat) {
-		this.cat = cat;
-	}
+            posScore = probMap.get(POSITIVE);
+            negScore = probMap.get(NEGATIVE);
+            neuScore = probMap.get(NEUTRAL);
 
-	public static String getTrainingDataFilepath() {
-		return TRAINING_DATA_FILEPATH;
-	}
+            tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
+            dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, posScore, negScore, neuScore);
+            tweetSAResults.append(dsvRow);
 
-	public static String getModelOutFilepath() {
-		return MODEL_OUT_FILEPATH;
-	}
+            if (POSITIVE.equals(sentiment)) {
+                posCount++;
+            } else if (NEGATIVE.equals(sentiment)) {
+                negCount++;
+            } else if (NEUTRAL.equals(sentiment)) {
+                neuCount++;
+            }
+        }
 
-	public List<Status> getTweets() {
-		return tweets;
-	}
+        Map<String, Integer> results = new LinkedHashMap<>();
+        results.put("total", tweets.size());
+        results.put(POSITIVE, posCount);
+        results.put(NEGATIVE, negCount);
+        results.put(NEUTRAL, neuCount);
+
+        Object[] returnAry = new Object[2];
+        returnAry[0] = results;
+        returnAry[1] = tweetSAResults.toString();
+        return returnAry;
+    }
+
+    public String getDsvTemplate(int cols, String delimiter, String newLine) {
+        StringBuilder msgSb = new StringBuilder();
+        for (int x = 0; x <= cols - 1; x++) {
+            msgSb.append("{").append(Integer.toString(x)).append("}");
+            if (x < cols - 1) {
+                msgSb.append(delimiter);
+            }
+
+        }
+        msgSb.append(newLine);
+
+        return msgSb.toString();
+    }
+
+    public DocumentCategorizerManager getCat() {
+        return cat;
+    }
+
+    public void setCat() {
+        if (null == this.cat) {
+            this.cat = new DocumentCategorizerManager(getTrainingDataFile(), getModelOutFile());
+        }
+
+    }
+
+    public void setCat(DocumentCategorizerManager cat) {
+        this.cat = cat;
+    }
+
+    public String getTrainingDataFile() {
+        return trainingDataFile;
+    }
+
+    public void setTrainingDataFile(String trainingDataFile) {
+        this.trainingDataFile = trainingDataFile;
+    }
+
+    public String getModelOutFile() {
+        return modelOutFile;
+    }
+
+    public void setModelOutFile(String modelOutFile) {
+        this.modelOutFile = modelOutFile;
+    }
+
+    public List<Status> getTweets() {
+        return tweets;
+    }
 
     public TwitterClient getTc() {
         return tc;
@@ -195,7 +209,5 @@ public class TweetAnalyzer {
     public void setTc(TwitterClient tc) {
         this.tc = tc;
     }
-        
-        
 
 }

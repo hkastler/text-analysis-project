@@ -10,31 +10,29 @@ import com.hkstlr.twitter.control.TweetAnalyzer;
 @ApplicationScoped
 public class TweetAnalyzerBean {
 
-	TweetAnalyzer ta;
+    TweetAnalyzer ta;
 
-	public TweetAnalyzerBean() {
-		super();
-	}
-	
-	@PostConstruct
-	void init() {
-		setTa(new TweetAnalyzer(
-				TweetAnalyzer.getTrainingDataFilepath(),
-				""));
-	}
+    public TweetAnalyzerBean() {
+        super();
+    }
 
-	/**
-	 * @return the ta
-	 */
-	TweetAnalyzer getTa() {
-		return ta;
-	}
+    @PostConstruct
+    void init() {
+        setTa(new TweetAnalyzer());
+    }
 
-	/**
-	 * @param ta the ta to set
-	 */
-	void setTa(TweetAnalyzer ta) {
-		this.ta = ta;
-	}
+    /**
+     * @return the ta
+     */
+    TweetAnalyzer getTa() {
+        return ta;
+    }
+
+    /**
+     * @param ta the ta to set
+     */
+    void setTa(TweetAnalyzer ta) {
+        this.ta = ta;
+    }
 
 }
