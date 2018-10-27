@@ -54,9 +54,9 @@ public class DocumentCategorizerManager {
 
     static final Logger LOG = Logger.getLogger(DocumentCategorizerManager.class.getName());
 
-    private DoccatModel model;
-    private DoccatFactory doccatFactory;
-    private DocumentCategorizer doccat;
+    DoccatModel model;
+    DoccatFactory doccatFactory;
+    DocumentCategorizer doccat;
     private final Tokenizer tokenizer;
     private String languageCode;
     private int minNgramSize;
@@ -88,12 +88,7 @@ public class DocumentCategorizerManager {
     }
 
     void init() {
-        setMinNgramSize(2);
-        setMaxNgramSize(10);
-        setCutoff(2);
-        setIterations(1000);
-        setPrintMessages(false);
-
+      
         Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
         languageCode = oLanguageCode.orElse(Locale.getDefault().getLanguage());
 
@@ -101,6 +96,13 @@ public class DocumentCategorizerManager {
         if (new File(oModelFile.orElse("")).exists()) {
             loadModelFromFile();
         } else {
+
+            setMinNgramSize(2);
+            setMaxNgramSize(10);
+            setCutoff(2);
+            setIterations(1000);
+            setPrintMessages(false);
+            setDoccatFactory();
 
             trainModel();
 
@@ -131,13 +133,7 @@ public class DocumentCategorizerManager {
     }
 
     private DoccatFactory getDoccatFactory() {
-
-        if (null == doccatFactory) {
-            setDoccatFactory();
-        }
-
         return doccatFactory;
-
     }
 
     public String getLanguageCode() {
@@ -164,12 +160,9 @@ public class DocumentCategorizerManager {
             try {
                 tdata = new MarkableFileInputStreamFactory(
                         Paths.get(tdataCustomFile.get()).toFile());
-
+                return tdata;
             } catch (IOException e) {
                 LOG.log(Level.WARNING, null, e);
-            }
-            if (null != tdata) {
-                return tdata;
             }
         }
         Optional<File> defaultFile = Optional.ofNullable(defaultTrainingDataFile());
@@ -248,13 +241,12 @@ public class DocumentCategorizerManager {
     void saveModelToFile() {
 
         try (
-                FileOutputStream fos = new FileOutputStream(modelFile);
-                BufferedOutputStream modelOut = new BufferedOutputStream(fos);) {
-
+            FileOutputStream fos = new FileOutputStream(modelFile);
+            BufferedOutputStream modelOut = new BufferedOutputStream(fos);
+            ) {
             model.serialize(modelOut);
-
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "", e);
+            LOG.log(Level.SEVERE, "saveModelToFile() ", e);
         }
 
     }
