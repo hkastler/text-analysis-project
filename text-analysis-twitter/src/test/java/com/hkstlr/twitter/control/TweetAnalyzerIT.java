@@ -89,8 +89,13 @@ public class TweetAnalyzerIT {
 
         cut.getTc().getTweets(queryTerms, tweetCount);
         assertNotNull(cut.getTweets());
-        
+
         cut.getTc().getTweets(queryTerms);
+        assertNotNull(cut.getTweets());
+
+        queryTerms = "chicago scooters";
+        tweetCount = 1000;
+        cut.getTc().getTweets(queryTerms,tweetCount);
         assertNotNull(cut.getTweets());
     }
 
