@@ -174,12 +174,10 @@ public class DocumentCategorizerManager {
 
         try {
             File codebaseTrainerFile = streamToFile(codebaseIs);
-
-            if (codebaseTrainerFile.exists()) {
-                LOG.warning("using jar file .train file...is this expected?");
-                LOG.warning("see TweetAnalyzer for default external file path");
-                defaultTrainingFile = codebaseTrainerFile;
-            }
+            defaultTrainingFile = codebaseTrainerFile;
+            LOG.warning("using jar file .train file...is this expected?");
+            LOG.warning("see TweetAnalyzer for default external file path");
+            
         } catch (Exception e) {
             LOG.log(Level.INFO, "", e);
         }
