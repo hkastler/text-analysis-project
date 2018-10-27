@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.doccat.DocumentCategorizer;
 
 import org.junit.Before;
@@ -67,6 +68,39 @@ public class DocumentCategorizerManagerTest {
 		cut = new DocumentCategorizerManager(testTrainFilepath.toString(), tempModelFilePath);
 		
 	}
+        
+        @Test
+        public void testSetDoccatFactory(){
+            cut = new DocumentCategorizerManager();
+            cut.init();
+            assertEquals(2,cut.doccatFactory.getFeatureGenerators().length);
+            
+            cut = new DocumentCategorizerManager();
+            cut.setMinNgramSize(-1);
+            cut.init();
+            
+            assertEquals(1,cut.doccatFactory.getFeatureGenerators().length);
+            
+            cut.setMinNgramSize(2);
+            cut.setMaxNgramSize(10);
+            cut.setPrintMessages(false);
+            cut.setCutoff(2);
+            cut.setIterations(1000);
+            
+            cut.doccatFactory = null;
+            cut.trainModel();
+            assertEquals(2,cut.doccatFactory.getFeatureGenerators().length);
+            
+        }
+        
+        @Test
+        public void testLoadModelFromFile(){
+            DoccatModel dm = cut.loadModelFromFile("");
+            assertNull(dm);
+            String tempModelFilePath = folder.getRoot().getAbsolutePath() + File.separator + "testGetTrainingDataFile.bin";
+            dm = cut.loadModelFromFile(tempModelFilePath);
+            assertNotNull(dm);
+        }
 
 	/**
 	 * Test of trainModel method, of class SentimentAnalyzer.
@@ -235,6 +269,7 @@ public class DocumentCategorizerManagerTest {
 		
 	}
 
+	@SuppressWarnings("unchecked") 
 	@Test
 	public void loadModelFromFile(){
 		
@@ -259,4 +294,6 @@ public class DocumentCategorizerManagerTest {
             assertEquals(doccat,cut.getDoccat());
             
         }
+        
+        
 }

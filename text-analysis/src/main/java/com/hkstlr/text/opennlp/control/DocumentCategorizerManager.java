@@ -59,10 +59,10 @@ public class DocumentCategorizerManager {
     DocumentCategorizer doccat;
     private final Tokenizer tokenizer;
     private String languageCode;
-    private int minNgramSize;
-    private int maxNgramSize;
-    private int iterations;
-    private int cutoff;
+    private int minNgramSize = 2;
+    private int maxNgramSize = 10;
+    private int iterations = 1000;
+    private int cutoff = 1;
     private boolean printMessages = false;
 
     private String trainingDataFile;
@@ -79,8 +79,7 @@ public class DocumentCategorizerManager {
         init();
     }
 
-    public DocumentCategorizerManager(String trainingDataFile,
-            String modelFile) {
+    public DocumentCategorizerManager(String trainingDataFile, String modelFile) {
         this.tokenizer = SimpleTokenizer.INSTANCE;
         this.trainingDataFile = trainingDataFile;
         this.modelFile = modelFile;
@@ -88,7 +87,7 @@ public class DocumentCategorizerManager {
     }
 
     void init() {
-      
+
         Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
         languageCode = oLanguageCode.orElse(Locale.getDefault().getLanguage());
 
@@ -96,13 +95,6 @@ public class DocumentCategorizerManager {
         if (new File(oModelFile.orElse("")).exists()) {
             loadModelFromFile();
         } else {
-
-            setMinNgramSize(2);
-            setMaxNgramSize(10);
-            setCutoff(2);
-            setIterations(1000);
-            setPrintMessages(false);
-            setDoccatFactory();
 
             trainModel();
 
@@ -158,8 +150,7 @@ public class DocumentCategorizerManager {
         Optional<String> tdataCustomFile = Optional.ofNullable(getTrainingDataFile());
         if (tdataCustomFile.isPresent() && Paths.get(tdataCustomFile.get()).toFile().exists()) {
             try {
-                tdata = new MarkableFileInputStreamFactory(
-                        Paths.get(tdataCustomFile.get()).toFile());
+                tdata = new MarkableFileInputStreamFactory(Paths.get(tdataCustomFile.get()).toFile());
                 return tdata;
             } catch (IOException e) {
                 LOG.log(Level.WARNING, null, e);
@@ -168,8 +159,7 @@ public class DocumentCategorizerManager {
         Optional<File> defaultFile = Optional.ofNullable(defaultTrainingDataFile());
         try {
 
-            tdata = new MarkableFileInputStreamFactory(
-                    defaultFile.orElseThrow(FileNotFoundException::new));
+            tdata = new MarkableFileInputStreamFactory(defaultFile.orElseThrow(FileNotFoundException::new));
 
         } catch (FileNotFoundException e) {
             LOG.log(Level.INFO, "getTrainingData() defaultFile not found", e);
@@ -232,7 +222,7 @@ public class DocumentCategorizerManager {
                 dcm = new DoccatModel(Paths.get(modelFile));
 
             } catch (IOException e) {
-                LOG.log(Level.SEVERE, "", e);
+                 LOG.log(Level.SEVERE, "", e);
             }
         }
         return dcm;
@@ -240,10 +230,8 @@ public class DocumentCategorizerManager {
 
     void saveModelToFile() {
 
-        try (
-            FileOutputStream fos = new FileOutputStream(modelFile);
-            BufferedOutputStream modelOut = new BufferedOutputStream(fos);
-            ) {
+        try (FileOutputStream fos = new FileOutputStream(modelFile);
+                BufferedOutputStream modelOut = new BufferedOutputStream(fos);) {
             model.serialize(modelOut);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "saveModelToFile() ", e);
@@ -255,15 +243,18 @@ public class DocumentCategorizerManager {
         this.doccat = doccat;
     }
 
-    private void setDoccatFactory() {
+    private DoccatFactory createDoccatFactory() {
+        DoccatFactory df;
         try {
-            doccatFactory = new DoccatFactory(new FeatureGenerator[]{
-                new BagOfWordsFeatureGenerator(),
-                new NGramFeatureGenerator(getMinNgramSize(), getMaxNgramSize())});
+
+            df = new DoccatFactory(new FeatureGenerator[] { new BagOfWordsFeatureGenerator(),
+                    new NGramFeatureGenerator(getMinNgramSize(), getMaxNgramSize()) });
+
         } catch (InvalidFormatException e) {
-            doccatFactory = new DoccatFactory();
+            df = new DoccatFactory();
             LOG.log(Level.WARNING, "default DocccatFactory created", e);
         }
+        return df;
     }
 
     public void setModel(DoccatModel model) {
@@ -280,10 +271,11 @@ public class DocumentCategorizerManager {
 
     void trainModel() {
 
-        try (
-            ObjectStream<String> lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
-            ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);
-            ){
+        Optional<DoccatFactory> df = Optional.ofNullable(doccatFactory);
+        doccatFactory = df.orElse(createDoccatFactory());
+
+        try (ObjectStream<String> lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
+                ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);) {
 
             TrainingParameters params = new TrainingParameters();
             params.put("PrintMessages", isPrintMessages());
@@ -291,12 +283,11 @@ public class DocumentCategorizerManager {
             params.put(TrainingParameters.CUTOFF_PARAM, Integer.toString(getCutoff()));
             params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 
-            setModel(DocumentCategorizerME.train(languageCode,
-                    sampleStream, params, getDoccatFactory()));
+            setModel(DocumentCategorizerME.train(languageCode, sampleStream, params, getDoccatFactory()));
 
         } catch (IOException e) {
             LOG.log(Level.SEVERE, null, e);
-        } 
+        }
 
     }
 
