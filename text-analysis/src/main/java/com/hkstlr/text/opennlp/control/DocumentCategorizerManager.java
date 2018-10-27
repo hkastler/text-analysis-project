@@ -88,8 +88,7 @@ public class DocumentCategorizerManager {
 
     void init() {
 
-        Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
-        languageCode = oLanguageCode.orElse(Locale.getDefault().getLanguage());
+        
 
         Optional<String> oModelFile = Optional.ofNullable(modelFile);
         if (new File(oModelFile.orElse("")).exists()) {
@@ -272,6 +271,9 @@ public class DocumentCategorizerManager {
         Optional<DoccatFactory> df = Optional.ofNullable(doccatFactory);
         doccatFactory = df.orElse(createDoccatFactory());
 
+        Optional<String> oLanguageCode = Optional.ofNullable(languageCode);
+        setLanguageCode(oLanguageCode.orElse(Locale.getDefault().getLanguage()));
+
         try (ObjectStream<String> lineStream = new PlainTextByLineStream(getTrainingData(), StandardCharsets.UTF_8);
                 ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);) {
 
@@ -281,7 +283,7 @@ public class DocumentCategorizerManager {
             params.put(TrainingParameters.CUTOFF_PARAM, Integer.toString(getCutoff()));
             params.put(TrainingParameters.ALGORITHM_PARAM, NaiveBayesTrainer.NAIVE_BAYES_VALUE);
 
-            setModel(DocumentCategorizerME.train(languageCode, sampleStream, params, getDoccatFactory()));
+            setModel(DocumentCategorizerME.train(getLanguageCode(), sampleStream, params, getDoccatFactory()));
 
         } catch (IOException e) {
             LOG.log(Level.SEVERE, null, e);
