@@ -1,17 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hkstlr.twitter.control;
 
-import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-import opennlp.tools.doccat.DoccatModel;
+
+import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import twitter4j.TwitterException;
 
 /**
@@ -25,12 +25,12 @@ public class TweetAnalyzerIT {
     @Before
     public void setUp() {
         cut = new TweetAnalyzer();
-
     }
 
     public TweetAnalyzerIT() {
     }
 
+    @SuppressWarnings("unchecked") 
     @Test
     public void testTweetAnalyzer() throws TwitterException {
         String path = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
@@ -40,7 +40,6 @@ public class TweetAnalyzerIT {
         cut.setCat(temp);
         assertEquals(temp, cut.getCat());
         assertNotNull(cut.getTc());
-        
 
         Object[] obj = cut.getSentimentAnalysis();
         Map<String, Integer> results = (LinkedHashMap<String, Integer>) obj[0];

@@ -16,12 +16,10 @@
  */
 package com.hkstlr.text.opennlp.control;
 
-import java.io.FileInputStream;
-import opennlp.tools.sentdetect.SentenceModel;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
-
-
-import static org.junit.Assert.*;
 
 /**
  *

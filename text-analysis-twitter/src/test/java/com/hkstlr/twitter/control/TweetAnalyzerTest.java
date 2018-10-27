@@ -1,12 +1,9 @@
 package com.hkstlr.twitter.control;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import twitter4j.TwitterException;
 
 /**
  * Unit test for simple App.
@@ -17,8 +14,6 @@ public class TweetAnalyzerTest {
     }
 
     TweetAnalyzer cut;
-    TwitterClient mockTc;
-    TweetAnalyzer mockCut;
 
     @Before
     public void setUp() {
@@ -52,12 +47,6 @@ public class TweetAnalyzerTest {
         assertEquals(0, cut.getTweets().size());
     }
     
-    @Test
-    public void testTc(){
-        
-    }
-    
-
     @Test
     public void testGetDsvTemplate() {
         String expected = "{0}~{1}~{2}\n";
