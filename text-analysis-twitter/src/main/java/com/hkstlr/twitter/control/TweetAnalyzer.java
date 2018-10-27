@@ -22,7 +22,7 @@ public class TweetAnalyzer {
     private static final String NEUTRAL = "neutral";
 
     private TwitterClient tc;
-    private String queryTerms;
+    private String queryTerms = "";
     int tweetCount = 100;
     private List<Status> tweets = new ArrayList<>();
 
@@ -39,10 +39,11 @@ public class TweetAnalyzer {
     }
 
     void init() {
-		
-		Config analyzerConfig = new Config("tweetAnalyzer.properties");		
+
+		Config analyzerConfig = new Config("tweetAnalyzer.properties");
         setTrainingDataFile(analyzerConfig.getProps().getProperty("trainingDataFilePath", getTrainingDataFile()) );
         setModelOutFile(analyzerConfig.getProps().getProperty("modelOutFile", getModelOutFile()));
+        setQueryTerms(analyzerConfig.getProps().getProperty("queryTerms", getQueryTerms()));
 		setCat();
 
 		Config twitterClientConfig = new Config(analyzerConfig.getProps().getProperty("twitterClientConfigPath"));
@@ -131,14 +132,14 @@ public class TweetAnalyzer {
             tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
             dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, posScore, negScore, neuScore);
             tweetSAResults.append(dsvRow);
-
-            if (POSITIVE.equals(sentiment)) {
-                posCount++;
-            } else if (NEGATIVE.equals(sentiment)) {
-                negCount++;
-            } else if (NEUTRAL.equals(sentiment)) {
-                neuCount++;
+            
+            switch(sentiment){
+                case POSITIVE: posCount++; break;
+                case NEGATIVE: negCount++; break;
+                case NEUTRAL: neuCount++; break;
+                default:break;
             }
+
         }
 
         Map<String, Integer> results = new LinkedHashMap<>();
