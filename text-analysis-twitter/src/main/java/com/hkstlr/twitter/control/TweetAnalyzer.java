@@ -17,9 +17,17 @@ public class TweetAnalyzer {
     private String trainingDataFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
     private String modelOutFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
 
-    private static final String POSITIVE = "positive";
-    private static final String NEGATIVE = "negative";
-    private static final String NEUTRAL = "neutral";
+    enum Sentiment {
+
+        POSITIVE("positive"), NEGATIVE("negative"), NEUTRAL("neutral");
+
+        String label;
+
+        Sentiment(String label) {
+            this.label = label;
+        }
+
+    }
 
     private TwitterClient tc;
     private String queryTerms = "";
@@ -40,13 +48,13 @@ public class TweetAnalyzer {
 
     void init() {
 
-		Config analyzerConfig = new Config("tweetAnalyzer.properties");
-        setTrainingDataFile(analyzerConfig.getProps().getProperty("trainingDataFilePath", getTrainingDataFile()) );
+        Config analyzerConfig = new Config("tweetAnalyzer.properties");
+        setTrainingDataFile(analyzerConfig.getProps().getProperty("trainingDataFilePath", getTrainingDataFile()));
         setModelOutFile(analyzerConfig.getProps().getProperty("modelOutFile", getModelOutFile()));
         setQueryTerms(analyzerConfig.getProps().getProperty("queryTerms", getQueryTerms()));
-		setCat();
+        setCat();
 
-		Config twitterClientConfig = new Config(analyzerConfig.getProps().getProperty("twitterClientConfigPath"));
+        Config twitterClientConfig = new Config(analyzerConfig.getProps().getProperty("twitterClientConfigPath"));
         setTc(new TwitterClient(twitterClientConfig.getProps()));
     }
 
@@ -86,28 +94,27 @@ public class TweetAnalyzer {
         String urlRegex = "(\\w+:\\/\\/\\S+)";
         String newlineRegex = "(\\r\\n|\\r|\\n)";
 
-        return rtnStr.replaceAll(newlineRegex, " ").replaceAll(twitterScreennameRegex, " ").replaceAll(urlRegex,
-                " ");
+        return rtnStr.replaceAll(newlineRegex, " ").replaceAll(twitterScreennameRegex, " ").replaceAll(urlRegex, " ");
     }
 
     public Object[] getSentimentAnalysis() throws TwitterException {
 
-        String[] headers = {"sentiment", "tweet", POSITIVE, NEGATIVE, NEUTRAL};
+        String positive = Sentiment.POSITIVE.label;
+        String negative = Sentiment.NEGATIVE.label;
+        String neutral = Sentiment.NEUTRAL.label;
+
+        String[] headers = { "sentiment", "tweet", positive, negative, neutral };
         String delimiter = "~";
         String newLine = System.getProperty("line.separator");
 
         String dsvTemplate = getDsvTemplate(headers.length, delimiter, newLine);
-        String sentiment;
         String dsvRow;
         String tweetText;
+        StringBuilder tweetsDsv = new StringBuilder(MessageFormat.format(dsvTemplate, (Object[]) headers));
 
-        StringBuilder tweetSAResults = new StringBuilder(MessageFormat.format(dsvTemplate, (Object[]) headers));
-
+        String sentiment;
         Map<String, Double> probMap;
-        Double posScore;
-        Double negScore;
-        Double neuScore;
-
+        
         int posCount = 0;
         int negCount = 0;
         int neuCount = 0;
@@ -120,37 +127,30 @@ public class TweetAnalyzer {
             // the probabilities of the categories
             probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
             // the category, in this use case, sentiment
-            sentiment = probMap.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(NEUTRAL);
-
-            posScore = probMap.get(POSITIVE);
-            negScore = probMap.get(NEGATIVE);
-            neuScore = probMap.get(NEUTRAL);
-
-            tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
-            dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, posScore, negScore, neuScore);
-            tweetSAResults.append(dsvRow);
-            
-            switch(sentiment){
-                case POSITIVE: posCount++; break;
-                case NEGATIVE: negCount++; break;
-                case NEUTRAL: neuCount++; break;
-                default:break;
+            sentiment = probMap.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey)
+                    .orElse(neutral);
+            if (sentiment.equals(positive)) {
+                posCount++;
+            } else if (sentiment.equals(negative)) {
+                negCount++;
+            } else if (sentiment.equals(neutral)) {
+                neuCount++;
             }
-
+            tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
+            dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, probMap.get(positive),
+                    probMap.get(negative), probMap.get(neutral));
+            tweetsDsv.append(dsvRow);
         }
-
+       
         Map<String, Integer> results = new LinkedHashMap<>();
         results.put("total", tweets.size());
-        results.put(POSITIVE, posCount);
-        results.put(NEGATIVE, negCount);
-        results.put(NEUTRAL, neuCount);
+        results.put(positive, posCount);
+        results.put(negative, negCount);
+        results.put(neutral, neuCount);
 
         Object[] returnAry = new Object[2];
         returnAry[0] = results;
-        returnAry[1] = tweetSAResults.toString();
+        returnAry[1] = tweetsDsv.toString();
         return returnAry;
     }
 
