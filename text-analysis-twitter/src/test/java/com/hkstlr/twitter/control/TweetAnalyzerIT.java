@@ -24,7 +24,8 @@ public class TweetAnalyzerIT {
 
     @Before
     public void setUp() {
-        cut = new TweetAnalyzer();
+        String path = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
+        cut = new TweetAnalyzer(path, "");
     }
 
     public TweetAnalyzerIT() {
@@ -33,8 +34,7 @@ public class TweetAnalyzerIT {
     @SuppressWarnings("unchecked") 
     @Test
     public void testTweetAnalyzer() throws TwitterException {
-        String path = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
-        cut = new TweetAnalyzer(path, "");
+        
         assertNotNull(cut.getCat());
         DocumentCategorizerManager temp = cut.getCat();
         cut.setCat(temp);
@@ -66,6 +66,32 @@ public class TweetAnalyzerIT {
         assertNotEquals(0, (int) results.get("neutral"));
         assertNotEquals(0, (int) cut.getTweets().size());
 
+    }
+
+    @Test
+    public void testGetSentimentAnalysis() throws TwitterException {
+        int itemsToGet = 500;
+        String queryTerms = "pizza";
+        Object[] obj = cut.getSentimentAnalysis(queryTerms, itemsToGet);
+        assertEquals(itemsToGet,cut.getTweetCount());
+        Map<String,Integer>results = (LinkedHashMap<String, Integer>) obj[0];
+        assertNotEquals(0, (int) results.get("positive"));
+        assertNotEquals(0, (int) results.get("negative"));
+        assertNotEquals(0, (int) results.get("neutral"));
+        assertNotEquals(0, (int) cut.getTweets().size());
+    }
+
+    @Test
+    public void testGetTweets() throws TwitterException {
+        
+        String queryTerms = "pizza";
+        int tweetCount = 100;
+
+        cut.getTc().getTweets(queryTerms, tweetCount);
+        assertNotNull(cut.getTweets());
+        
+        cut.getTc().getTweets(queryTerms);
+        assertNotNull(cut.getTweets());
     }
 
 }
