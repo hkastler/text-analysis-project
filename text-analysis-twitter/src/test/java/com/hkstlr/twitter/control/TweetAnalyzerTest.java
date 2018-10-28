@@ -1,6 +1,9 @@
 package com.hkstlr.twitter.control;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +48,16 @@ public class TweetAnalyzerTest {
     @Test
     public void testTweets(){
         assertEquals(0, cut.getTweets().size());
+    }
+
+    @Test
+    public void testSetCat(){
+        cut.setCat(null);
+        cut.setCat();
+        DocumentCategorizerManager hold = cut.getCat();
+        assertNotNull(hold);
+        cut.setCat();
+        assertEquals(hold,cut.getCat());
     }
     
     @Test
