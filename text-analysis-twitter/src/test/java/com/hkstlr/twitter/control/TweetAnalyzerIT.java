@@ -68,6 +68,7 @@ public class TweetAnalyzerIT {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetSentimentAnalysis() throws TwitterException {
         int itemsToGet = 500;
