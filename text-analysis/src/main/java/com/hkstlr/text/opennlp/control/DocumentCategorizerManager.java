@@ -103,7 +103,8 @@ public class DocumentCategorizerManager {
 
         }
 
-        doccat = new DocumentCategorizerME(model);
+        setDoccat(new DocumentCategorizerME(model));
+        setLanguageCode(model.getLanguage());
 
     }
 
