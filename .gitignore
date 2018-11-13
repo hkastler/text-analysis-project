@@ -18,3 +18,4 @@ text-analysis-webclient/assets/js/jar.min.js
 text-analysis-webclient/assets/js/jar.js
 text-analysis-service/.factorypath
 target/*
+webclient-angular/node_modules/**
