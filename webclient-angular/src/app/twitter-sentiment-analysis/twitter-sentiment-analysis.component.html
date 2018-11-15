@@ -1,21 +1,28 @@
 
-<div data-ng-controller="mainCtrl" class="panel panel-primary" ng-init="tweetCount=100;queryTerms='chicago pizza'">
+<div class="panel panel-primary" >
 
   <div class="panel-body">
 
-      <form ng-submit="getResults()" id="searchForm">
+      <form (ngSubmit)="getSAResults()" id="searchForm">
           <fieldset>
               <legend>Search</legend>
               <div class="form-group">
                   <label for="queryTerms" class="form-control-label">Query Terms</label>
-                  <input type="text" data-ng-model="queryTerms" name="queryTerms" class="form-control form-control-lg" 
+                  <input type="text" 
+                  [(ngModel)]="model.queryTerms"
+                  name="queryTerms" 
+                  class="form-control form-control-lg" 
                   autofocus="autofocus"
                   tabindex="1"/>
               </div>
               <div class="form-group">
                   <label for="tweetCount" class="form-control-label"># of Tweets</label>
-                  <output name="tweetCountOutput" id="tweetCountOutput">{{tweetCount}}</output>
-                  <input type="range" class="form-control" data-ng-model="tweetCount" id="tweetCount" name="tweetCount"
+                  <output name="tweetCountOutput" id="tweetCountOutput">{{model.tweetCount}}</output>
+                  <input type="range" 
+                  class="form-control" 
+                  id="tweetCount" 
+                  [(ngModel)]="model.tweetCount"
+                  name="tweetCount"
                       min="10" max="500" step="10" oninput="tweetCountOutput.value = tweetCount.value" 
                       tabindex="2"/>
               </div>
@@ -23,10 +30,7 @@
               <input type="submit" class="btn btn-primary" tabindex="3"/>
           </fieldset>
       </form>
-
-      
       <div id="resultsChart"></div>
-      {{resultsTotal}}
       <hr />
       <div id="resultsTable"></div>
   </div>
