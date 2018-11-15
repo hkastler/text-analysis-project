@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TwitterSentimentAnalysisService } from '../twitter-sentiment-analysis.service'
+import { TwitterSentimentAnalysisService } from './twitter-sentiment-analysis.service'
 import { TwitterSentimentAnalyzer } from './twitter-sentiment-analyzer';
 import * as d3 from 'd3';
 
@@ -11,21 +11,24 @@ import * as d3 from 'd3';
 export class TwitterSentimentAnalysisComponent implements OnInit {
 
   model: TwitterSentimentAnalyzer;
-
-  response: Object[];
+  resultsTotal: string;
 
   constructor(private twitterSentimentAnalyisService: TwitterSentimentAnalysisService) { }
 
   ngOnInit() {
-    this.model = new TwitterSentimentAnalyzer("chicago pizza", 100);
-    
+    this.model = new TwitterSentimentAnalyzer("pizza", 100);
   }
 
   getSAResults(): void {
-    this.twitterSentimentAnalyisService.getSAResults()
-      .subscribe(response => this.response = response);    
-    this.donutChart(this.response[0], "#resultsChart");
-    this.tabulateDsv(this.response[1], "~", "#resultsTable");
+    this.twitterSentimentAnalyisService
+      .getSAResults(this.model.queryTerms, this.model.tweetCount)
+      .subscribe(response => {
+        this.resultsTotal = JSON.stringify(response[0]);
+        this.donutChart(response[0], "#resultsChart");
+        this.tabulateDsv(response[1], "~", "#resultsTable");
+      });
+    
+   
   }
 
   tabulateDsv(dsvdata, delimiter, target) {
@@ -76,7 +79,9 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
   }
 
   //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
-  donutChart(mydata, target) {
+  donutChart(donutData, target) {
+   
+    var mydata = donutData;
 
     var container = d3.select(target);
     container.html('');
@@ -108,16 +113,17 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
     var arc = d3.arc()
       .innerRadius(radius - donutWidth)
       .outerRadius(radius);
+
     var pie = d3.pie()
-      .value(function (d) { return d.count; })
+      .value(function (d:any) { return d.count; })
       .sort(null);
 
     var path = svg.selectAll('path')
-      .data(pie(dataset))
+      .data(pie(<any>dataset))
       .enter()
       .append('path')
-      .attr('d', arc)
-      .attr('fill', function (d, i) {
+      .attr('d', <any>arc)
+      .attr('fill', function (d:any, i) {
         return color(d.data.label);
       });
 
@@ -127,7 +133,7 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
     tooltip.append('div')
       .attr('class', 'label');
 
-    path.on('mouseover', function (d) {
+    path.on('mouseover', function (d:any) {
       tooltip.select('.label').html(d.data.label);
       tooltip.style('display', 'block');
     });
