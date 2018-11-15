@@ -10,6 +10,9 @@ import { TwitterSentimentAnalysisComponent } from './twitter-sentiment-analysis/
 import { AboutComponent } from './about/about.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
+import { OverlayModule } from './overlay/overlay.module';
+import { EventBusService } from './services/event-bus.service';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +26,12 @@ import { MessagesComponent } from './messages/messages.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    OverlayModule
   ],
-  providers: [],
+  providers: [
+    EventBusService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
