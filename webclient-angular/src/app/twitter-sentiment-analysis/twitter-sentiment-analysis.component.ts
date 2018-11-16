@@ -43,9 +43,8 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
 
     var table = container.append("table")
       .attr("class", "table table-striped");
-
     var caption = table.append("caption").text("Tweets");
-
+   
     var sortAscending = true;
     //table header 
     var thead = table.append("thead").append("tr");
@@ -53,6 +52,27 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
       .data(cols).enter()
       .append("th")
       .text(function (col) { return col; });
+      headers.attr('class', 'header');
+
+      headers.on('click', function (d) {
+        //reset the headers
+        headers.attr('class', 'header');
+
+        if (sortAscending) {
+            rows.sort(function(a,b){
+              return Number(a[d] < b[d]);
+            });
+            sortAscending = false;
+            this["className"] = 'aes';
+        } else {
+            rows.sort(function(a,b){
+              return Number(a[d] > b[d]);
+            });
+            sortAscending = true;
+            this["className"] = 'des';
+        }
+
+    });
     //delete the header row
     data.shift();
 
@@ -78,6 +98,8 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
       .text(function (d) {
         return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
       });
+
+      
   }
 
   //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
@@ -125,13 +147,14 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
       .enter()
       .append('path')
       .attr('d', <any>arc)
-      .attr('fill', function (d:any, i) {
+      .attr('fill', function (d:any) {
         return color(d.data.label);
       });
 
     var tooltip = container
       .append('div')
       .attr('class', 'resultsChartTooltip');
+
     tooltip.append('div')
       .attr('class', 'label');
 
