@@ -78,8 +78,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <warSourceExcludes>assets/**,node_modules/**,views/**,index.html</warSourceExcludes>
-                </configuration>
+                    <warSourceExcludes>assets/**,node_modules/**,views/**</warSourceExcludes>
+                </configuration>               
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -117,7 +117,27 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-angular-dist</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/webapp/</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>../webclient-angular/dist/webclient-angular</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    
 </project>
