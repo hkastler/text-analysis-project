@@ -28,7 +28,8 @@ the specific language governing permissions and limitations under the License. -
         <module>text-analysis</module>
         <module>text-analysis-twitter</module>
         <module>text-analysis-service</module>
-        <module>text-analysis-webclient</module>
+        <module>webclient-angularjs</module>
+        <module>webclient-angular</module>
     </modules>
     <build>
         <plugins>
