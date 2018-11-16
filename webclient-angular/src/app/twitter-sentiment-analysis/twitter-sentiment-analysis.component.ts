@@ -18,7 +18,7 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
   constructor(private twitterSentimentAnalyisService: TwitterSentimentAnalysisService) { }
 
   ngOnInit() {
-    this.model = new TwitterSentimentAnalyzer("pizza", 100);
+    this.model = new TwitterSentimentAnalyzer("chicago pizza", 100);
   }
 
   getSAResults(): void {
@@ -52,7 +52,6 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
       .data(cols).enter()
       .append("th")
       .text(function (col) { return col; });
-      headers.attr('class', 'header');
 
       headers.on('click', function (d) {
         //reset the headers
