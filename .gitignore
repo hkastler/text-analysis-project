@@ -13,7 +13,6 @@ text-analysis-webclient/docs/**
 text-analysis-service/src/main/webapp/assets/**
 text-analysis-service/src/main/webapp/node_modules/**
 text-analysis-service/src/main/webapp/views/**
-text-analysis-service/src/main/webapp/index.html
 text-analysis-webclient/assets/js/jar.min.js
 text-analysis-webclient/assets/js/jar.js
 text-analysis-service/.factorypath
