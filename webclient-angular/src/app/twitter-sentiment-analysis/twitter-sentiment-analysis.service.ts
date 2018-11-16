@@ -13,12 +13,12 @@ export class TwitterSentimentAnalysisService {
     private messageService: MessageService) { }
 
   public getMockSAResults(): Observable<Object> {
-    this.messageService.add('TwitterSentimentAnalysisService: got SA');
+    this.messageService.add('TwitterSentimentAnalysisService.getMockSAResults');
     return of(RESPONSE);
   }
 
   public getSAResults(queryTerms: string, tweetCount: number): Observable<Object> {
-    this.messageService.add('TwitterSentimentAnalysisService.getSAResults');
+    
     var port = window.location.href.indexOf("https://") == 0 ? "8443" : "8080";
 
     var serviceLoc = "//" + window.location.hostname + ":" + port;
