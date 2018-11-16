@@ -3,14 +3,18 @@ import { Observable, of } from 'rxjs';
 import { MessageService } from '../messages/message.service';
 import { HttpClient } from '@angular/common/http';
 import { RESPONSE } from './mock-twitter-sa-response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TwitterSentimentAnalysisService {
 
+  serviceURL:string;
+
   constructor(private http: HttpClient,
-    private messageService: MessageService) { }
+    private messageService: MessageService) 
+    { this.serviceURL = environment.twitterSentimentAnalysisURL}
 
   public getMockSAResults(): Observable<Object> {
     this.messageService.add('TwitterSentimentAnalysisService.getMockSAResults');
@@ -19,12 +23,7 @@ export class TwitterSentimentAnalysisService {
 
   public getSAResults(queryTerms: string, tweetCount: number): Observable<Object> {
     
-    var port = window.location.href.indexOf("https://") == 0 ? "8443" : "8080";
-
-    var serviceLoc = "//" + window.location.hostname + ":" + port;
-    var serviceUrl = '/text-analysis-service/rest/twittersa/sa/';
-    
-    return this.http.get(serviceLoc + serviceUrl + queryTerms + "/" + tweetCount);  
+    return this.http.get( this.serviceURL + queryTerms + "/" + tweetCount);  
 
   }
 }
