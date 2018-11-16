@@ -59,13 +59,13 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
 
         if (sortAscending) {
             rows.sort(function(a,b){
-              return Number(a[d] < b[d]);
+              return d3.ascending(a[d] , b[d]);
             });
             sortAscending = false;
             this["className"] = 'aes';
         } else {
             rows.sort(function(a,b){
-              return Number(a[d] > b[d]);
+              return d3.descending(a[d] , b[d]);
             });
             sortAscending = true;
             this["className"] = 'des';
