@@ -127,7 +127,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/webapp/</outputDirectory>
+                            <outputDirectory>target/webclient-angular</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>

@@ -571,7 +571,7 @@
 			</servlet-container>
 			<handlers>
 				<file name="default-app"
-					path="/app/default" />
+					path="${jboss.home.dir}/welcome-content" />
 			</handlers>
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:webservices:2.0">

@@ -4,8 +4,10 @@ import { TwitterSentimentAnalysisComponent } from './twitter-sentiment-analysis/
 import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
+
+  { path: 'home', component: TwitterSentimentAnalysisComponent },
+  { path: 'about', component: AboutComponent },
   { path: '', component: TwitterSentimentAnalysisComponent },
-  { path: 'about', component: AboutComponent }
 ];
 
 @NgModule({
