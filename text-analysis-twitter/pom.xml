@@ -11,6 +11,7 @@
     </parent>
     <artifactId>text-analysis-twitter</artifactId>
     <name>text-analysis-twitter</name>
+    <version>1.0</version>
     <packaging>jar</packaging>
      <properties>
             <sonar.exclusions>**/*Main*</sonar.exclusions>
