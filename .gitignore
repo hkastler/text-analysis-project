@@ -23,3 +23,4 @@ text-analysis-service/src/main/webapp/favicon.ico
 text-analysis-service/src/main/webapp/*.js
 text-analysis-service/src/main/webapp/*.css
 text-analysis-service/src/main/webapp/3rdpartylicenses.txt
+text-analysis-service/src/main/webapp/index.html
