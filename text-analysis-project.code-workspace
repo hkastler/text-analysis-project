@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "webclient-angular"
+		},
+		{
+			"path": "webclient-react"
 		}
 	],
 	"settings": {
