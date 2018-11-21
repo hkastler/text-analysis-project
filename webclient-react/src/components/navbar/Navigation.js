@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { NavLink } from 'react-router-dom'
 
 
 class Navigation extends React.Component {
@@ -16,11 +16,12 @@ class Navigation extends React.Component {
         <div class="collapse navbar-collapse" ng-controller="navCtrl">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item" >
-              <a class="nav-link" href="#!/">Home</a>
+              <NavLink className="nav-link" activeClassName="nav-link active" to="/home">Home</NavLink>
             </li>
 
             <li class="nav-item" >
-              <a class="nav-link" href="#!/about">About</a>
+              <NavLink className="nav-link"
+                activeClassName="nav-link active" to="/about">About</NavLink>
             </li>
           </ul>
         </div>
