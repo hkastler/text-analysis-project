@@ -24,6 +24,5 @@ text-analysis-service/src/main/webapp/*.js
 text-analysis-service/src/main/webapp/*.css
 text-analysis-service/src/main/webapp/3rdpartylicenses.txt
 text-analysis-service/src/main/webapp/index.html
-text-analysis-service/src/main/webapp/asset-manifest.json
-text-analysis-service/src/main/webapp/manifest.json
+text-analysis-service/src/main/webapp/*.js*
 text-analysis-service/src/main/webapp/static/**
