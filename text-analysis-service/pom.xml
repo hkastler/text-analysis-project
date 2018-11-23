@@ -79,7 +79,7 @@
                 <version>3.2.2</version>
                 <configuration>
                     <warSourceExcludes>node_modules/**</warSourceExcludes>
-                </configuration>               
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -118,6 +118,33 @@
                 </dependencies>
             </plugin>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>clean-webapp</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/WEB-INF/*</exclude>
+                                    </excludes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
@@ -129,6 +156,13 @@
                         </goals>
                         <configuration>
                             <outputDirectory>target/webclient-react</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>../webclient-react/build</directory>
+                                </resource>
+                            </resources>
+                            <outputDirectory>src/main/webapp</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>

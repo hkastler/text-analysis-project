@@ -7,7 +7,7 @@ class Navigation extends React.Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        <a className="navbar-brand" href="/">Twitter Sentiment Analysis</a>
+        <NavLink className="navbar-brand" to="/">Twitter Sentiment Analysis</NavLink>
 
         <button className="navbar-toggler" type="button">
           <span className="navbar-toggler-icon"></span>

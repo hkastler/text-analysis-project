@@ -9,7 +9,7 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename={'/text-analysis-service'}>
         <div className="container" >
           <Navigation />
           <Route exact component={TwitterSentimentAnalysis} path="/" />
