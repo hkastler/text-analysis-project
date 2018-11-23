@@ -67,7 +67,7 @@
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis-twitter</artifactId>
-            <version>1.0</version>
+            <version>1</version>
             <type>jar</type>
         </dependency>
     </dependencies>
@@ -78,7 +78,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <warSourceExcludes>assets/**,node_modules/**,views/**</warSourceExcludes>
+                    <warSourceExcludes>node_modules/**</warSourceExcludes>
                 </configuration>               
             </plugin>
             <plugin>
@@ -122,17 +122,17 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-angular-dist</id>
+                        <id>copy-react-build</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/webapp/</outputDirectory>
+                            <outputDirectory>target/webclient-react</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>../webclient-angular/dist/webclient-angular</directory>
+                                    <directory>../webclient-react/build</directory>
                                 </resource>
                             </resources>
                         </configuration>
