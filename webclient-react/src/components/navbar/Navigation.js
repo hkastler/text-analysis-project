@@ -5,21 +5,21 @@ import { NavLink } from 'react-router-dom'
 class Navigation extends React.Component {
   render() {
     return (
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        <a class="navbar-brand" href="/#">Twitter Sentiment Analysis</a>
+        <a className="navbar-brand" href="/">Twitter Sentiment Analysis</a>
 
-        <button class="navbar-toggler" type="button">
-          <span class="navbar-toggler-icon"></span>
+        <button className="navbar-toggler" type="button">
+          <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" ng-controller="navCtrl">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item" >
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item" >
               <NavLink className="nav-link" activeClassName="nav-link active" to="/home">Home</NavLink>
             </li>
 
-            <li class="nav-item" >
+            <li className="nav-item" >
               <NavLink className="nav-link"
                 activeClassName="nav-link active" to="/about">About</NavLink>
             </li>
