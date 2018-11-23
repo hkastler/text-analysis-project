@@ -10,9 +10,6 @@
 			"path": "text-analysis-twitter"
 		},
 		{
-			"path": "text-analysis-webclient"
-		},
-		{
 			"path": "."
 		},
 		{

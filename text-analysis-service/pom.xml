@@ -149,24 +149,33 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-react-build</id>
+                        <id>copy-react-build-target</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/webclient-react</outputDirectory>
+                            <outputDirectory>${outputDirectory}</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>../webclient-react/build</directory>
+                                    <directory>${resourceDirectory}</directory>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-react-build-webapp</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
                             <outputDirectory>src/main/webapp</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>../webclient-react/build</directory>
+                                    <directory>${resourceDirectory}</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -175,4 +184,20 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>webclient-angular</id>
+            <properties>
+                <resourceDirectory>../webclient-angular/dist/webclient-angular</resourceDirectory>
+                <outputDirectory>target/webclient-angular</outputDirectory>
+            </properties>
+        </profile>
+        <profile>
+            <id>webclient-react</id>
+            <properties>
+                <resourceDirectory>../webclient-react/build</resourceDirectory>
+                <outputDirectory>target/webclient-react</outputDirectory>
+            </properties>            
+        </profile>
+    </profiles>
 </project>
