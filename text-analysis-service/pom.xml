@@ -188,7 +188,7 @@
             <properties>
                 <resourceInputDirectory>../webclient-react/build</resourceInputDirectory>
                 <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
-            </properties>            
+            </properties>
         </profile>
     </profiles>
 </project>

@@ -88,10 +88,7 @@
     opacity: 0.5;
     width: 100%;
   }
-  
-  
-  
-  
+
   /* Loaded */
   .loaded #loader-wrapper .loader-section.section-left {
     -webkit-transform: translateX(-100%);  /* Chrome, Opera 15+, Safari 3.1+ */
