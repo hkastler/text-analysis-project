@@ -1,3 +1,11 @@
-#tweetCountOutput{
-    padding-left: .2em;
+.panel-primary{
+    padding-top: 20px;
+}
+  
+#searchForm legend{
+    font-size: 1.1rem;
+}
+
+#tweetCountLabel{
+    padding-right: .5em;
 }

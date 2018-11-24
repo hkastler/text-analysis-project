@@ -12,6 +12,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
 import { OverlayModule } from './overlay/overlay.module';
 import { EventBusService } from './services/event-bus.service';
+import { DonutChartComponent } from './charts/donut-chart/donut-chart.component';
+
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import { EventBusService } from './services/event-bus.service';
     TwitterSentimentAnalysisComponent,
     AboutComponent,
     NavbarComponent,
-    MessagesComponent
+    MessagesComponent,
+    DonutChartComponent
   ],
   imports: [
     BrowserModule,
