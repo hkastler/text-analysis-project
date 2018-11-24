@@ -149,33 +149,17 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-react-build-target</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${outputDirectory}</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>${resourceDirectory}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>copy-react-build-webapp</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/webapp</outputDirectory>
+                            <outputDirectory>${resourceOutputDirectory}</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>${resourceDirectory}</directory>
+                                    <directory>${resourceInputDirectory}</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -188,15 +172,15 @@
         <profile>
             <id>webclient-angular</id>
             <properties>
-                <resourceDirectory>../webclient-angular/dist/webclient-angular</resourceDirectory>
-                <outputDirectory>target/webclient-angular</outputDirectory>
+                <resourceInputDirectory>../webclient-angular/dist/webclient-angular</resourceInputDirectory>
+                <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
             </properties>
         </profile>
         <profile>
             <id>webclient-react</id>
             <properties>
-                <resourceDirectory>../webclient-react/build</resourceDirectory>
-                <outputDirectory>target/webclient-react</outputDirectory>
+                <resourceInputDirectory>../webclient-react/build</resourceInputDirectory>
+                <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
             </properties>            
         </profile>
     </profiles>
