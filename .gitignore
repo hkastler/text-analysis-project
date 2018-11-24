@@ -26,3 +26,6 @@ text-analysis-service/src/main/webapp/3rdpartylicenses.txt
 text-analysis-service/src/main/webapp/index.html
 text-analysis-service/src/main/webapp/*.js*
 text-analysis-service/src/main/webapp/static/**
+webclient-angularjs/docs/**
+webclient-angularjs/node_modules/**
+webclient-angularjs/dist/**

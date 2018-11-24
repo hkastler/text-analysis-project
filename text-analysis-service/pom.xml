@@ -177,6 +177,13 @@
             </properties>
         </profile>
         <profile>
+            <id>webclient-angularjs</id>
+            <properties>
+                <resourceInputDirectory>../webclient-angularjs/dist/webclient-angularjs</resourceInputDirectory>
+                <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
+            </properties>
+        </profile>
+        <profile>
             <id>webclient-react</id>
             <properties>
                 <resourceInputDirectory>../webclient-react/build</resourceInputDirectory>
