@@ -22,10 +22,3 @@
 rect {
     stroke-width: 2;
 }
-  
-caption{
-      caption-side: top;
-      color: #000000 !important;
-      text-align: center;
-      font-weight: 600;
-}

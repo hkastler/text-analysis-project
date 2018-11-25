@@ -9,24 +9,32 @@ import * as d3 from 'd3';
 })
 export class DonutChartComponent implements OnInit {
 
+  donutData:object;
+
+  constructor(){ }
+
   ngOnInit() {
   }
-  //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
-  static d3Html(donutData, target) {
-   
-    var mydata = donutData;
 
-    var container = d3.select(target);
+  init(donutData: object){
+    this.donutData = donutData;
+  }
+  //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
+  d3Html() {
+   
+    var mydata = this.donutData;
+
+    var container = d3.select("#resultsChart");
     container.html('');
 
-    var posPct = (mydata.positive / mydata.total) * 100;
-    var negPct = (mydata.negative / mydata.total) * 100;
-    var neuPct = (mydata.neutral / mydata.total) * 100;
+    var posPct = (mydata["positive"] / mydata["total"]) * 100;
+    var negPct = (mydata["negative"] / mydata["total"]) * 100;
+    var neuPct = (mydata["neutral"] / mydata["total"]) * 100;
 
     var dataset = [
-      { label: 'Positive ' + Math.round(posPct) + '%', count: mydata.positive },
-      { label: 'Negative ' + Math.round(negPct) + '%', count: mydata.negative },
-      { label: 'Neutral ' + Math.round(neuPct) + '%', count: mydata.neutral }
+      { label: 'Positive ' + Math.round(posPct) + '%', count: mydata["positive"] },
+      { label: 'Negative ' + Math.round(negPct) + '%', count: mydata["negative"] },
+      { label: 'Neutral ' + Math.round(neuPct) + '%', count:mydata["neutral"] }
     ];
 
     var width = 360;
