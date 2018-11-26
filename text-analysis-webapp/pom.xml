@@ -26,9 +26,7 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
-                <configuration>
-                    <warSourceExcludes>node_modules/**</warSourceExcludes>
-                </configuration>
+                <configuration></configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
