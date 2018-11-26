@@ -1,0 +1,8 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!text-analysis-service/target/text-analysis-service.war
+!text-analysis-webapp/target/text-analysis-webapp.war
+!text-analysis-webapp/src/main/webapp
+!standalone-custom.xml
