@@ -1,6 +1,6 @@
 import { Component,  Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import { dsv } from 'd3';
+
 
 @Component({
   selector: 'dsv-table',

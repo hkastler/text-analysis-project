@@ -43,7 +43,5 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
         this.isLoading = false;
       });
   }
-  
-  
 
 }

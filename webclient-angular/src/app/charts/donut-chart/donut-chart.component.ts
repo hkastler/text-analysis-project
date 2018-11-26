@@ -17,8 +17,6 @@ export class DonutChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  
-
   init(donutData: object){
     this.donutData = donutData;
   }
