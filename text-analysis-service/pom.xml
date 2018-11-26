@@ -14,8 +14,7 @@
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <junit.jupiter.version>5.3.1</junit.jupiter.version>
-        <junit.platform.version>1.3.1</junit.platform.version>
-        <sonar.exclusions>src/main/webapp/**</sonar.exclusions>
+        <junit.platform.version>1.3.1</junit.platform.version>        
     </properties>
     <dependencies>
         <dependency>
@@ -117,55 +116,8 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>clean-webapp</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp</directory>
-                                    <includes>
-                                        <include>**</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/WEB-INF/*</exclude>
-                                    </excludes>
-                                    <followSymlinks>false</followSymlinks>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-react-build-webapp</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${resourceOutputDirectory}</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>${resourceInputDirectory}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            
+            
         </plugins>
     </build>
     <profiles>
