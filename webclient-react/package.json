@@ -2,7 +2,7 @@
   "name": "webclient-react",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "/text-analysis-service",
+  "homepage" : "/text-analysis-webapp",
   "dependencies": {
     "@babel/core": "^7.1.6",
     "axios": "^0.18.0",

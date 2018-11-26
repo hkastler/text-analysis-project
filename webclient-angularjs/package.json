@@ -1,5 +1,5 @@
 {
-  "name": "text-analysis-service",
+  "name": "text-analysis-webapp",
   "version": "1.0.0",
   "description": "Simple Single Page Application with Java EE REST API",
   "main": "app.js",
