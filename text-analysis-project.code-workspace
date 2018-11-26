@@ -1,6 +1,9 @@
 {
 	"folders": [
 		{
+			"path": "."
+		},
+		{
 			"path": "text-analysis"
 		},
 		{
@@ -10,10 +13,7 @@
 			"path": "text-analysis-twitter"
 		},
 		{
-			"path": "."
-		},
-		{
-			"path": "C:\\Users\\henry.kastler\\Documents\\GitHub\\docker-ci-tool-stack"
+			"path": "text-analysis-webapp"
 		},
 		{
 			"path": "webclient-angularjs"
@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "webclient-react"
+		},
+		{
+			"path": "C:\\Users\\henry.kastler\\Documents\\GitHub\\docker-ci-tool-stack"
 		}
 	],
 	"settings": {
