@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -9,15 +9,23 @@ import * as d3 from 'd3';
 })
 export class DonutChartComponent implements OnInit {
 
-  donutData:object;
+  @Input() public donutData:object;
+  jDonutData: string;
 
   constructor(){ }
 
   ngOnInit() {
   }
 
+  
+
   init(donutData: object){
     this.donutData = donutData;
+  }
+
+  ngOnChanges(){
+    this.d3Html();
+    this.jDonutData = JSON.stringify(this.donutData);
   }
   //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
   d3Html() {
@@ -26,6 +34,10 @@ export class DonutChartComponent implements OnInit {
 
     var container = d3.select("#resultsChart");
     container.html('');
+
+    if(isNaN(mydata["total"] )){
+      return;
+    }
 
     var posPct = (mydata["positive"] / mydata["total"]) * 100;
     var negPct = (mydata["negative"] / mydata["total"]) * 100;
@@ -76,12 +88,18 @@ export class DonutChartComponent implements OnInit {
       .attr('class', 'label');
 
     path.on('mouseover', function (d:any) {
-      pathtip.select('.label').html(d.data.label);
+      
+      pathtip.select('.label').html(d["data"]["label"]);
       pathtip.style('display', 'block');
+      var labelId = d.data.label.substr(0,3).toLowerCase();
+      document.getElementById(labelId).classList.add('x-large');
+           
     });
 
-    path.on('mouseout', function () {
+    path.on('mouseout', function (d:any) {
       pathtip.style('display', 'none');
+      var labelId = d.data.label.substr(0,3).toLowerCase();
+      document.getElementById(labelId).classList.remove('x-large');
     });
 
     var legend = svg.selectAll('.legend')
@@ -102,6 +120,7 @@ export class DonutChartComponent implements OnInit {
       .style('fill', color)
       .style('stroke', color);
     legend.append('text')
+      .attr('id',function (d) { return d.substr(0,3).toLowerCase(); })
       .attr('x', legendRectSize + legendSpacing)
       .attr('y', legendRectSize - legendSpacing)
       .text(function (d) { return d; });

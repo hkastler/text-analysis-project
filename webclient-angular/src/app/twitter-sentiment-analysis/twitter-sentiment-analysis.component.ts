@@ -2,8 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TwitterSentimentAnalysisService } from './twitter-sentiment-analysis.service'
 import { TwitterSentimentAnalyzer } from './twitter-sentiment-analyzer';
 
-import { DonutChartComponent } from '../charts/donut-chart/donut-chart.component';
-import { DsvTableComponent } from '../charts/dsv-table/dsv-table.component';
 
 @Component({
   selector: 'app-twitter-sentiment-analysis',
@@ -15,49 +13,37 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
 
   model: TwitterSentimentAnalyzer;
   resultsTotal: string;
-  serviceResponse: object;
-  dsvTable: DsvTableComponent;
-  donutChart:DonutChartComponent;
-
+  isLoading: boolean;
+  dsvData: string;
+  delimiter: string;
+  donutChartObj: object;
+  
   constructor(private twitterSentimentAnalyisService: TwitterSentimentAnalysisService) { }
 
   ngOnInit() {
-    this.model = new TwitterSentimentAnalyzer("thanksgiving leftovers", 100);
-    this.dsvTable = new DsvTableComponent();
-    this.donutChart = new DonutChartComponent();
+    this.model = new TwitterSentimentAnalyzer("chicago pizza", 100);
+    this.dsvData = "";
+    this.delimiter = "~";
+    this.donutChartObj = {};
   }
 
   getSAResults(): void {
+    this.isLoading = true;
     this.twitterSentimentAnalyisService
       .getSAResults(this.model.queryTerms, this.model.tweetCount)
       .subscribe(response => {
-        
-        this.serviceResponse = response; 
+        if(Array.isArray(response)){
+          this.donutChartObj = response[0];
+          this.dsvData = response[1]; 
+        }
       }, (err) => {
+        this.isLoading = false;
         console.log(err);
       }, () => {
-        if(Array.isArray(this.serviceResponse)){
-
-          this.handleResponse();
-        }
+        this.isLoading = false;
       });
   }
-
-  handleResponse() {
-    
-      this.resultsTotal = JSON.stringify(this.serviceResponse[0]);
-      this.getD3DonutChart(this.serviceResponse[0]);
-      this.getD3Table(this.serviceResponse[1]);
-    
-  }
-
-  async getD3DonutChart(data){    
-    this.donutChart.init(data);
-    this.donutChart.d3Html();
-  }
-  async getD3Table(data){    
-    this.dsvTable.init(data,"~");
-    this.dsvTable.d3Html();
-  }
+  
+  
 
 }

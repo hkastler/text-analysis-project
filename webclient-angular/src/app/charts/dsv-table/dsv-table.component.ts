@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component,  Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { dsv } from 'd3';
 
@@ -10,8 +10,8 @@ import { dsv } from 'd3';
 })
 export class DsvTableComponent implements OnInit {
   
-  dsvdata: string;
-  delimiter: string;
+  @Input() public dsvdata: string;
+  @Input() public delimiter: string;
 
   constructor() { }
 
@@ -21,6 +21,10 @@ export class DsvTableComponent implements OnInit {
   init(dsvdata:string, delimiter:string){
     this.dsvdata = dsvdata;
     this.delimiter = delimiter;
+  }
+
+  ngOnChanges(){
+    this.d3Html();
   }
 
   d3Html() {
@@ -33,7 +37,8 @@ export class DsvTableComponent implements OnInit {
 
     var table = container.append("table")
       .attr("class", "table table-striped");
-    var caption = table.append("caption").text("Tweets");
+    var caption = table.append("caption");
+    caption.text("Tweets");
    
     var sortAscending = true;
     //table header 

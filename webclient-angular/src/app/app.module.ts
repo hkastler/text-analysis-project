@@ -14,6 +14,7 @@ import { OverlayModule } from './overlay/overlay.module';
 import { EventBusService } from './services/event-bus.service';
 import { DonutChartComponent } from './charts/donut-chart/donut-chart.component';
 import { DsvTableComponent } from './charts/dsv-table/dsv-table.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 
@@ -25,7 +26,8 @@ import { DsvTableComponent } from './charts/dsv-table/dsv-table.component';
     NavbarComponent,
     MessagesComponent,
     DonutChartComponent,
-    DsvTableComponent
+    DsvTableComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

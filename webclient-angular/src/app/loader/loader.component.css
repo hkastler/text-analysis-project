@@ -1,14 +1,3 @@
-.panel-primary{
-    padding-top: 20px;
-}
-  
-#searchForm legend{
-    font-size: 2rem;
-}
-#tweetCountOutput{
-    padding-left: .5em;
-}
-
 .overlay {
     display:none;
   }
@@ -131,4 +120,6 @@
   .loaded #loader-wrapper {
     visibility: hidden;
   }
+  
+  
   
