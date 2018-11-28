@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MessageService } from '../messages/message.service';
 import { HttpClient } from '@angular/common/http';
 import { RESPONSE } from './mock-twitter-sa-response';
 import { environment } from 'src/environments/environment';
@@ -12,12 +11,10 @@ export class TwitterSentimentAnalysisService {
 
   serviceURL:string;
 
-  constructor(private http: HttpClient,
-    private messageService: MessageService) 
+  constructor(private http: HttpClient) 
     { this.serviceURL = environment.twitterSentimentAnalysisURL}
 
-  public getMockSAResults(): Observable<Object> {
-    this.messageService.add('TwitterSentimentAnalysisService.getMockSAResults');
+  public getMockSAResults(): Observable<Object> {    
     return of(RESPONSE);
   }
 
