@@ -13,10 +13,8 @@
     <name>webclient-react</name>
     <packaging>pom</packaging>
     <properties>
-            <sonar.sources>./</sonar.sources>
-            <sonar.exclusions>**/node_modules/**</sonar.exclusions>
-            <sonar.language>web</sonar.language>
-            <sonar.web.file.suffixes>.html,.js</sonar.web.file.suffixes>
+            <sonar.sources>./src</sonar.sources>
+            <sonar.exclusions>**/node_modules/**, **/e2e/**</sonar.exclusions>            
     </properties>
     
     <build>
