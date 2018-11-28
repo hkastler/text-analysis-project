@@ -10,7 +10,7 @@ target/*
 webclient-angularjs/.vscode/settings.json
 webclient-angularjs/package-lock.json
 webclient-angularjs/yarn.lock
-webclient-angularjs/node_modules/**
+webclient-angularjs/node_modules/*
 webclient-angularjs/docs/**
 webclient-angularjs/assets/js/jar.min.js
 webclient-angularjs/assets/js/jar.js
