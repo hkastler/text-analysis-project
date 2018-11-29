@@ -14,7 +14,8 @@
     <packaging>pom</packaging>
     <properties>
             <sonar.sources>./src</sonar.sources>
-            <sonar.exclusions>**/node_modules/**, **/e2e/**</sonar.exclusions>            
+            <sonar.exclusions>**/node_modules/**, **/e2e/**</sonar.exclusions>
+            <sonar.javascript.lcov.reportPaths>./coverage/lcov.info</sonar.javascript.lcov.reportPaths>
     </properties>
     
     <build>
@@ -43,7 +44,20 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>yarn</executable>
+                            <arguments>
+                                <argument>test</argument>
+                                <argument>--coverage</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
