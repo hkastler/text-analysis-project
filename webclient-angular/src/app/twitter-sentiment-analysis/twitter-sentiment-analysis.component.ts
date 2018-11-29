@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { TwitterSentimentAnalysisService } from './twitter-sentiment-analysis.service'
 import { TwitterSentimentAnalyzer } from './twitter-sentiment-analyzer';
+
 
 
 @Component({
@@ -11,7 +12,7 @@ import { TwitterSentimentAnalyzer } from './twitter-sentiment-analyzer';
 })
 export class TwitterSentimentAnalysisComponent implements OnInit {
 
-  model: TwitterSentimentAnalyzer;
+  @Input() model: TwitterSentimentAnalyzer;
   resultsTotal: string;
   isLoading: boolean;
   dsvData: string;
