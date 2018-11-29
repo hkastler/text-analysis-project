@@ -29,6 +29,7 @@
     "jquery": "3.3.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "popper.js": "1.14.4",
+    "puppeteer": "^1.10.0",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },
