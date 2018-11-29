@@ -47,26 +47,7 @@ export class DsvTableComponent implements OnInit {
       .data(cols).enter()
       .append("th")
       .text(function (col) { return col; });
-
-      headers.on('click', function (d) {
-        //reset the headers
-        headers.attr('class', 'header');
-
-        if (sortAscending) {
-            rows.sort(function(a,b){
-              return d3.ascending(a[d] , b[d]);
-            });
-            sortAscending = false;
-            this["className"] = 'aes';
-        } else {
-            rows.sort(function(a,b){
-              return d3.descending(a[d] , b[d]);
-            });
-            sortAscending = true;
-            this["className"] = 'des';
-        }
-
-    });
+    
     //delete the header row
     data.shift();
 
@@ -93,6 +74,23 @@ export class DsvTableComponent implements OnInit {
         return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
       });
 
+      headers.on('click', function (d) {
+        //reset the headers
+        headers.attr('class', 'header');
+        if (sortAscending) {
+            rows.sort(function(a,b){
+              return d3.ascending(a[d] , b[d]);
+            });
+            sortAscending = false;
+            this["className"] = 'aes';
+        } else {
+            rows.sort(function(a,b){
+              return d3.descending(a[d] , b[d]);
+            });
+            sortAscending = true;
+            this["className"] = 'des';
+        }
+    });
       
   }
 
