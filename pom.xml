@@ -20,6 +20,7 @@ the specific language governing permissions and limitations under the License. -
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- sonar props -->
         <sonar.host.url>http://sonar:9000</sonar.host.url>
+        <sonar.sources>./src/main</sonar.sources>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
     </properties>
@@ -29,7 +30,7 @@ the specific language governing permissions and limitations under the License. -
         <module>text-analysis-service</module>
         <module>webclient-angular</module>
         <module>webclient-react</module>
-        <module>text-analysis-webapp</module>        
+        <module>text-analysis-webapp</module>
     </modules>
     <build>
         <plugins>
