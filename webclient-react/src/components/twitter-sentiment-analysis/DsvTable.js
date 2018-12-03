@@ -8,30 +8,77 @@ class DsvTable {
     this.target = target
   }
 
-  d3Html() {
+  getData(delimiter, dsvdata) {
+    var data = d3.dsvFormat(delimiter).parse(dsvdata);
+    return data;
+  }
 
-    var data = d3.dsvFormat(this.delimiter).parse(this.dsvdata);
-    var cols = d3.keys(data[0]);
+  getContainer(target) {
+    var container = d3.select(target);
+    if (container.empty()) {
+      container = d3.select("body").append("div")
+      .attr("id",target);
+    }
+    return container;
+  }
 
-    var container = d3.select(this.target);
-    container.html('');
+  getTable(container, className, caption) {
+    var table = container.append("table");
+    table.attr("class", className);
+    table.append("caption").text(caption);
+    return table;
+  }
 
-    var table = container.append("table")
-      .attr("class", "table table-striped");
-    table.append("caption").text("Tweets");
-
-    var sortAscending = true;
+  getHeaders(table, headerData) {
     //table header 
     var thead = table.append("thead").append("tr");
     var headers = thead.selectAll("th")
-      .data(cols).enter()
+      .data(headerData).enter()
       .append("th")
-      .text(function (col) { return col; });
+      .text(function (headerName) { return headerName; });
+    return headers;
+  }
 
-    headers.on('click', function (d) {
+  getRows(table, data, headerData) {
+    //table body
+    var tbody = table.append("tbody");
+    var rows = tbody.selectAll("tr")
+      //output remaining rows
+      .data(data).enter()
+      .append("tr");
+
+    // http://bl.ocks.org/AMDS/4a61497182b8fcb05906
+    rows.selectAll('td')
+      .data(function (d) {
+        return headerData.map(function (k) {
+          return { 'value': d[k], 'name': k };
+        });
+      }).enter()
+      .append('td')
+      .attr('data-th', function (d) {
+        return d.name;
+      })
+      .text(function (d) {
+        return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
+      });
+    return rows;
+  }
+
+  d3Html() {
+
+    var data = this.getData(this.delimiter, this.dsvdata);
+    var container = this.getContainer(this.target);
+    container.html('');
+
+    var table = this.getTable(container, "table table-striped", "Tweets");
+    var headers = d3.keys(data[0]);
+    var headerRow = this.getHeaders(table, headers);
+    var rows = this.getRows(table, data, headers);
+
+    var sortAscending = true;
+    headerRow.on('click', function (d) {
       //reset the headers
-      headers.attr('class', 'header');
-
+      headerRow.attr('class', 'header');
       if (sortAscending) {
         rows.sort(function (a, b) {
           return d3.ascending(a[d], b[d]);
@@ -45,33 +92,7 @@ class DsvTable {
         sortAscending = true;
         this["className"] = 'des';
       }
-
     });
-    //delete the header row
-    data.shift();
-
-    //table body
-    var tbody = table.append("tbody");
-
-    var rows = tbody.selectAll("tr")
-      //output remaining rows
-      .data(data).enter()
-      .append("tr");
-
-    // http://bl.ocks.org/AMDS/4a61497182b8fcb05906
-    rows.selectAll('td')
-      .data(function (d) {
-        return cols.map(function (k) {
-          return { 'value': d[k], 'name': k };
-        });
-      }).enter()
-      .append('td')
-      .attr('data-th', function (d) {
-        return d.name;
-      })
-      .text(function (d) {
-        return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
-      });
   }
 }
 export default DsvTable;
