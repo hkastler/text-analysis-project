@@ -11,10 +11,23 @@ export class DonutChartComponent implements OnInit {
 
   @Input() public donutData:object;
   jDonutData: string;
+  width: number;
+  height: number;
+  donutWidth: number;
+  legendRectSize: number;
+  legendSpacing: number;
+  radius: number;
 
   constructor(){ }
 
   ngOnInit() {
+   this.width = 360;
+   this.height = 360;
+   this.donutWidth = 75;
+   this.legendRectSize = 18;
+   this.legendSpacing = 4;
+   this.radius = Math.min(this.width, this.height) / 2;
+   this.jDonutData = "";
   }
 
   init(donutData: object){
@@ -25,13 +38,11 @@ export class DonutChartComponent implements OnInit {
     this.d3Html();
     this.jDonutData = JSON.stringify(this.donutData);
   }
-  //https://github.com/zeroviscosity/d3-js-step-by-step/blob/master/step-3-adding-a-legend.html
+
   d3Html() {
    
     var mydata = this.donutData;
-
-    var container = d3.select("#resultsChart");
-    container.html('');
+    var container = this.getContainer("resultsChart");
 
     if(isNaN(mydata["total"] )){
       return;
@@ -47,51 +58,21 @@ export class DonutChartComponent implements OnInit {
       { label: 'Neutral ' + Math.round(neuPct) + '%', count:mydata["neutral"] }
     ];
 
-    var width = 360;
-    var height = 360;
-    var radius = Math.min(width, height) / 2;
-    var donutWidth = 75;
-    var legendRectSize = 18;
-    var legendSpacing = 4;
     var color = d3.scaleOrdinal(d3.schemeCategory10);
-    var figure = container.append("figure");
-    var svg = figure.append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', 'translate(' + (width / 2) +
-        ',' + (height / 2) + ')');
-    var arc = d3.arc()
-      .innerRadius(radius - donutWidth)
-      .outerRadius(radius);
 
-    var pie = d3.pie()
-      .value(function (d:any) { return d.count; })
-      .sort(null);
+    var svg = this.getSvg(container);
+   
+    var path = this.getPie(dataset,svg,color);
 
-    var path = svg.selectAll('path')
-      .data(pie(<any>dataset))
-      .enter()
-      .append('path')
-      .attr('d', <any>arc)
-      .attr('fill', function (d:any) {
-        return color(d.data.label);
-      });
+    this.getLegend(svg, color, this.legendRectSize, this.legendSpacing);
 
-    var pathtip = container
-      .append('div')
-      .attr('class', 'pathtip');
-
-      pathtip.append('div')
-      .attr('class', 'label');
+    var pathtip = this.getPathtip(container);
 
     path.on('mouseover', function (d:any) {
-      
-      pathtip.select('.label').html(d["data"]["label"]);
+      pathtip.select('.label').html(d.data.label);
       pathtip.style('display', 'block');
       var labelId = d.data.label.substr(0,3).toLowerCase();
       document.getElementById(labelId).classList.add('x-large');
-           
     });
 
     path.on('mouseout', function (d:any) {
@@ -100,28 +81,80 @@ export class DonutChartComponent implements OnInit {
       document.getElementById(labelId).classList.remove('x-large');
     });
 
+  }
+  getContainer(target){
+    var container = d3.select("#" + target);
+    container.html('');
+    return container;
+  }
+  getSvg(container){
+    var figure = container.append("figure");
+    var svg = figure.append('svg')
+      .attr('width', this.width)
+      .attr('height', this.height)
+      .append('g')
+      .attr('transform', 'translate(' + (this.width / 2) +
+        ',' + (this.height / 2) + ')');
+    return svg;
+  }
+
+  getPie(dataset, svg, color){
+    var pie = d3.pie()
+      .value(function (d:any) { return d.count; })
+      .sort(null);
+    
+    var arc = d3.arc()
+      .innerRadius(this.radius - this.donutWidth)
+      .outerRadius(this.radius);
+
+    var path = svg.selectAll('path')
+      .data(pie(dataset))
+      .enter()
+      .append('path')
+      .attr('d', <any>arc)
+      .attr('fill', function (d:any) {
+        return color(d.data.label);
+      });
+
+      return path;
+  }
+
+  getLegend(svg, color, size, spacing){
     var legend = svg.selectAll('.legend')
       .data(color.domain())
       .enter()
       .append('g')
       .attr('class', 'legend')
       .attr('transform', function (d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = height * color.domain().length / 2;
-        var horz = -2 * legendRectSize;
-        var vert = i * height - offset;
+        var h = size + spacing;
+        var offset = h * color.domain().length / 2;
+        var horz = -2 * size;
+        var vert = i * h - offset;
         return 'translate(' + horz + ',' + vert + ')';
       });
     legend.append('rect')
-      .attr('width', legendRectSize)
-      .attr('height', legendRectSize)
+      .attr('width', size)
+      .attr('height', size)
       .style('fill', color)
       .style('stroke', color);
     legend.append('text')
       .attr('id',function (d) { return d.substr(0,3).toLowerCase(); })
-      .attr('x', legendRectSize + legendSpacing)
-      .attr('y', legendRectSize - legendSpacing)
+      .attr('x', size + spacing)
+      .attr('y', size - spacing)
       .text(function (d) { return d; });
   }
+  
+  getPathtip(container){
+    var pathtip = container
+      .append('div')
+      .attr('class', 'pathtip');
+
+      pathtip.append('div')
+      .attr('class', 'label');
+
+    return pathtip;
+  }
+  
+  
 
 }

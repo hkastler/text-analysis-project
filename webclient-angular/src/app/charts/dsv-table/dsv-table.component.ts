@@ -1,4 +1,4 @@
-import { Component,  Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 
@@ -9,60 +9,76 @@ import * as d3 from 'd3';
   encapsulation: ViewEncapsulation.None
 })
 export class DsvTableComponent implements OnInit {
-  
+
   @Input() public dsvdata: string;
   @Input() public delimiter: string;
+  target: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.target="resultsTable";
   }
 
-  init(dsvdata:string, delimiter:string){
+  init(dsvdata: string, delimiter: string) {
     this.dsvdata = dsvdata;
     this.delimiter = delimiter;
   }
 
-  ngOnChanges(){
-    this.d3Html();
+  ngOnChanges() {
+    if(this.dsvdata.length > 0){
+      this.d3Html();
+    }
   }
 
-  d3Html() {
+  parseData(delimiter, dsvdata) {
+    var data = d3.dsvFormat(delimiter).parse(dsvdata, function(line){
+      return line;
+    });
+    return data;
+  }
 
-    var data = d3.dsvFormat(this.delimiter).parse(this.dsvdata);
-    var cols = d3.keys(data[0]);
+  getContainer(target) {
+    var container;
+    container= d3.select("#"+target);
+    if (container.empty()) {
+      container = d3.select("body").append("div")
+      .attr("id",target);
+    }
+    return container;
+  }
 
-    var container = d3.select("#resultsTable");
-    container.html('');
+  getTable(container, id, className, caption) {
+    var table = container.append("table");
+    table.attr("id", id)
+    table.attr("class", className);
+    table.append("caption").text(caption);
+    return table;
+  }
 
-    var table = container.append("table")
-      .attr("class", "table table-striped");
-    var caption = table.append("caption");
-    caption.text("Tweets");
-   
-    var sortAscending = true;
+  getHeaders(table, headerData) {
     //table header 
     var thead = table.append("thead").append("tr");
     var headers = thead.selectAll("th")
-      .data(cols).enter()
+      .data(headerData).enter()
       .append("th")
-      .text(function (col) { return col; });
-    
-    //delete the header row
-    data.shift();
+      .text(function (headerName) { return headerName; });
+    return headers;
+  }
 
+  getRows(table, data, headerData) {
     //table body
     var tbody = table.append("tbody");
-
+    tbody.attr("id", "d3Tbody");    
     var rows = tbody.selectAll("tr")
       //output remaining rows
       .data(data).enter()
       .append("tr");
-
+      
     // http://bl.ocks.org/AMDS/4a61497182b8fcb05906
     rows.selectAll('td')
       .data(function (d) {
-        return cols.map(function (k) {
+        return headerData.map(function (k) {
           return { 'value': d[k], 'name': k };
         });
       }).enter()
@@ -74,24 +90,40 @@ export class DsvTableComponent implements OnInit {
         return d.value.replace(/&quot;/g, "\"").replace(/&tilde;/g, "~");
       });
 
-      headers.on('click', function (d) {
-        //reset the headers
-        headers.attr('class', 'header');
-        if (sortAscending) {
-            rows.sort(function(a,b){
-              return d3.ascending(a[d] , b[d]);
-            });
-            sortAscending = false;
-            this["className"] = 'aes';
-        } else {
-            rows.sort(function(a,b){
-              return d3.descending(a[d] , b[d]);
-            });
-            sortAscending = true;
-            this["className"] = 'des';
-        }
+    return rows;
+  }
+
+  d3Html() {
+    
+    var parsedData = this.parseData(this.delimiter,this.dsvdata);
+       
+    var container = this.getContainer(this.target);
+    container.html('');
+    
+    var table = this.getTable(container, "d3HtmlTable", "table table-striped", "Tweets");
+    var headers = d3.keys(parsedData[0]);
+
+    var headerRow = this.getHeaders(table, headers);
+    var rows = this.getRows(table, parsedData, headers);
+
+    var sortAscending = true;
+    headerRow.on('click', function (d) {
+      //reset the headers
+      headerRow.attr('class', 'header');
+      if (sortAscending) {
+        rows.sort(function (a, b) {
+          return d3.ascending(a[d], b[d]);
+        });
+        sortAscending = false;
+        this["className"] = 'aes';
+      } else {
+        rows.sort(function (a, b) {
+          return d3.descending(a[d], b[d]);
+        });
+        sortAscending = true;
+        this["className"] = 'des';
+      }
     });
-      
   }
 
 }
