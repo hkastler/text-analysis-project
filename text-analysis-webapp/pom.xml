@@ -14,6 +14,11 @@
         <artifactId>text-analysis-project</artifactId>
         <version>1.0</version>
     </parent>
+    <properties>
+            <sonar.sources>src</sonar.sources>
+            <sonar.exclusions>**/webapp/**</sonar.exclusions>
+            <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
