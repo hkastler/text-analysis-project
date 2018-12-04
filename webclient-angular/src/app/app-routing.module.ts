@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TwitterSentimentAnalysisComponent } from './twitter-sentiment-analysis/twitter-sentiment-analysis.component';
 import { AboutComponent } from './about/about.component';
+import {APP_BASE_HREF} from '@angular/common';
 
 export const routes: Routes = [
   { path: '', component: TwitterSentimentAnalysisComponent },
@@ -11,6 +12,7 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [{provide: APP_BASE_HREF, useValue: '/text-analysis-webapp/'}]
 })
 export class AppRoutingModule { }

@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <properties>
             <sonar.sources>src</sonar.sources>
-            <sonar.exclusions>**.spec.ts,**/karma.conf.js</sonar.exclusions>
+            <sonar.exclusions>**.spec.ts,**/karma.conf.js, **/main.ts</sonar.exclusions>
             <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
     </properties>    
     <build>
@@ -62,6 +62,20 @@
                             <arguments>
                                 <argument>test</argument>
                                 <argument>--code-coverage</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>e2e</id>
+                        <phase></phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>ng</executable>
+                            <arguments>
+                                <argument>e2e</argument>
+                                <argument>--dev-server-target=</argument> 
                             </arguments>
                         </configuration>
                     </execution>

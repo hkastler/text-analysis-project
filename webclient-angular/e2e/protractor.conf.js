@@ -9,10 +9,11 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    browserName: 'chrome'
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
+  baseHref: "/text-analysis-webapp/",
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
