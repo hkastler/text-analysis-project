@@ -17,7 +17,7 @@ export class DsvTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.target="resultsTable";
+    this.target = "resultsTable";
   }
 
   init(dsvdata: string, delimiter: string) {

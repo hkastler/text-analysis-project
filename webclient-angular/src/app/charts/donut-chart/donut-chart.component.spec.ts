@@ -25,18 +25,40 @@ describe('DonutChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should create a donut chart', () => {
     component.ngOnInit();
-    component.init(RESPONSE[0])
+    component.init(RESPONSE[0]);
     component.ngOnChanges();
     expect(component).toBeTruthy();
     expect(getDonut().size()).toBe(1);
     expect(getPaths().size()).toBe(3);
     expect(getLegends().size()).toBe(3);
     expect(getPathtip().empty()).toBe(false);
+       
   });
 
+  it('should do a mouseover/mouseout event', () => {
+    component.ngOnInit();
+    component.init(RESPONSE[0]);
+    component.ngOnChanges();
+        
+    document.querySelector('#resultsChart > figure > svg > g > path')
+    .dispatchEvent(new MouseEvent('mouseover'));
+    
+    let pel =  document.getElementById("pathtip");
+    
+    let style = pel.getAttribute("style");
+    expect(style).toBe("display: block;");
+
+    document.querySelector('#resultsChart > figure > svg > g > path')
+    .dispatchEvent(new MouseEvent('mouseout'));
+    
+    style = pel.getAttribute("style");
+    expect(style).toBe("display: none;");
+   
+  });
+  
+  
   function getDonut() {
     return d3.select("svg");
   }
@@ -50,7 +72,7 @@ describe('DonutChartComponent', () => {
   }
 
   function getPathtip() {
-    return d3.select(".pathtip");
+    return d3.select("#pathtip");
   }
   
 });

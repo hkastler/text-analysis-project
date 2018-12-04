@@ -147,7 +147,9 @@ export class DonutChartComponent implements OnInit {
   getPathtip(container){
     var pathtip = container
       .append('div')
-      .attr('class', 'pathtip');
+      .attr('id','pathtip')
+      .attr('class', 'pathtip')
+      .attr('style', 'display:none');
 
       pathtip.append('div')
       .attr('class', 'label');
