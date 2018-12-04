@@ -1,7 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component'
+import { NavbarComponent } from './navbar/navbar.component';
+import { AboutComponent } from './about/about.component';
 
 var title = "Twitter Sentiment Analysis";
 
@@ -14,7 +15,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        NavbarComponent
+        NavbarComponent,
+        AboutComponent
       ],
     }).compileComponents();
   }));

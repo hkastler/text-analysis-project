@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { TwitterSentimentAnalysisService } from './twitter-sentiment-analysis.service'
 import { TwitterSentimentAnalyzer } from './twitter-sentiment-analyzer';
+import { Observable } from 'rxjs';
 
 
 
@@ -32,17 +33,20 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
     this.isLoading = true;
     this.twitterSentimentAnalyisService
       .getSAResults(this.model.queryTerms, this.model.tweetCount)
-      .subscribe(response => {
-        if(Array.isArray(response)){
+      .subscribe(
+        response => {
           this.donutChartObj = response[0];
           this.dsvData = response[1]; 
+          
+        }, 
+        err => {
+          this.isLoading = false;
+          console.error('err:', err.message);
+        }, 
+        () => {
+          this.isLoading = false;
         }
-      }, (err) => {
-        this.isLoading = false;
-        console.log(err);
-      }, () => {
-        this.isLoading = false;
-      });
+      );
   }
 
 }

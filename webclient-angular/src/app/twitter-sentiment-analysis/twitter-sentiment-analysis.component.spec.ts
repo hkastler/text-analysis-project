@@ -7,7 +7,8 @@ import { DonutChartComponent } from '../charts/donut-chart/donut-chart.component
 import { LoaderComponent } from '../loader/loader.component';
 import { TwitterSentimentAnalysisComponent } from './twitter-sentiment-analysis.component';
 import { TwitterSentimentAnalysisService } from './twitter-sentiment-analysis.service'
-import { of } from 'rxjs';
+import { of, Observable, throwError } from 'rxjs';
+
 import './mock-twitter-sa-response';
 import { RESPONSE } from './mock-twitter-sa-response';
 
@@ -20,11 +21,11 @@ class MockTwitterSentimentAnalysisService {
 describe('TwitterSentimentAnalysisComponent', () => {
   let component: TwitterSentimentAnalysisComponent;
   let fixture: ComponentFixture<TwitterSentimentAnalysisComponent>;
+  let twitterSentimentAnalysisService: TwitterSentimentAnalysisService;
 
   beforeEach(async(() => {
     let injector;
-    let twitterSentimentAnalysisService: TwitterSentimentAnalysisService;
-
+    
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -55,5 +56,20 @@ describe('TwitterSentimentAnalysisComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('should get dsvdata', () => {
+    component.getSAResults();
+    expect(component.dsvData).toBe(RESPONSE[1].toString());
+  });
+
+  it('should handle a bad service call', () => {
+    twitterSentimentAnalysisService = TestBed.get(TwitterSentimentAnalysisService);
+    spyOn(twitterSentimentAnalysisService, 'getSAResults').and.returnValue(throwError('Error'));
+    component.getSAResults();
+    expect(twitterSentimentAnalysisService.getSAResults).toHaveBeenCalled();
+    expect(component.isLoading).toBe(false);
+  });
+
 });
 
