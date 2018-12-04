@@ -37,7 +37,6 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
         response => {
           this.donutChartObj = response[0];
           this.dsvData = response[1]; 
-          
         }, 
         err => {
           this.isLoading = false;

@@ -6,7 +6,6 @@ import { AboutComponent } from './about/about.component';
 
 var title = "Twitter Sentiment Analysis";
 
-
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
