@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { TwitterSentimentAnalysisComponent } from './twitter-sentiment-analysis/twitter-sentiment-analysis.component';
 import { AboutComponent } from './about/about.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', component: TwitterSentimentAnalysisComponent },
+  { path: 'home', component: TwitterSentimentAnalysisComponent },
   { path: 'about', component: AboutComponent }
 ];
 
