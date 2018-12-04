@@ -13,11 +13,10 @@
     <name>webclient-react</name>
     <packaging>pom</packaging>
     <properties>
-            <sonar.sources>./src</sonar.sources>
+            <sonar.sources>src</sonar.sources>
             <sonar.exclusions>**/node_modules/**, **/e2e/**</sonar.exclusions>
-            <sonar.javascript.lcov.reportPaths>./target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
-    </properties>
-    
+            <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+    </properties>    
     <build>
         <plugins>
             <plugin>
