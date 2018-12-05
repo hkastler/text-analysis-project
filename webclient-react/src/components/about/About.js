@@ -6,8 +6,8 @@ class About extends React.Component {
 
     render() {
         return (
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div className="panel panel-primary">
+                <div className="panel-heading">
                     <h1>About</h1>
                 </div>
                 <p>Machine Learning, Jakarta EE, React, Bootstrap, D3 </p>

@@ -1,11 +1,19 @@
 import * as d3 from 'd3';
+import React from 'react';
 
-class DsvTable {
+class DsvTable extends React.Component{
 
   constructor(dsvdata, delimiter, target) {
+    super();
     this.dsvdata = dsvdata;
     this.delimiter = delimiter;
     this.target = target
+  }
+
+  render() {
+    return (
+      <div id="resultsTable"></div>
+    );
   }
 
   getData(delimiter, dsvdata) {

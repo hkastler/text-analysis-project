@@ -1,0 +1,28 @@
+#resultsChart {
+    height: 360px;
+    position: relative;
+    width: 100%; 
+}
+
+.pathtip {
+    background: #eee;
+    box-shadow: 0 0 5px #999999;
+    color: #333;
+    display: none;
+    font-size: 11px;
+    left: 140px;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    top: 95px;
+    width: 80px;
+    z-index: 10;
+}
+
+.x-large {
+    font-size: 150%;
+}
+  
+rect {
+    stroke-width: 2;
+}

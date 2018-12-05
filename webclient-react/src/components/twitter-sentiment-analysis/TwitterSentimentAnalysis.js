@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from '../loader/Loader';
-import DonutChart from './DonutChart';
-import DsvTable from './DsvTable';
+import DonutChart from '../charts/donut-chart/DonutChart';
+import DsvTable from '../charts/dsv-table/DsvTable';
 import './TwitterSentimentAnalysis.css';
 
 class TwitterSentimentAnalysis extends React.Component {
@@ -107,10 +107,10 @@ class TwitterSentimentAnalysis extends React.Component {
                             </fieldset>
                         </form>
 
-                        <div id="resultsChart"></div>
+                        <DonutChart/>
                         <div id="totals">{this.state.totals}</div>
                         <hr />
-                        <div id="resultsTable"></div>
+                        <DsvTable/>
                     </div>
 
                 </div>
