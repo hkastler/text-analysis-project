@@ -41,55 +41,55 @@ export class DonutChartComponent implements OnInit {
 
   d3Html() {
    
-    var mydata = this.donutData;
-    var container = this.getContainer("resultsChart");
+    let mydata = this.donutData;
+    let container = this.getContainer("resultsChart");
 
     if(isNaN(mydata["total"] )){
       return;
     }
 
-    var posPct = (mydata["positive"] / mydata["total"]) * 100;
-    var negPct = (mydata["negative"] / mydata["total"]) * 100;
-    var neuPct = (mydata["neutral"] / mydata["total"]) * 100;
+    let posPct = (mydata["positive"] / mydata["total"]) * 100;
+    let negPct = (mydata["negative"] / mydata["total"]) * 100;
+    let neuPct = (mydata["neutral"] / mydata["total"]) * 100;
 
-    var dataset = [
+    let dataset = [
       { label: 'Positive ' + Math.round(posPct) + '%', count: mydata["positive"] },
       { label: 'Negative ' + Math.round(negPct) + '%', count: mydata["negative"] },
       { label: 'Neutral ' + Math.round(neuPct) + '%', count:mydata["neutral"] }
     ];
 
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    let svg = this.getSvg(container);
 
-    var svg = this.getSvg(container);
+    let color = d3.scaleOrdinal(d3.schemeCategory10);
    
-    var path = this.getPie(dataset,svg,color);
+    let path = this.getPie(dataset,svg,color);
 
     this.getLegend(svg, color, this.legendRectSize, this.legendSpacing);
 
-    var pathtip = this.getPathtip(container);
+    let pathtip = this.getPathtip(container);
 
     path.on('mouseover', function (d:any) {
       pathtip.select('.label').html(d.data.label);
       pathtip.style('display', 'block');
-      var labelId = d.data.label.substr(0,3).toLowerCase();
+      let labelId = d.data.label.substr(0,3).toLowerCase();
       document.getElementById(labelId).classList.add('x-large');
     });
 
     path.on('mouseout', function (d:any) {
       pathtip.style('display', 'none');
-      var labelId = d.data.label.substr(0,3).toLowerCase();
+      let labelId = d.data.label.substr(0,3).toLowerCase();
       document.getElementById(labelId).classList.remove('x-large');
     });
 
   }
   getContainer(target){
-    var container = d3.select("#" + target);
+    let container = d3.select("#" + target);
     container.html('');
     return container;
   }
   getSvg(container){
-    var figure = container.append("figure");
-    var svg = figure.append('svg')
+    let figure = container.append("figure");
+    let svg = figure.append('svg')
       .attr('width', this.width)
       .attr('height', this.height)
       .append('g')
@@ -99,15 +99,15 @@ export class DonutChartComponent implements OnInit {
   }
 
   getPie(dataset, svg, color){
-    var pie = d3.pie()
+    let pie = d3.pie()
       .value(function (d:any) { return d.count; })
       .sort(null);
     
-    var arc = d3.arc()
+    let arc = d3.arc()
       .innerRadius(this.radius - this.donutWidth)
       .outerRadius(this.radius);
 
-    var path = svg.selectAll('path')
+    let path = svg.selectAll('path')
       .data(pie(dataset))
       .enter()
       .append('path')
@@ -120,35 +120,32 @@ export class DonutChartComponent implements OnInit {
   }
 
   getLegend(svg, color, size, spacing){
-    var legend = svg.selectAll('.legend')
+    let legend = svg.selectAll('.legend')
       .data(color.domain())
       .enter()
       .append('g')
       .attr('class', 'legend')
       .attr('transform', function (d, i) {
-        var h = size + spacing;
-        var offset = h * color.domain().length / 2;
-        var horz = -2 * size;
-        var vert = i * h - offset;
+        let h = size + spacing;
+        let offset = h * color.domain().length / 2;
+        let horz = -2 * size;
+        let vert = i * h - offset;
         return 'translate(' + horz + ',' + vert + ')';
       });
+
     legend.append('rect')
-      .attr('width', size)
-      .attr('height', size)
-      .style('fill', color)
-      .style('stroke', color);
+      .attr('width', size).attr('height', size)
+      .style('fill', color).style('stroke', color);
+
     legend.append('text')
       .attr('id',function (d) { return d.substr(0,3).toLowerCase(); })
-      .attr('x', size + spacing)
-      .attr('y', size - spacing)
+      .attr('x', size + spacing).attr('y', size - spacing)
       .text(function (d) { return d; });
   }
   
   getPathtip(container){
-    var pathtip = container
-      .append('div')
-      .attr('id','pathtip')
-      .attr('class', 'pathtip')
+    let pathtip = container
+      .append('div').attr('id','pathtip').attr('class', 'pathtip')
       .attr('style', 'display:none');
 
       pathtip.append('div')

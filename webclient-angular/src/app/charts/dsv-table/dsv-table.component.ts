@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 
@@ -32,14 +32,14 @@ export class DsvTableComponent implements OnInit {
   }
 
   parseData(delimiter, dsvdata) {
-    var data = d3.dsvFormat(delimiter).parse(dsvdata, function(line){
+    let data = d3.dsvFormat(delimiter).parse(dsvdata, function(line){
       return line;
     });
     return data;
   }
 
   getContainer(target) {
-    var container;
+    let container;
     container= d3.select("#"+target);
     if (container.empty()) {
       container = d3.select("body").append("div")
@@ -49,7 +49,7 @@ export class DsvTableComponent implements OnInit {
   }
 
   getTable(container, id, className, caption) {
-    var table = container.append("table");
+    let table = container.append("table");
     table.attr("id", id)
     table.attr("class", className);
     table.append("caption").text(caption);
@@ -57,9 +57,8 @@ export class DsvTableComponent implements OnInit {
   }
 
   getHeaders(table, headerData) {
-    //table header 
-    var thead = table.append("thead").append("tr");
-    var headers = thead.selectAll("th")
+    let thead = table.append("thead").append("tr");
+    let headers = thead.selectAll("th")
       .data(headerData).enter()
       .append("th")
       .text(function (headerName) { return headerName; });
@@ -67,16 +66,13 @@ export class DsvTableComponent implements OnInit {
   }
 
   getRows(table, data, headerData) {
-    //table body
-    var tbody = table.append("tbody");
+    let tbody = table.append("tbody");
     tbody.attr("id", "d3Tbody");    
-    var rows = tbody.selectAll("tr")
-      //output remaining rows
+    let rows = tbody.selectAll("tr")
       .data(data).enter()
       .append("tr");
       
-    // http://bl.ocks.org/AMDS/4a61497182b8fcb05906
-    rows.selectAll('td')
+     rows.selectAll('td')
       .data(function (d) {
         return headerData.map(function (k) {
           return { 'value': d[k], 'name': k };
@@ -93,22 +89,21 @@ export class DsvTableComponent implements OnInit {
     return rows;
   }
 
+
   d3Html() {
     
-    var parsedData = this.parseData(this.delimiter,this.dsvdata);
+    let parsedData = this.parseData(this.delimiter,this.dsvdata);
        
-    var container = this.getContainer(this.target);
+    let container = this.getContainer(this.target);
     container.html('');
     
-    var table = this.getTable(container, "d3HtmlTable", "table table-striped", "Tweets");
-    var headers = d3.keys(parsedData[0]);
+    let table = this.getTable(container, "d3HtmlTable", "table table-striped", "Tweets");
+    let headers = d3.keys(parsedData[0]);
+    let headerRow = this.getHeaders(table, headers);
+    let rows = this.getRows(table, parsedData, headers);
 
-    var headerRow = this.getHeaders(table, headers);
-    var rows = this.getRows(table, parsedData, headers);
-
-    var sortAscending = true;
+    let sortAscending = true;
     headerRow.on('click', function (d) {
-      //reset the headers
       headerRow.attr('class', 'header');
       if (sortAscending) {
         rows.sort(function (a, b) {
