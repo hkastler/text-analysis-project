@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
+import twitter4j.TwitterException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +23,6 @@ public class TweetAnalyzerTest {
     @Before
     public void setUp() {
         cut = new TweetAnalyzer();
-
     }
 
     @Test
@@ -49,7 +50,35 @@ public class TweetAnalyzerTest {
     public void testTweets(){
         assertEquals(0, cut.getTweets().size());
     }
-
     
+    @Test
+    public void testGetSentimentalAnalysis() {
+    	String queryTerms = "chicago pizza";
+    	try {
+			cut.getSentimentAnalysis(queryTerms);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	assertNotNull(cut.sa.analysis);
+    }
+
+    @Test
+    public void testGetSentimentalAnalysis2() {
+    	String queryTerms = "chicago pizza";
+    	Integer tweetCount = 1;
+    	try {
+			cut.getSentimentAnalysis(queryTerms,tweetCount);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	assertNotNull(cut.sa.analysis);
+    }
+    
+    @Test
+    public void testGetTc() {
+    	assertNotNull(cut.getTc());
+    }
 
 }
