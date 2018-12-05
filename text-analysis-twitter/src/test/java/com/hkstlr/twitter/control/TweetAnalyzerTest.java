@@ -50,22 +50,6 @@ public class TweetAnalyzerTest {
         assertEquals(0, cut.getTweets().size());
     }
 
-    @Test
-    public void testSetCat(){
-        cut.setCat(null);
-        cut.setCat();
-        DocumentCategorizerManager hold = cut.getCat();
-        assertNotNull(hold);
-        cut.setCat();
-        assertEquals(hold,cut.getCat());
-    }
     
-    @Test
-    public void testGetDsvTemplate() {
-        String expected = "{0}~{1}~{2}\n";
-        String dsvTemplate = cut.getDsvTemplate(3, "~", "\n");
-        System.out.print(dsvTemplate);
-        assertEquals(expected, dsvTemplate);
-    }
 
 }

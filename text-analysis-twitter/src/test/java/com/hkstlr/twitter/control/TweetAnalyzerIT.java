@@ -3,6 +3,7 @@ package com.hkstlr.twitter.control;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class TweetAnalyzerIT {
     @Before
     public void setUp() {
         String path = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
-        cut = new TweetAnalyzer(path, "");
+        cut = new TweetAnalyzer();
     }
 
     public TweetAnalyzerIT() {
@@ -35,10 +36,10 @@ public class TweetAnalyzerIT {
     @Test
     public void testTweetAnalyzer() throws TwitterException {
         
-        assertNotNull(cut.getCat());
-        DocumentCategorizerManager temp = cut.getCat();
-        cut.setCat(temp);
-        assertEquals(temp, cut.getCat());
+        assertNotNull(cut.sa.getCat());
+        DocumentCategorizerManager temp = cut.sa.getCat();
+        cut.sa.setCat(temp);
+        assertEquals(temp, cut.sa.getCat());
         assertNotNull(cut.getTc());
 
         Object[] obj = cut.getSentimentAnalysis();
@@ -55,7 +56,7 @@ public class TweetAnalyzerIT {
         assertNotNull(results.get("positive"));
         assertNotNull(results.get("negative"));
         assertNotNull(results.get("neutral"));
-        assertEquals(100, cut.getTweets().size());
+        assertTrue(cut.getTweets().size() > 0);
 
         int itemsToGet = 500;
         obj = cut.getSentimentAnalysis(queryTerms, itemsToGet);
