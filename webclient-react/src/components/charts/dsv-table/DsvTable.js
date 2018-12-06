@@ -71,6 +71,9 @@ class DsvTable extends React.Component{
       });
     return rows;
   }
+  sortRows(){
+    
+  }
 
   d3Html() {
 

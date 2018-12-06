@@ -5,6 +5,10 @@ import DsvTable from '../charts/dsv-table/DsvTable';
 import './TwitterSentimentAnalysis.css';
 
 class TwitterSentimentAnalysis extends React.Component {
+    
+    serviceUrl;
+    donutChart;
+    dsvTable
 
     constructor() {
         super();
@@ -14,6 +18,7 @@ class TwitterSentimentAnalysis extends React.Component {
             totals: '',
             isLoading: false
         };
+        this.serviceUrl =  this.getServiceUrl();
         this.changeHandler = this.changeHandler.bind(this);
         this.formHandler = this.formHandler.bind(this);
         this.render = this.render.bind(this);
@@ -41,26 +46,29 @@ class TwitterSentimentAnalysis extends React.Component {
     getSentimentAnalysis() {
         this.setState({ isLoading: true });
 
-        fetch(this.getServiceUrl() + encodeURI(this.state.queryTerms) + "/" + this.state.tweetCount)
-            .then(respsonse => respsonse.json())
+        fetch(this.serviceUrl + encodeURI(this.state.queryTerms) + "/" + this.state.tweetCount)
+            .then(response => response.json())
             .then(
-                (response) => {
-                    var donutChart = new DonutChart(response[0], "#resultsChart");
-                    donutChart.d3Html();
-                    var dsvTable = new DsvTable(response[1], "~", "#resultsTable");
-                    dsvTable.d3Html();
+                (response) => {                    
+                    this.donutChart = new DonutChart(response[0], "#resultsChart");
+                    this.donutChart.d3Html();
+                    this.dsvTable = new DsvTable(response[1], "~", "#resultsTable");
+                    this.dsvTable.d3Html();
                     this.setState({
                         totals: JSON.stringify(response[0]),
                         isLoading: false
                     });
                 },
                 (error) => {
+                    
                     this.setState({
                         isLoading: false,
-                        error
-                    });
+                        error    
+                    }
+                );
                 }
             );
+
     }
 
     render() {
