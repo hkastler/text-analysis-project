@@ -28,6 +28,7 @@
     "d3": "5.7.0",
     "jquery": "3.3.1",
     "karma-phantomjs-launcher": "^1.0.4",
+    "ng": "^0.0.0",
     "popper.js": "1.14.4",
     "puppeteer": "^1.10.0",
     "rxjs": "~6.3.3",
@@ -35,7 +36,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
-    "@angular/cli": "~7.0.3",
+    "@angular/cli": "^7.1.2",
     "@angular/compiler-cli": "~7.0.0",
     "@angular/language-service": "~7.0.0",
     "@types/jasmine": "~2.8.8",
