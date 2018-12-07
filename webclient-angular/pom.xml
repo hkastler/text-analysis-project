@@ -16,6 +16,7 @@
             <sonar.sources>src</sonar.sources>
             <sonar.exclusions>**.spec.ts,**/karma.conf.js, **/main.ts</sonar.exclusions>
             <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+            <sonar.cpd.exclusions>**dsv-table**,**donut-chart**</sonar.cpd.exclusions>
     </properties>    
     <build>
         <plugins>
@@ -26,7 +27,7 @@
                 <executions>
                      <execution>
                         <id>yarn</id>
-                        <phase>package</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -44,8 +45,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>ng</executable>
+                            <executable>npm</executable>
                             <arguments>
+                                <argument>run</argument>
                                 <argument>build</argument>
                                 <argument>--prod</argument>
                             </arguments>
@@ -58,7 +60,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>ng</executable>
+                            <executable>${ngpath}</executable>
                             <arguments>
                                 <argument>test</argument>
                                 <argument>--code-coverage</argument>
@@ -83,4 +85,21 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <ngpath>node_modules/.bin/ng</ngpath>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <ngpath>ng</ngpath>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>
