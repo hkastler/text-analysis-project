@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
-            <version>2.0.1</version>
+            <version>2.1</version>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis-twitter</artifactId>
-            <version>1</version>
+            <version>1.0</version>
             <type>jar</type>
         </dependency>
     </dependencies>
