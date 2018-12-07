@@ -1,7 +1,4 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hkstlr.text-analysis</groupId>
     <artifactId>text-analysis-webapp</artifactId>
@@ -15,9 +12,12 @@
         <version>1.0</version>
     </parent>
     <properties>
-            <sonar.sources>src</sonar.sources>
-            <sonar.exclusions>**/webapp/**</sonar.exclusions>
-            <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+        <sonar.sources>src</sonar.sources>
+        <sonar.exclusions>**/webapp/**</sonar.exclusions>
+        <wildfly.hostname>localhost</wildfly.hostname>
+        <wildfly.port>9990</wildfly.port>
+        <wildfly.username>admin</wildfly.username>
+        <wildfly.password>admin0099</wildfly.password>
     </properties>
     <dependencies>
         <dependency>
@@ -55,19 +55,19 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.0.2.Final</version>
+                <version>2.0.0.Final</version>
                 <configuration>
-                    <hostname>127.0.0.1</hostname>
-                    <port>9990</port>
-                    <username>admin</username>
-                    <password>admin0099</password>
+                    <hostname>${wildfly.hostname}</hostname>
+                    <port>${wildfly.port}</port>
+                    <username>${wildfly.username}</username>
+                    <password>${wildfly.password}</password>
                 </configuration>
                 <dependencies>
                     <!-- https://mvnrepository.com/artifact/org.wildfly.plugins/wildfly-maven-plugin -->
                     <dependency>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>1.2.2.Final</version>
+                        <version>2.0.0.Final</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -146,6 +146,15 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>arquillian</id>
+            <properties>
+                <wildfly.hostname>arquillian</wildfly.hostname>
+                <wildfly.port>11990</wildfly.port>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>adminadmin1</wildfly.password>
+            </properties>
         </profile>
     </profiles>
 </project>
