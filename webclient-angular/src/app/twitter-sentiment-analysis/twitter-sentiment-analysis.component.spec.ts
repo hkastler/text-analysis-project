@@ -69,6 +69,18 @@ describe('TwitterSentimentAnalysisComponent', () => {
     component.getSAResults();
     expect(twitterSentimentAnalysisService.getSAResults).toHaveBeenCalled();
     expect(component.isLoading).toBe(false);
+
+    twitterSentimentAnalysisService = TestBed.get(TwitterSentimentAnalysisService);
+    twitterSentimentAnalysisService.getSAResults("chicago pizza",10);
+    expect(twitterSentimentAnalysisService.getSAResults).toHaveBeenCalled();
+    expect(component.isLoading).toBe(false);
+  });
+
+  it('should handle a call', () => {
+    twitterSentimentAnalysisService = TestBed.get(TwitterSentimentAnalysisService);
+    var obj = twitterSentimentAnalysisService.getSAResults("chicago pizza",10);
+    expect(obj).not.toBe(null);
+    
   });
 
 });

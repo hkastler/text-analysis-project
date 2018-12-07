@@ -12,5 +12,7 @@ describe('TwitterSentimentAnalysisService', () => {
   it('should be created', () => {
     const service: TwitterSentimentAnalysisService = TestBed.get(TwitterSentimentAnalysisService);
     expect(service).toBeTruthy();
+
+   expect(service.serviceURL).toContain("/text-analysis-service/rest/twittersa/sa/");  
   });
 });
