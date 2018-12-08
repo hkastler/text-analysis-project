@@ -4,16 +4,16 @@ import './DonutChart.css';
 
 class DonutChart extends React.Component {
 
-    donutData;
-    target;
-    jDonutData;
-    width;
-    height;
-    donutWidth;
-    legendRectSize;
-    legendSpacing;
-    radius;
-    DOMElement;
+    donutData
+    target
+    jDonutData
+    width
+    height
+    donutWidth
+    legendRectSize
+    legendSpacing
+    radius
+    DOMElement
 
     constructor(mydata, target) {
         super();
