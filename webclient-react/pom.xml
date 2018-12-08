@@ -51,7 +51,7 @@
                         <configuration>
                             <executable>yarn</executable>
                             <arguments>
-                                <argument>upgrade</argument>
+                                <argument></argument>
                             </arguments>
                             <executable>yarn</executable>
                             <arguments>
