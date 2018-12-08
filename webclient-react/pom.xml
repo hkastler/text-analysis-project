@@ -55,6 +55,7 @@
                             </arguments>
                             <executable>yarn</executable>
                             <arguments>
+                                <argument>run</argument>
                                 <argument>test</argument>
                                 <argument>--coverage</argument>
                                 <argument> --coverageDirectory=./target/coverage</argument>
