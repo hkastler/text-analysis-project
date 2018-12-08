@@ -53,7 +53,7 @@
                             <arguments>
                                 <argument></argument>
                             </arguments>
-                            <executable>yarn</executable>
+                            <executable>npm</executable>
                             <arguments>
                                 <argument>test</argument>
                                 <argument>--coverage</argument>
