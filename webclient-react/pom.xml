@@ -51,9 +51,10 @@
                         <configuration>
                             <executable>yarn</executable>
                             <arguments>
-                                <argument></argument>
+                                <argument>install</argument>
+                                <argument>--check-files</argument>
                             </arguments>
-                            <executable>npm</executable>
+                            <executable>yarn</executable>
                             <arguments>
                                 <argument>test</argument>
                                 <argument>--coverage</argument>
