@@ -33,7 +33,7 @@
                         <configuration>
                             <executable>yarn</executable>
                             <arguments>
-                                <argument>install</argument>
+                                <argument></argument>
                             </arguments>                        
                             <executable>yarn</executable>
                             <arguments>
@@ -51,7 +51,7 @@
                         <configuration>
                             <executable>yarn</executable>
                             <arguments>
-                                <argument>install</argument>
+                                <argument></argument>
                             </arguments>
                             <executable>yarn</executable>
                             <arguments>
