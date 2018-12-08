@@ -51,8 +51,7 @@
                         <configuration>
                             <executable>yarn</executable>
                             <arguments>
-                                <argument>install</argument>
-                                <argument>--check-files</argument>
+                                <argument>upgrade</argument>
                             </arguments>
                             <executable>yarn</executable>
                             <arguments>
