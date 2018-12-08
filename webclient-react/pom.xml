@@ -34,8 +34,7 @@
                             <executable>yarn</executable>
                             <arguments>
                                 <argument>install</argument>
-                            </arguments>
-                        
+                            </arguments>                        
                             <executable>yarn</executable>
                             <arguments>
                                 <argument>build</argument>
@@ -50,6 +49,10 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <executable>yarn</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
                             <executable>yarn</executable>
                             <arguments>
                                 <argument>test</argument>
