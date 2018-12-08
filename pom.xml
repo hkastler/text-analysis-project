@@ -6,10 +6,7 @@
 	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
 	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
 	the specific language governing permissions and limitations under the License. -->
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hkstlr</groupId>
     <artifactId>text-analysis-project</artifactId>
@@ -20,21 +17,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- sonar props -->
-        <sonar.host.url>http://sonar:9000</sonar.host.url>
+        <sonar.host.url>http://sonarqube:9000</sonar.host.url>
         <sonar.sources>src/main</sonar.sources>
         <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
-        
     </properties>
-    <modules>
-        <module>text-analysis</module>
-        <module>text-analysis-twitter</module>
-        <module>text-analysis-service</module>
-        <module>webclient-angular</module>
-        <module>webclient-react</module>
-        <module>text-analysis-webapp</module>
-    </modules>
     <build>
         <plugins>
             <plugin>
@@ -98,9 +86,44 @@
             </plugin>
         </plugins>
     </build>
-    
     <scm>
         <connection>scm:git:https://github.com/hkastler/text-analysis-project.git</connection>
         <url>https://github.com/hkastler/text-analysis-project</url>
     </scm>
+    <profiles>        
+        <profile>
+            <id>angular</id>
+            <modules>
+                <module>text-analysis</module>
+                <module>text-analysis-twitter</module>
+                <module>text-analysis-service</module>
+                <module>webclient-angular</module>
+                <module>text-analysis-webapp</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>react</id>
+            <modules>
+                <module>text-analysis</module>
+                <module>text-analysis-twitter</module>
+                <module>text-analysis-service</module>
+                <module>webclient-react</module>
+                <module>text-analysis-webapp</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>text-analysis</module>
+                <module>text-analysis-twitter</module>
+                <module>text-analysis-service</module>
+                <module>webclient-angular</module>
+                <module>webclient-react</module>
+                <module>text-analysis-webapp</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
