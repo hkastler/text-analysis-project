@@ -36,10 +36,7 @@ public class TweetAnalyzerIT {
     @Test
     public void testTweetAnalyzer() throws TwitterException {
         
-        assertNotNull(cut.sa.getCat());
-        DocumentCategorizerManager temp = cut.sa.getCat();
-        cut.sa.setCat(temp);
-        assertEquals(temp, cut.sa.getCat());
+        
         assertNotNull(cut.getTc());
 
         Object[] obj = cut.getSentimentAnalysis();
