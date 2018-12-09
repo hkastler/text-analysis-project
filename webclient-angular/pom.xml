@@ -10,11 +10,15 @@
     <name>webclient-angular</name>
     <packaging>pom</packaging>
     <properties>
+        <environmentApp>src/environments</environmentApp>
         <sonar.sources>src</sonar.sources>
         <sonar.exclusions>**.spec.ts,**/karma.conf.js, **/main.ts</sonar.exclusions>
         <sonar.typescript.lcov.reportPaths>target/coverage/lcov.info</sonar.typescript.lcov.reportPaths>
     </properties>
     <build>
+        <filters>
+            <filter>${filterFile}</filter>
+        </filters>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -22,7 +26,7 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>yarn</id>
+                        <id>yarn-install</id>
                         <phase>test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -35,7 +39,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>${ngpath}</id>
+                        <id>ng-build-prod</id>
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -49,7 +53,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>testing</id>
+                        <id>ng-test-code-coverage</id>
                         <phase>test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -78,6 +82,35 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${environmentApp}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>resources</directory>
+                                    <includes>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>*.properties</exclude>
+                                    </excludes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -85,16 +118,25 @@
             <id>jenkins</id>
             <properties>
                 <ngpath>node_modules/.bin/ng</ngpath>
+                <filterFile>resources/service-jenkins.properties</filterFile>
+            </properties>
+        </profile>
+        <profile>
+            <id>arquillian</id>
+            <properties>
+                <ngpath>ng</ngpath>
+                <filterFile>resources/service-jenkins.properties</filterFile>
             </properties>
         </profile>
         <profile>
             <id>dev</id>
             <properties>
                 <ngpath>ng</ngpath>
+                <filterFile>resources/service.properties</filterFile>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
+            </activation>            
         </profile>
     </profiles>
 </project>
