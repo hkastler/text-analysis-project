@@ -10,3 +10,11 @@
 #searchForm legend{
     font-size: 1.1rem;
 }
+
+.show{
+  display: block;
+}
+
+.hide{
+  display: none;
+}

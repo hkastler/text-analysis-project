@@ -35,9 +35,9 @@ class TwitterSentimentAnalysis extends React.Component {
     }
 
     getServiceUrl() {
-        
+
         return PROPERTIES.scheme + "://" + PROPERTIES.hostname + ":" + PROPERTIES.port + PROPERTIES.serviceUrl;
-      
+
     }
 
     getSentimentAnalysis() {
@@ -111,10 +111,10 @@ class TwitterSentimentAnalysis extends React.Component {
                                 <input type="submit" className="btn btn-primary" tabIndex="3" />
                             </fieldset>
                         </form>
-
+                        <hr className={this.state.totals.length > 0 ? 'show' : 'hide'}/>
                         <DonutChart />
                         <div id="totals">{this.state.totals}</div>
-                        <hr />
+                        <hr className={this.state.totals.length > 0 ? 'show' : 'hide'}/>
                         <DsvTable />
                     </div>
 
