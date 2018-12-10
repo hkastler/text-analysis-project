@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit test for simple App.
+ * Unit test for TweetAnalyzerTest.
  */
 public class TweetAnalyzerTest {
 
@@ -23,6 +23,14 @@ public class TweetAnalyzerTest {
     @Before
     public void setUp() {
         cut = new TweetAnalyzer();
+    }
+
+    @Test
+    public void testSetCat(){
+        cut.setCat();
+        DocumentCategorizerManager cat = cut.getCat();
+        cut.setCat(cat);
+        assertEquals(cat, cut.getCat());
     }
 
     @Test
@@ -47,20 +55,14 @@ public class TweetAnalyzerTest {
     }
 
     @Test
-    public void testTweets(){
-        assertEquals(0, cut.getTweets().size());
-    }
-    
-    @Test
     public void testGetSentimentalAnalysis() {
     	String queryTerms = "chicago pizza";
     	try {
 			cut.getSentimentAnalysis(queryTerms);
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//assertNotNull(cut.sa.analysis);
+    	
     }
 
     @Test
@@ -70,10 +72,8 @@ public class TweetAnalyzerTest {
     	try {
 			cut.getSentimentAnalysis(queryTerms,tweetCount);
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//assertNotNull(cut.sa.analysis);
     }
     
     @Test

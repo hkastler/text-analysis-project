@@ -10,30 +10,28 @@ import java.util.stream.Stream;
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
 public class SentimentAnalyzer {
-	
+
 	DocumentCategorizerManager cat;
-    String trainingDataFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
-    String modelOutFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
-	
+    	
     String delimiter = "~";
     String newLine = System.getProperty("line.separator");
-    String[] headers;
-    String[] categories;
+    String[] headers  = {};
+    String[] categories = {};
     Map<String, Integer> categoryCount = new LinkedHashMap<>();
-    StringBuilder dsv;
+    StringBuilder dsv = new StringBuilder();
     Object[] analysis = new Object[2];
 
     public SentimentAnalyzer() {
         super();
     }
+
+    public SentimentAnalyzer(DocumentCategorizerManager cat) {
+        super();
+        setCat(cat);
+    }
     
     void init() {
-        Config analyzerConfig = new Config("tweetAnalyzer.properties");
-        setTrainingDataFile(analyzerConfig.getProps().getProperty("trainingDataFilePath", getTrainingDataFile()));
-        setModelOutFile(analyzerConfig.getProps().getProperty("modelOutFile", getModelOutFile()));
         
-        setCat();
-
         int numOfCats = cat.getDoccat().getNumberOfCategories();
         categories = new String[numOfCats];
         for(int i=0; i < numOfCats; i++) {
@@ -49,13 +47,7 @@ public class SentimentAnalyzer {
         dsv = new StringBuilder(MessageFormat.format(dsvTemplate, (Object[]) headers));
     }
     
-    public void setCat() {
-        if (null == this.cat) {
-            this.cat = new DocumentCategorizerManager(getTrainingDataFile(), getModelOutFile());
-        }
-
-    }
-
+    
 	public void analyzeText(String text) {
 		
     	// the probabilities of the categories
@@ -82,7 +74,6 @@ public class SentimentAnalyzer {
         dsv.append(dsvRow);
 	}
 	
-
     public Object[] getSentimentAnalysis() {
         analysis[0] = results();
         analysis[1] = dsv.toString();
@@ -120,21 +111,4 @@ public class SentimentAnalyzer {
 		this.cat = cat;
 	}
 
-	public String getTrainingDataFile() {
-		return trainingDataFile;
-	}
-
-	public void setTrainingDataFile(String trainingDataFile) {
-		this.trainingDataFile = trainingDataFile;
-	}
-
-	public String getModelOutFile() {
-		return modelOutFile;
-	}
-
-	public void setModelOutFile(String modelOutFile) {
-		this.modelOutFile = modelOutFile;
-	}
-    
-    
 }

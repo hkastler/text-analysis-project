@@ -25,7 +25,6 @@ public class TweetAnalyzerIT {
 
     @Before
     public void setUp() {
-        String path = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_app_properties";
         cut = new TweetAnalyzer();
     }
 
@@ -36,15 +35,12 @@ public class TweetAnalyzerIT {
     @Test
     public void testTweetAnalyzer() throws TwitterException {
         
-        
         assertNotNull(cut.getTc());
 
         Object[] obj = cut.getSentimentAnalysis();
         Map<String, Integer> results = (LinkedHashMap<String, Integer>) obj[0];
         assertNotNull(results.get("positive"));
-        assertEquals(cut.getTweetCount(), cut.getTweets().size());
-        System.out.print(cut.getQueryTerms());
-
+        
         String queryTerms = "pizza";
         obj = cut.getSentimentAnalysis(queryTerms);
         results = (LinkedHashMap<String, Integer>) obj[0];
@@ -53,7 +49,7 @@ public class TweetAnalyzerIT {
         assertNotNull(results.get("positive"));
         assertNotNull(results.get("negative"));
         assertNotNull(results.get("neutral"));
-        assertTrue(cut.getTweets().size() > 0);
+       
 
         int itemsToGet = 500;
         obj = cut.getSentimentAnalysis(queryTerms, itemsToGet);
@@ -62,7 +58,7 @@ public class TweetAnalyzerIT {
         assertNotEquals(0, (int) results.get("positive"));
         assertNotEquals(0, (int) results.get("negative"));
         assertNotEquals(0, (int) results.get("neutral"));
-        assertNotEquals(0, (int) cut.getTweets().size());
+       
 
     }
 
@@ -77,25 +73,7 @@ public class TweetAnalyzerIT {
         assertNotEquals(0, (int) results.get("positive"));
         assertNotEquals(0, (int) results.get("negative"));
         assertNotEquals(0, (int) results.get("neutral"));
-        assertNotEquals(0, (int) cut.getTweets().size());
-    }
-
-    @Test
-    public void testGetTweets() throws TwitterException {
         
-        String queryTerms = "pizza";
-        int tweetCount = 100;
-
-        cut.getTc().getTweets(queryTerms, tweetCount);
-        assertNotNull(cut.getTweets());
-
-        cut.getTc().getTweets(queryTerms);
-        assertNotNull(cut.getTweets());
-
-        queryTerms = "chicago scooters";
-        tweetCount = 1000;
-        cut.getTc().getTweets(queryTerms,tweetCount);
-        assertNotNull(cut.getTweets());
     }
 
 }

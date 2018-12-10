@@ -1,10 +1,6 @@
 package com.hkstlr.twitter.control;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
@@ -13,36 +9,17 @@ import twitter4j.TwitterException;
 
 public class TweetAnalyzer {
 
-    private DocumentCategorizerManager cat;
-    private String trainingDataFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
-    private String modelOutFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
+    DocumentCategorizerManager cat;
+    String trainingDataFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sentiment_training_data.train";
+    String modelOutFile = "/etc/opt/text-analysis-project/text-analysis-twitter/twitter_sa_model.bin";
 
-    enum Sentiment {
-
-        POSITIVE("positive"), NEGATIVE("negative"), NEUTRAL("neutral");
-
-        String label;
-
-        Sentiment(String label) {
-            this.label = label;
-        }
-
-    }
-
-    private TwitterClient tc;
-    private String queryTerms = "";
+    TwitterClient tc;
+    String queryTerms = "";
     int tweetCount = 100;
-    private List<Status> tweets = new ArrayList<>();
-
+    String languageCode = "";
+    
     public TweetAnalyzer() {
         super();
-        init();
-    }
-
-    public TweetAnalyzer(String trainingDataFile, String modelOutFile) {
-        super();
-        setTrainingDataFile(trainingDataFile);
-        setModelOutFile(modelOutFile);
         init();
     }
 
@@ -53,13 +30,13 @@ public class TweetAnalyzer {
         setModelOutFile(analyzerConfig.getProps().getProperty("modelOutFile", getModelOutFile()));
         setQueryTerms(analyzerConfig.getProps().getProperty("queryTerms", getQueryTerms()));
         setCat();
-
+        this.languageCode = cat.getLanguageCode();
         Config twitterClientConfig = new Config(analyzerConfig.getProps().getProperty("twitterClientConfigPath"));
         setTc(new TwitterClient(twitterClientConfig.getProps()));
     }
 
     public String getQueryTerms() {
-        return queryTerms;
+        return this.queryTerms;
     }
 
     public void setQueryTerms(String queryTerms) {
@@ -67,7 +44,7 @@ public class TweetAnalyzer {
     }
 
     public int getTweetCount() {
-        return tweetCount;
+        return this.tweetCount;
     }
 
     public void setTweetCount(int tweetCount) {
@@ -99,84 +76,27 @@ public class TweetAnalyzer {
 
     public Object[] getSentimentAnalysis() throws TwitterException {
 
-        String positive = Sentiment.POSITIVE.label;
-        String negative = Sentiment.NEGATIVE.label;
-        String neutral = Sentiment.NEUTRAL.label;
+        SentimentAnalyzer sa = new SentimentAnalyzer(getCat());
+        sa.init();
+        fetchTweets().parallelStream().forEach(tweet ->
+            sa.analyzeText(getTweetTextForCategorization(tweet.getText()))
+        );
 
-        String[] headers = { "sentiment", "tweet", positive, negative, neutral };
-        String delimiter = "~";
-        String newLine = System.getProperty("line.separator");
-
-        String dsvTemplate = getDsvTemplate(headers.length, delimiter, newLine);
-        String dsvRow;
-        String tweetText;
-        StringBuilder tweetsDsv = new StringBuilder(MessageFormat.format(dsvTemplate, (Object[]) headers));
-
-        String sentiment;
-        Map<String, Double> probMap;
-        
-        int posCount = 0;
-        int negCount = 0;
-        int neuCount = 0;
-
-        tweets = tc.getTweets(this.queryTerms, this.tweetCount, cat.getLanguageCode());
-
-        for (Status tweet : tweets) {
-            tweetText = getTweetTextForCategorization(tweet.getText());
-
-            // the probabilities of the categories
-            probMap = cat.getDoccat().scoreMap(cat.getTokenize(tweetText));
-            // the category, in this use case, sentiment
-            sentiment = probMap.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey)
-                    .orElse(neutral);
-            if (sentiment.equals(positive)) {
-                posCount++;
-            } else if (sentiment.equals(negative)) {
-                negCount++;
-            } else if (sentiment.equals(neutral)) {
-                neuCount++;
-            }
-            tweetText = tweetText.replaceAll(delimiter, "&tilde;").replace("\"", "&quot;");
-            dsvRow = MessageFormat.format(dsvTemplate, sentiment, tweetText, probMap.get(positive),
-                    probMap.get(negative), probMap.get(neutral));
-            tweetsDsv.append(dsvRow);
-        }
-       
-        Map<String, Integer> results = new LinkedHashMap<>();
-        results.put("total", tweets.size());
-        results.put(positive, posCount);
-        results.put(negative, negCount);
-        results.put(neutral, neuCount);
-
-        Object[] returnAry = new Object[2];
-        returnAry[0] = results;
-        returnAry[1] = tweetsDsv.toString();
-        return returnAry;
+        return  sa.getSentimentAnalysis();
     }
 
-    public String getDsvTemplate(int cols, String delimiter, String newLine) {
-        StringBuilder msgSb = new StringBuilder();
-        for (int x = 0; x <= cols - 1; x++) {
-            msgSb.append("{").append(Integer.toString(x)).append("}");
-            if (x < cols - 1) {
-                msgSb.append(delimiter);
-            }
-
-        }
-        msgSb.append(newLine);
-
-        return msgSb.toString();
+    public List<Status> fetchTweets() throws TwitterException{
+       return tc.getTweets(this.queryTerms, this.tweetCount, this.languageCode);
     }
 
     public DocumentCategorizerManager getCat() {
-        return cat;
+        return this.cat;
     }
 
     public void setCat() {
         if (null == this.cat) {
             this.cat = new DocumentCategorizerManager(getTrainingDataFile(), getModelOutFile());
         }
-
     }
 
     public void setCat(DocumentCategorizerManager cat) {
@@ -197,10 +117,6 @@ public class TweetAnalyzer {
 
     public void setModelOutFile(String modelOutFile) {
         this.modelOutFile = modelOutFile;
-    }
-
-    public List<Status> getTweets() {
-        return tweets;
     }
 
     public TwitterClient getTc() {

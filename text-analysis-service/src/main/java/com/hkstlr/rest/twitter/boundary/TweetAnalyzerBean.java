@@ -18,7 +18,8 @@ public class TweetAnalyzerBean {
 
     @PostConstruct
     void init() {
-        setTa(new TweetAnalyzer());
+        ta = new TweetAnalyzer();
+        setTa(ta);
     }
 
     /**

@@ -73,7 +73,7 @@ public class TwitterClient {
 
             } catch (TwitterException te) {
                 LOG.log(Level.SEVERE, "", te);
-                throw new TwitterException(te);               
+                throw new TwitterException(te);
             }
 
             for (Status t : tweets) {
@@ -84,16 +84,6 @@ public class TwitterClient {
             query.setMaxId(lastID - 1);
         }
         return tweets;
-
-    }
-
-    public List<Status> getTweets(String queryTerms) throws TwitterException {
-        return getTweets(queryTerms, 100);
-    }
-    // http://coding-guru.com/how-to-retrieve-tweets-with-the-twitter-api-and-twitter4j/
-
-    public List<Status> getTweets(String queryTerms, int tweetCount) throws TwitterException {
-        return getTweets(queryTerms, tweetCount, "");
 
     }
 

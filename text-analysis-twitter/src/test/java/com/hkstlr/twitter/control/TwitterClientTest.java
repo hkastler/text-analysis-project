@@ -16,12 +16,12 @@ import twitter4j.TwitterFactory;
  * @author henry.kastler
  */
 public class TwitterClientTest {
-    
+
     TwitterClient cut;
-    
+
     public TwitterClientTest() {
     }
-    
+
     @Before
     public void setUp() {
     }
@@ -34,45 +34,41 @@ public class TwitterClientTest {
         System.out.println("testTwitterClient");
         cut = new TwitterClient();
         assertNotNull(cut);
-        
-        
+
         Twitter tw = new TwitterFactory().getInstance();
         cut.setTwitter(tw);
-        assertEquals(tw,cut.getTwitter());
-        
+        assertEquals(tw, cut.getTwitter());
+
         Properties props = new Properties();
-        props.put("oAuthConsumerKey","");
-        props.put("oAuthConsumerKey","");
-	props.put("oAuthConsumerSecret","");
-	props.put("oAuthAccessToken","");
-	props.put("oAuthAccessTokenSecret","");
+        props.put("oAuthConsumerKey", "");
+        props.put("oAuthConsumerKey", "");
+        props.put("oAuthConsumerSecret", "");
+        props.put("oAuthAccessToken", "");
+        props.put("oAuthAccessTokenSecret", "");
         cut = new TwitterClient(props);
         assertNotNull(cut);
         System.out.println("cut.getTweets");
-        
+
         List<Status> tweets = new ArrayList<>();
         boolean hasError = false;
-        try{
-            tweets = cut.getTweets("hey");
-        }catch(TwitterException e){
+        try {
+            tweets = cut.getTweets("hey", 1, "en");
+        } catch (TwitterException e) {
             hasError = true;
-           
+
         }
         assertTrue(hasError);
         assertTrue(tweets.isEmpty());
-        
+
         hasError = false;
-        try{
-            tweets = cut.getTweets("hey",10);
-        }catch(TwitterException e){
-           hasError = true;
-           
+        try {
+            tweets = cut.getTweets("hey", 10, "en");
+        } catch (TwitterException e) {
+            hasError = true;
+
         }
         assertTrue(hasError);
         assertTrue(tweets.isEmpty());
     }
 
-    
-
-    
 }

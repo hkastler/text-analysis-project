@@ -16,22 +16,28 @@ public class SentimentAnalyzerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		cut = new SentimentAnalyzer();
+		cut = new SentimentAnalyzer(getDCM());		
 	}
 
 	@Test
 	public void testSetCat() {
-		cut.setCat(null);
-		cut.setCat();
+		cut = new SentimentAnalyzer();
+		cut.setCat(getDCM());
+		DocumentCategorizerManager dcm = getDCM();
+		cut.setCat(dcm);
 		DocumentCategorizerManager hold = cut.getCat();
-		assertNotNull(hold);
-		cut.setCat();
-		assertEquals(hold, cut.getCat());
+		assertNotNull(hold);		
+		assertEquals(dcm, cut.getCat());
+	}
+
+	public DocumentCategorizerManager getDCM(){
+		TweetAnalyzer ta = new TweetAnalyzer();
+		return ta.getCat();
 	}
 
 	@Test
-	public void testAnalyzeText() {
-		
+	public void testAnalyzeText() {		
+		cut.setCat(getDCM());
 		cut.init();
 		String text = "good";
 		cut.analyzeText(text);
@@ -42,6 +48,7 @@ public class SentimentAnalyzerTest {
 
 	@Test
 	public void testCategoryCountAdd() {
+		cut.setCat(getDCM());
 		cut.init();
 		cut.categoryCountAdd("positive");
 		//System.out.println(cut.categoryCount.toString());
@@ -51,6 +58,7 @@ public class SentimentAnalyzerTest {
 
 	@Test
 	public void testDsvAdd() {
+		cut.setCat(getDCM());
 		cut.init();
 		String sentiment = "positive";
 		String text = "sample text";
@@ -68,6 +76,7 @@ public class SentimentAnalyzerTest {
 
 	@Test
 	public void testGetSentimentAnalysis() {
+		cut.setCat(getDCM());
 		cut.init();
 		Object[] results = cut.getSentimentAnalysis();
 		String expectedDsv = "sentiment~tweet~positive~neutral~negative" + cut.newLine;
@@ -90,29 +99,6 @@ public class SentimentAnalyzerTest {
 		assertNotNull(cut.getCat());
 	}
 
-	@Test
-	public void testSetCatDocumentCategorizerManager() {
-		cut.init();
-		cut.cat = null;
-		cut.setCat();
-		assertTrue(null != cut.getCat());
-	}
-
-	@Test
-	public void testGetTrainingDataFile() {
-		String path = "/test/path/here";
-		cut.setTrainingDataFile(path);
-		assertEquals(path, cut.getTrainingDataFile());
-	}
-
 	
-
-	@Test
-	public void testGetModelOutFile() {
-		String path = "/test/path/here";
-		cut.setModelOutFile(path);
-		assertEquals(path, cut.getModelOutFile());
-	}
-
 
 }
