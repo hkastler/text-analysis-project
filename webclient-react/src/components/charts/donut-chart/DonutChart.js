@@ -4,19 +4,12 @@ import './DonutChart.css';
 
 class DonutChart extends React.Component {
 
-    donutData
-    target
-    jDonutData
-    width
-    height
-    donutWidth
-    legendRectSize
-    legendSpacing
-    radius
-    DOMElement
-
     constructor(mydata, target) {
         super();
+        
+        this.donutData = mydata;
+        this.target = target
+
         this.width = 360;
         this.height = 360;
         this.donutWidth = 75;
@@ -24,12 +17,8 @@ class DonutChart extends React.Component {
         this.legendSpacing = 4;
         this.radius = Math.min(this.width, this.height) / 2;
         this.jDonutData = "";
-
-        this.donutData = mydata;
-        this.target = target
     }
 
-       
     makeDonut() {
         this.d3Html();
         this.jDonutData = JSON.stringify(this.donutData);
