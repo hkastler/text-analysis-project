@@ -6,10 +6,6 @@ import './TwitterSentimentAnalysis.css';
 
 class TwitterSentimentAnalysis extends React.Component {
     
-    serviceUrl;
-    donutChart;
-    dsvTable
-
     constructor() {
         super();
         this.state = {
@@ -22,7 +18,8 @@ class TwitterSentimentAnalysis extends React.Component {
         this.changeHandler = this.changeHandler.bind(this);
         this.formHandler = this.formHandler.bind(this);
         this.render = this.render.bind(this);
-
+        this.donutChart = {};
+        this.dsvTable = {};
     }
 
     changeHandler(e) {
@@ -60,10 +57,9 @@ class TwitterSentimentAnalysis extends React.Component {
                     });
                 },
                 (error) => {
-                    
                     this.setState({
                         isLoading: false,
-                        error    
+                        error
                     }
                 );
                 }
@@ -86,6 +82,7 @@ class TwitterSentimentAnalysis extends React.Component {
                             <fieldset>
                                 <legend>Search</legend>
                                 <div className="form-group">
+                                
                                     <label htmlFor="queryTerms" className="form-control-label">Query Terms</label>
                                     <input type="text"
                                         name="queryTerms"
