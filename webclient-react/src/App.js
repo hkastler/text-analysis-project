@@ -5,11 +5,13 @@ import About from './components/about/About';
 import Navigation from './components/navbar/Navigation';
 import TwitterSentimentAnalysis from './components/twitter-sentiment-analysis/TwitterSentimentAnalysis';
 
+
 class App extends Component {
 
   render() {
+    
     return (
-      <BrowserRouter basename={'/text-analysis-webapp'}>
+      <BrowserRouter basename={window.location.pathname.split('/')[1]}>
         <div className="container" >
           <Navigation />
           <Route exact component={TwitterSentimentAnalysis} path="/" />
