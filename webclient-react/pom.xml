@@ -82,7 +82,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${targetApp}</outputDirectory>
+                            <outputDirectory>${copyResourcesOutput}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>resources</directory>
@@ -106,21 +106,21 @@
             <id>jenkins</id>
             <properties>
                 <filterFile>resources/service-jenkins.properties</filterFile>
-                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+                <copyResourcesOutput>src/components/twitter-sentiment-analysis</copyResourcesOutput>
             </properties>
         </profile>
         <profile>
             <id>arquillian</id>
             <properties>
                 <filterFile>resources/service-jenkins.properties</filterFile>
-                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+                <copyResourcesOutput>src/components/twitter-sentiment-analysis</copyResourcesOutput>
             </properties>
         </profile>
         <profile>
             <id>dev</id>
             <properties>
                 <filterFile>resources/service.properties</filterFile>
-                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+                <copyResourcesOutput>src/components/twitter-sentiment-analysis</copyResourcesOutput>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
