@@ -6,7 +6,7 @@ import './TwitterSentimentAnalysis.css';
 import { PROPERTIES } from './Properties'
 
 class TwitterSentimentAnalysis extends React.Component {
-    
+
     constructor() {
         super();
         this.state = {
@@ -15,7 +15,7 @@ class TwitterSentimentAnalysis extends React.Component {
             totals: '',
             isLoading: false
         };
-        this.serviceUrl =  this.getServiceUrl();
+        this.serviceUrl = this.getServiceUrl();
         this.changeHandler = this.changeHandler.bind(this);
         this.formHandler = this.formHandler.bind(this);
         this.render = this.render.bind(this);
@@ -30,14 +30,14 @@ class TwitterSentimentAnalysis extends React.Component {
     }
 
     formHandler(event) {
-        event.preventDefault();  
+        event.preventDefault();
         this.getSentimentAnalysis();
     }
 
-    getServiceUrl(){
-       //javascript template literals, done with back ticks
-       //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Text_formatting#Multi-line_template_literals
-       return `${PROPERTIES.scheme}://${PROPERTIES.hostname}:${PROPERTIES.port}${PROPERTIES.serviceUrl}`;
+    getServiceUrl() {
+        
+        return PROPERTIES.scheme + "://" + PROPERTIES.hostname + ":" + PROPERTIES.port + PROPERTIES.serviceUrl;
+      
     }
 
     getSentimentAnalysis() {
@@ -46,7 +46,7 @@ class TwitterSentimentAnalysis extends React.Component {
         fetch(this.serviceUrl + encodeURI(this.state.queryTerms) + "/" + this.state.tweetCount)
             .then(response => response.json())
             .then(
-                (response) => {                    
+                (response) => {
                     this.donutChart = new DonutChart(response[0], "#resultsChart");
                     this.donutChart.d3Html();
                     this.dsvTable = new DsvTable(response[1], "~", "#resultsTable");
@@ -61,7 +61,7 @@ class TwitterSentimentAnalysis extends React.Component {
                         isLoading: false,
                         error
                     }
-                );
+                    );
                 }
             );
 
@@ -82,7 +82,7 @@ class TwitterSentimentAnalysis extends React.Component {
                             <fieldset>
                                 <legend>Search</legend>
                                 <div className="form-group">
-                                
+
                                     <label htmlFor="queryTerms" className="form-control-label">Query Terms</label>
                                     <input type="text"
                                         name="queryTerms"
@@ -112,10 +112,10 @@ class TwitterSentimentAnalysis extends React.Component {
                             </fieldset>
                         </form>
 
-                        <DonutChart/>
+                        <DonutChart />
                         <div id="totals">{this.state.totals}</div>
                         <hr />
-                        <DsvTable/>
+                        <DsvTable />
                     </div>
 
                 </div>
