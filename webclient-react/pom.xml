@@ -10,11 +10,15 @@
     <name>webclient-react</name>
     <packaging>pom</packaging>
     <properties>
+        
         <sonar.sources>src</sonar.sources>
         <sonar.exclusions>**.test.js, src/index.js, src/serviceWorker.js</sonar.exclusions>
         <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
     </properties>
     <build>
+        <filters>
+            <filter>${filterFile}</filter>
+        </filters>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -66,6 +70,61 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${targetApp}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>resources</directory>
+                                    <includes>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>*.properties</exclude>
+                                    </excludes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <filterFile>resources/service-jenkins.properties</filterFile>
+                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+            </properties>
+        </profile>
+        <profile>
+            <id>arquillian</id>
+            <properties>
+                <filterFile>resources/service-jenkins.properties</filterFile>
+                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <filterFile>resources/service.properties</filterFile>
+                <targetApp>src/components/twitter-sentiment-analysis</targetApp>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>

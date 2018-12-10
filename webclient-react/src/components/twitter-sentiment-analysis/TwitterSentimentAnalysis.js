@@ -3,6 +3,7 @@ import Loader from '../loader/Loader';
 import DonutChart from '../charts/donut-chart/DonutChart';
 import DsvTable from '../charts/dsv-table/DsvTable';
 import './TwitterSentimentAnalysis.css';
+import { PROPERTIES } from './Properties'
 
 class TwitterSentimentAnalysis extends React.Component {
     
@@ -34,10 +35,9 @@ class TwitterSentimentAnalysis extends React.Component {
     }
 
     getServiceUrl(){
-        var hostPort = window.location.href.indexOf("https://") === 0 ? "8443" : "8080";
-        var serviceHost = "//" + window.location.hostname + ":" + hostPort;
-        var serviceUrl = '/text-analysis-service/rest/twittersa/sa/';
-        return serviceHost + serviceUrl;
+       //javascript template literals, done with back ticks
+       //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Text_formatting#Multi-line_template_literals
+       return `${PROPERTIES.scheme}://${PROPERTIES.hostname}:${PROPERTIES.port}${PROPERTIES.serviceUrl}`;
     }
 
     getSentimentAnalysis() {
