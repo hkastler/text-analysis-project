@@ -125,5 +125,12 @@
                 <module>text-analysis-webapp</module>
             </modules>
         </profile>
+        <profile>
+            <id>twitter-service</id>
+            <modules>
+                <module>text-analysis-twitter</module>
+                <module>text-analysis-service</module>
+            </modules>
+        </profile>
     </profiles>
 </project>
