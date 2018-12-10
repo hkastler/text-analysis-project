@@ -4,11 +4,11 @@ import './DonutChart.css';
 
 class DonutChart extends React.Component {
 
-    constructor(mydata, target) {
+    constructor(mydata, containerCssSelector) {
         super();
         
         this.donutData = mydata;
-        this.target = target
+        this.containerCssSelector = containerCssSelector;
 
         this.width = 360;
         this.height = 360;
@@ -33,7 +33,7 @@ class DonutChart extends React.Component {
     d3Html() {
         
         var mydata = this.donutData;
-        var container = this.getContainer(this.target);
+        var container = this.getContainer(this.containerCssSelector);
         container.html('');
 
         if (isNaN(mydata["total"])) {
@@ -72,11 +72,11 @@ class DonutChart extends React.Component {
         });
         
     }
-    getContainer(target) {        
-        var container = d3.select(target);
+    getContainer(containerCssSelector) { 
+        var container = d3.select(containerCssSelector);
         if (container.empty()) {
             container = d3.select("body").append("div")
-            .attr("id",target);
+            .attr("id", containerCssSelector );
         }
         container.html('');
         return container;
