@@ -1,0 +1,17 @@
+version: '2'
+
+networks:
+  docker-ci-tool-stack_devnetwork:
+    external: true
+
+services:
+ wildfly:
+   build: .
+   ports:
+     - "8080:8080"
+     - "9990:9990"
+   volumes:
+     - C:\etc\opt:/etc/opt
+   networks:
+    - docker-ci-tool-stack_devnetwork
+   hostname: "text-analysis-project"
