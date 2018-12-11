@@ -17,11 +17,11 @@ RUN cd $HOME \
     && chown -R jboss:0 ${JBOSS_HOME} \
 && chmod -R g+rw ${JBOSS_HOME}
 
-# Expose the ports we're interested in
-EXPOSE 8080
-
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
+
+# Expose the ports we're interested in
+EXPOSE 8080
 
 USER jboss
 
