@@ -53,7 +53,6 @@ public class TwitterSAService {
         return response.orElse(new Object[2]);
         
     }
-
    
     private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
        
