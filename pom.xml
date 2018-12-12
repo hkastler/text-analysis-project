@@ -90,7 +90,7 @@
         <connection>scm:git:https://github.com/hkastler/text-analysis-project.git</connection>
         <url>https://github.com/hkastler/text-analysis-project</url>
     </scm>
-    <profiles>        
+    <profiles>
         <profile>
             <id>angular</id>
             <modules>
@@ -133,4 +133,10 @@
             </modules>
         </profile>
     </profiles>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus:8081/repository/hkstlr/</url>
+        </repository>
+    </distributionManagement>
 </project>
