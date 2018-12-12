@@ -1,4 +1,4 @@
-# Use latest jboss/base-jdk:8 image as the base
+# Use local build wildfly 15, see wildfly-15 directory
 FROM wildfly15.0.0.final:latest
 
 COPY text-analysis-service/target/text-analysis-service.war /opt/jboss/wildfly/standalone/deployments/
