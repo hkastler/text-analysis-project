@@ -382,7 +382,7 @@
             <expose-resolved-model/>
             <expose-expression-model/>
             <remoting-connector/>
-        </subsystem>        
+        </subsystem>
         
         <subsystem xmlns="urn:wildfly:microprofile-config-smallrye:1.0"/>
         <subsystem xmlns="urn:wildfly:microprofile-health-smallrye:1.0" security-enabled="false"/>
@@ -438,7 +438,7 @@
             </deployment-permissions>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:transactions:5.0">
-            <core-environment node-identifier="text-analysis-project">
+            <core-environment node-identifier="text-analysis-project-node">
                 <process-id>
                     <uuid/>
                 </process-id>
