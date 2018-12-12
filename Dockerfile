@@ -1,6 +1,8 @@
-# Use local build wildfly 15, see wildfly-15 directory
-FROM wildfly15.0.0.final:latest
+# Use local build wildfly 15
+# see docker-build.* in wildfly directory
+FROM wildfly.15.0.0.final:latest
 
+#Dockerfile in the root to access target dirs
 COPY text-analysis-service/target/text-analysis-service.war /opt/jboss/wildfly/standalone/deployments/
 COPY text-analysis-webapp/target/text-analysis-webapp.war /opt/jboss/wildfly/standalone/deployments/
 RUN rm -f /opt/jboss/wildfly/welcome-content/*.*
