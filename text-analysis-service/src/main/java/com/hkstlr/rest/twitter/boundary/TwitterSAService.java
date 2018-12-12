@@ -13,10 +13,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.opentracing.Traced;
+
 import twitter4j.TwitterException;
 
 @Stateless
 @Path("twittersa")
+@Traced
 public class TwitterSAService {
 
     private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
@@ -34,8 +37,9 @@ public class TwitterSAService {
 
     @GET
     @Path("/results/{queryTerms}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Object[] getResults(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms) {
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")    
+    public Object[] getResults(@DefaultValue(value = " ") 
+    @PathParam("queryTerms") String queryTerms) {
         Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount()));
         return response.orElse(new Object[2]);
     }
@@ -49,7 +53,7 @@ public class TwitterSAService {
         return response.orElse(new Object[2]);
         
     }
-
+   
     private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
        
         try {
