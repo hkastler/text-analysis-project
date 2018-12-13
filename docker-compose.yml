@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  docker-ci-tool-stack_devnetwork:
+  docker-microservice-tool-stack_webnet:
     external: true
 
 services:
@@ -13,5 +13,5 @@ services:
     volumes:
      - C:\etc\opt:/etc/opt
     networks:
-    - docker-ci-tool-stack_devnetwork
+    - docker-microservice-tool-stack_webnet
     hostname: "text-analysis-project"
