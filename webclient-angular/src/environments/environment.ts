@@ -5,8 +5,16 @@ import PROPERTIES from './service-properties.js';
 
 export const environment = {
   production: false,
-  twitterSentimentAnalysisURL: PROPERTIES.scheme + "://" + PROPERTIES.hostname + ":" + PROPERTIES.port +  PROPERTIES.serviceUrl, 
+  twitterSentimentAnalysisURL: PROPERTIES.scheme + "://" + getHostname(PROPERTIES.hostname) + ":" + PROPERTIES.port +  PROPERTIES.serviceUrl, 
 };
+
+function getHostname(hostnamePropVal){
+  var hostname = hostnamePropVal;
+  if(hostname === 'window.location.hostname'){
+    hostname = window.location.hostname;
+  }
+  return hostname;
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
