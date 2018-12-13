@@ -12,7 +12,7 @@ class TwitterSentimentAnalysis extends React.Component {
         this.state = {
             queryTerms: 'chicago pizza',
             tweetCount: '100',
-            totals: '',
+            totals: this.getServiceUrl(),
             isLoading: false
         };
         this.serviceUrl = this.getServiceUrl();
@@ -35,9 +35,11 @@ class TwitterSentimentAnalysis extends React.Component {
     }
 
     getServiceUrl() {
-
-        return PROPERTIES.scheme + "://" + PROPERTIES.hostname + ":" + PROPERTIES.port + PROPERTIES.serviceUrl;
-
+        var hostname = PROPERTIES.hostname;
+        if(hostname === 'window.location.hostname'){
+            hostname = window.location.hostname;
+        }
+        return PROPERTIES.scheme + "://" + hostname + ":" + PROPERTIES.port + PROPERTIES.serviceUrl;
     }
 
     getSentimentAnalysis() {
@@ -59,9 +61,8 @@ class TwitterSentimentAnalysis extends React.Component {
                 (error) => {
                     this.setState({
                         isLoading: false,
-                        error
-                    }
-                    );
+                        totals: error.toString()
+                    });
                 }
             );
 
