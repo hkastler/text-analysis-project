@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import twitter4j.TwitterException;
@@ -20,6 +22,7 @@ import twitter4j.TwitterException;
 @Stateless
 @Path("twittersa")
 @Traced
+@Timed
 public class TwitterSAService {
 
     private static final Logger LOG = Logger.getLogger(TwitterSAService.class.getName());
@@ -37,25 +40,28 @@ public class TwitterSAService {
 
     @GET
     @Path("/results/{queryTerms}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")    
-    public Object[] getResults(@DefaultValue(value = " ") 
-    @PathParam("queryTerms") String queryTerms) {
-        Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount()));
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Counted(name = "getResultsCount", absolute = true, monotonic = true, description = "Number of times the getResults method is requested")
+    public Object[] getResults(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms) {
+        Optional<Object[]> response = Optional
+                .ofNullable(getSentimentAnalysis(queryTerms, tab.getTa().getTweetCount()));
         return response.orElse(new Object[2]);
     }
 
     @GET
     @Path("/sa/{queryTerms}/{tweetCount}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Counted(name = "getSACount", absolute = true, monotonic = true, description = "Number of times the getSA method is requested")
     public Object[] getSA(@DefaultValue(value = " ") @PathParam("queryTerms") String queryTerms,
-           @DefaultValue(value = "1") @PathParam("tweetCount") int tweetCount) {
+            @DefaultValue(value = "1") @PathParam("tweetCount") int tweetCount) {
         Optional<Object[]> response = Optional.ofNullable(getSentimentAnalysis(queryTerms, tweetCount));
         return response.orElse(new Object[2]);
-        
+
     }
-   
+
+    
     private Object[] getSentimentAnalysis(String queryTerms, int tweetCount) {
-       
+
         try {
             return tab.getTa().getSentimentAnalysis(queryTerms, tweetCount);
         } catch (NullPointerException | TwitterException e) {
