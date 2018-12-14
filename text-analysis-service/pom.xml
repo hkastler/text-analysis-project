@@ -57,49 +57,6 @@
     </dependencies>
     <build>
         <finalName>text-analysis-service</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <!-- JBoss AS plugin to deploy war -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>2.0.0.Final</version>
-                <configuration>
-                    <hostname>${wildfly.hostname}</hostname>
-                    <port>${wildfly.port}</port>
-                    <username>${wildfly.username}</username>
-                    <password>${wildfly.password}</password>
-                </configuration>
-                <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.wildfly.plugins/wildfly-maven-plugin -->
-                    <dependency>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>2.0.0.Final</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
     </build>
     <profiles>
         <profile>
