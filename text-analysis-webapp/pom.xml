@@ -12,15 +12,10 @@
     <properties>
         <sonar.sources>src</sonar.sources>
         <sonar.exclusions>**/webapp/**</sonar.exclusions>
-        <wildfly.hostname>localhost</wildfly.hostname>
-        <wildfly.port>9990</wildfly.port>
-        <wildfly.username>admin</wildfly.username>
-        <wildfly.password>admin0099</wildfly.password>
     </properties>
     <build>
         <finalName>text-analysis-webapp</finalName>
         <plugins>
-            
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
@@ -96,15 +91,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-        </profile>
-        <profile>
-            <id>arquillian</id>
-            <properties>
-                <wildfly.hostname>arquillian</wildfly.hostname>
-                <wildfly.port>11990</wildfly.port>
-                <wildfly.username>admin</wildfly.username>
-                <wildfly.password>adminadmin1</wildfly.password>
-            </properties>
-        </profile>
+        </profile>        
     </profiles>
 </project>

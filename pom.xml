@@ -22,17 +22,20 @@
         <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
-
         <version.plugin.war>3.2.2</version.plugin.war>
         <version.plugin.surefire>2.19.1</version.plugin.surefire>
         <version.plugin.wildfly>2.0.0.Final</version.plugin.wildfly>
         <version.plugin.sonar>3.5.0.1254</version.plugin.sonar>
-
         <!--test dependencies -->
         <version.junit>4.12</version.junit>
         <version.hamcrest-core>1.3</version.hamcrest-core>
         <version.mockito-core>2.23.4</version.mockito-core>
         <version.assertj-core>3.11.1</version.assertj-core>
+        <!-- default wildfly login -->
+        <wildfly.hostname>localhost</wildfly.hostname>
+        <wildfly.port>9990</wildfly.port>
+        <wildfly.username>admin</wildfly.username>
+        <wildfly.password>admin0099</wildfly.password>
     </properties>
     <build>
         <plugins>
@@ -140,8 +143,6 @@
             <version>${version.assertj-core}</version>
             <scope>test</scope>
         </dependency>
-
-        
         <!-- https://mvnrepository.com/artifact/org.wildfly.plugins/wildfly-maven-plugin -->
         <dependency>
             <groupId>org.wildfly.plugins</groupId>
@@ -149,6 +150,12 @@
             <version>${version.plugin.wildfly}</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus:8081/repository/hkstlr/</url>
+        </repository>
+    </distributionManagement>
     <scm>
         <connection>scm:git:https://github.com/hkastler/text-analysis-project.git</connection>
         <url>https://github.com/hkastler/text-analysis-project</url>
@@ -195,11 +202,15 @@
                 <module>text-analysis-service</module>
             </modules>
         </profile>
+        <profile>
+            <id>arquillian</id>
+            <properties>
+                <wildfly.hostname>arquillian</wildfly.hostname>
+                <wildfly.port>11990</wildfly.port>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>adminadmin1</wildfly.password>
+            </properties>
+        </profile>
     </profiles>
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <url>http://nexus:8081/repository/hkstlr/</url>
-        </repository>
-    </distributionManagement>
+    
 </project>
