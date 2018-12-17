@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import React from 'react';
+import './DsvTable.css';
 
 class DsvTable extends React.Component{
 
