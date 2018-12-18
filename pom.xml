@@ -22,10 +22,14 @@
         <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
+
+
         <version.plugin.war>3.2.2</version.plugin.war>
         <version.plugin.surefire>2.19.1</version.plugin.surefire>
         <version.plugin.wildfly>2.0.0.Final</version.plugin.wildfly>
         <version.plugin.sonar>3.5.0.1254</version.plugin.sonar>
+        
+
         <!--test dependencies -->
         <version.junit>4.12</version.junit>
         <version.hamcrest-core>1.3</version.hamcrest-core>
@@ -36,6 +40,8 @@
         <wildfly.port>9990</wildfly.port>
         <wildfly.username>admin</wildfly.username>
         <wildfly.password>admin0099</wildfly.password>
+        <!-- thorntail -->
+        <version.thorntail>2.2.1.Final</version.thorntail>
     </properties>
     <build>
         <plugins>
@@ -114,6 +120,7 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${version.plugin.sonar}</version>
             </plugin>
+            
         </plugins>
     </build>
     <dependencies>

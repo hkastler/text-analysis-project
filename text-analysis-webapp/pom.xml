@@ -65,6 +65,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <version>${version.thorntail}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <port>80</port>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -91,6 +107,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-        </profile>        
+        </profile>
     </profiles>
 </project>

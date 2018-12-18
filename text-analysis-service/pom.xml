@@ -6,7 +6,6 @@
         <artifactId>text-analysis-project</artifactId>
         <version>1.0</version>
     </parent>
-    
     <artifactId>text-analysis-service</artifactId>
     <packaging>war</packaging>
     <properties>
@@ -27,9 +26,6 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        
-        
-        
         <!-- https://mvnrepository.com/artifact/org.eclipse.microprofile/microprofile -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
@@ -53,5 +49,23 @@
     </dependencies>
     <build>
         <finalName>text-analysis-service</finalName>
+        <plugins>
+            <plugin>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <version>${version.thorntail}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <port>8080</port>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
