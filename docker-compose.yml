@@ -1,17 +1,23 @@
 version: '3'
 
 networks:
-  docker-microservice-tool-stack_webnet:
-    external: true
+  web:
+    driver: bridge
+  serv:
+    driver: bridge
 
 services:
-  wildfly:
-    build: .
-    ports:
-      - "8080:8080"
-      - "9990:9990"
-    volumes:
-     - C:\etc\opt:/etc/opt
+  webapp:
+    build: ./text-analysis-webapp
+    ports: 
+      - "8080:80"
     networks:
-    - docker-microservice-tool-stack_webnet
-    hostname: "text-analysis-project"
+    - web
+    hostname: "text-analysis-webapp"
+  webservice:
+    build: ./text-analysis-service
+    ports: 
+      - "9990:9990"
+    networks:
+    - serv
+    hostname: "text-analysis-service"
