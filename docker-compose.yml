@@ -1,23 +1,21 @@
 version: '3'
 
 networks:
-  web:
-    driver: bridge
-  serv:
+  dev:
     driver: bridge
 
 services:
   webapp:
     build: ./text-analysis-webapp
     ports: 
-      - "8080:80"
+      - "8181:80"
     networks:
-    - web
+    - dev
     hostname: "text-analysis-webapp"
   webservice:
     build: ./text-analysis-service
     ports: 
-      - "9990:9990"
+      - "8080:8080"
     networks:
-    - serv
+    - dev
     hostname: "text-analysis-service"
