@@ -156,6 +156,9 @@
             <artifactId>wildfly-maven-plugin</artifactId>
             <version>${version.plugin.wildfly}</version>
         </dependency>
+        
+        
+    
     </dependencies>
     <distributionManagement>
         <repository>

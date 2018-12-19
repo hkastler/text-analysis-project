@@ -12,10 +12,3 @@ services:
     networks:
     - dev
     hostname: "text-analysis-webapp"
-  webservice:
-    build: ./text-analysis-service
-    ports: 
-      - "8080:8080"
-    networks:
-    - dev
-    hostname: "text-analysis-service"
