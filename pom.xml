@@ -75,10 +75,10 @@
         <profile>
             <id>aws</id>
             <properties>
-                <wildfly.hostname>youripaddress</wildfly.hostname>
+                <wildfly.hostname>100.25.246.49</wildfly.hostname>
                 <wildfly.port>9990</wildfly.port>
-                <wildfly.username>yourusername</wildfly.username>
-                <wildfly.password>yourpassword</wildfly.password>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>admin0099</wildfly.password>
             </properties>
         </profile>
     </profiles>
