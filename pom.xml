@@ -12,150 +12,11 @@
     <artifactId>text-analysis-project</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- sonar props -->
-        <sonar.host.url>http://sonarqube:9000</sonar.host.url>
-        <sonar.sources>src/main</sonar.sources>
-        <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
-        <version.plugin.war>3.2.2</version.plugin.war>
-        <version.plugin.surefire>2.19.1</version.plugin.surefire>
-        <version.plugin.wildfly>2.0.0.Final</version.plugin.wildfly>
-        <version.plugin.sonar>3.5.0.1254</version.plugin.sonar>
-        <!--test dependencies -->
-        <version.junit>4.12</version.junit>
-        <version.hamcrest-core>1.3</version.hamcrest-core>
-        <version.mockito-core>2.23.4</version.mockito-core>
-        <version.assertj-core>3.11.1</version.assertj-core>
-        <!-- default wildfly login -->
-        <wildfly.hostname>localhost</wildfly.hostname>
-        <wildfly.port>9990</wildfly.port>
-        <wildfly.username>admin</wildfly.username>
-        <wildfly.password>admin0099</wildfly.password>
-    </properties>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.plugin.war}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.plugin.surefire}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                    </excludes>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <excludes>
-                                <exclude>none</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- JBoss AS plugin to deploy war -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.plugin.wildfly}</version>
-                <configuration>
-                    <hostname>${wildfly.hostname}</hostname>
-                    <port>${wildfly.port}</port>
-                    <username>${wildfly.username}</username>
-                    <password>${wildfly.password}</password>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${version.plugin.sonar}</version>
-            </plugin>
-        </plugins>
-    </build>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${version.junit}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>${version.hamcrest-core}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${version.mockito-core}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${version.assertj-core}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.wildfly.plugins/wildfly-maven-plugin -->
-        <dependency>
-            <groupId>org.wildfly.plugins</groupId>
-            <artifactId>wildfly-maven-plugin</artifactId>
-            <version>${version.plugin.wildfly}</version>
-        </dependency>
-    </dependencies>
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <url>http://nexus:8081/repository/hkstlr/</url>
-        </repository>
-    </distributionManagement>
+    <parent>
+        <groupId>com.hkstlr</groupId>
+        <artifactId>global-pom</artifactId>
+        <version>1.0</version>
+    </parent>
     <scm>
         <connection>scm:git:https://github.com/hkastler/text-analysis-project.git</connection>
         <url>https://github.com/hkastler/text-analysis-project</url>
@@ -209,6 +70,15 @@
                 <wildfly.port>11990</wildfly.port>
                 <wildfly.username>admin</wildfly.username>
                 <wildfly.password>adminadmin1</wildfly.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>aws</id>
+            <properties>
+                <wildfly.hostname>youripaddress</wildfly.hostname>
+                <wildfly.port>9990</wildfly.port>
+                <wildfly.username>yourusername</wildfly.username>
+                <wildfly.password>yourpassword</wildfly.password>
             </properties>
         </profile>
     </profiles>
