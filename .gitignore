@@ -6,7 +6,7 @@ target/*
 .settings/*
 */.settings/*
 */.vscode/*
-text-analysis/.factorypath
+*/.factorypath
 
 webclient-angularjs/.vscode/settings.json
 webclient-angularjs/package-lock.json
