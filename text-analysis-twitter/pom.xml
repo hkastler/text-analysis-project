@@ -4,25 +4,26 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>text-analysis-twitter</artifactId>
+    <version>${revision}</version>
     <name>text-analysis-twitter</name>
-    <version>1.0</version>
     <packaging>jar</packaging>
     <properties>
         <sonar.exclusions>**/*Main*</sonar.exclusions>
+        <version.twitter4j>4.0.7</version.twitter4j>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>
-            <version>4.0.7</version>
+            <version>${version.twitter4j}</version>
         </dependency>
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis</artifactId>
-            <version>1.0</version>
+            <version>${revision}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
