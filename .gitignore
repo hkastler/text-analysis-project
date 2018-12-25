@@ -6,6 +6,7 @@ target/*
 .settings/*
 */.settings/*
 */.vscode/*
+text-analysis/.factorypath
 
 webclient-angularjs/.vscode/settings.json
 webclient-angularjs/package-lock.json
@@ -28,6 +29,3 @@ text-analysis-webapp/src/main/webapp/3rdpartylicenses.txt
 text-analysis-webapp/src/main/webapp/index.html
 text-analysis-webapp/src/main/webapp/*.js*
 text-analysis-webapp/src/main/webapp/static/**
-
-
-
