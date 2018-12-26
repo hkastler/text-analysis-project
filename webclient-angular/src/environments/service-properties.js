@@ -1,7 +1,7 @@
 export const PROPERTIES = {
-  scheme: "http",
+  scheme: "https",
   hostname: "window.location.hostname",
-  port:"8080",
+  port:"8443",
   serviceUrl: "/text-analysis-service/rest/twittersa/sa/"
 };
 export default PROPERTIES;

@@ -5,7 +5,8 @@ import PROPERTIES from './service-properties.js';
 
 export const environment = {
   production: false,
-  twitterSentimentAnalysisURL: PROPERTIES.scheme + "://" + getHostname(PROPERTIES.hostname) + ":" + PROPERTIES.port +  PROPERTIES.serviceUrl, 
+
+  twitterSentimentAnalysisURL: PROPERTIES.scheme + "://" + getHostname(PROPERTIES.hostname) + getPortString(PROPERTIES.scheme,PROPERTIES.port) +  PROPERTIES.serviceUrl, 
 };
 
 function getHostname(hostnamePropVal){
@@ -14,6 +15,16 @@ function getHostname(hostnamePropVal){
     hostname = window.location.hostname;
   }
   return hostname;
+}
+
+function getPortString(schemePropVal:string, portPropVal:any){
+  var portString = "";
+  var scheme = schemePropVal;
+  var port = portPropVal;
+  if('http'===scheme){
+    portString = ":" + port;
+  }
+  return portString;
 }
 
 /*
