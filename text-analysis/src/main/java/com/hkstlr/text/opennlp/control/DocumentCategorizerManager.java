@@ -88,8 +88,6 @@ public class DocumentCategorizerManager {
 
     void init() {
 
-        
-
         Optional<String> oModelFile = Optional.ofNullable(modelFile);
         if (new File(oModelFile.orElse("")).exists()) {
             loadModelFromFile();
