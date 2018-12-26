@@ -85,10 +85,10 @@
         <profile>
             <id>aws</id>
             <properties>
-                <wildfly.hostname>hostname</wildfly.hostname>
+                <wildfly.hostname>${aws.wildfly.host}</wildfly.hostname>
                 <wildfly.port>9990</wildfly.port>
-                <wildfly.username>username</wildfly.username>
-                <wildfly.password>password</wildfly.password>
+                <wildfly.username>${aws.wildfly.admin}</wildfly.username>
+                <wildfly.password>${aws.wildfly.password}</wildfly.password>
             </properties>
         </profile>
     </profiles>
