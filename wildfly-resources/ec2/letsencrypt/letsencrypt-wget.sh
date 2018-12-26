@@ -1,4 +1,5 @@
 #!/bin/sh
+sudo service nginx stop
 cd /tmp
 wget -O epel.rpm –nv \
 https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
