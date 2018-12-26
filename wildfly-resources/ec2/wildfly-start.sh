@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo -u jboss /opt/jboss/wildfly/wildfly-15.0.0.Final/bin/add-user.sh youradminusername youradminpassword --silent && sudo -u jboss nohup /opt/jboss/wildfly/wildfly-15.0.0.Final/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0 >> nohup.out 2>&1 &
+sudo -u jboss /opt/jboss/wildfly/bin/add-user.sh youradminusername youradminpassword --silent && sudo -u jboss nohup /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0 >> nohup.out 2>&1 &
