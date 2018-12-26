@@ -3,18 +3,19 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>text-analysis-webapp</artifactId>
     <packaging>war</packaging>
-    <version>1.0</version>
+    <version>${revision}</version>
     <name>text-analysis-webapp</name>
     <properties>
+        <build.viewtech></build.viewtech>
         <sonar.sources>src</sonar.sources>
         <sonar.exclusions>**/webapp/**</sonar.exclusions>
     </properties>
     <build>
-        <finalName>text-analysis-webapp</finalName>
+        <finalName>text-analysis-webapp${build.viewtech}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -71,6 +72,7 @@
         <profile>
             <id>angular</id>
             <properties>
+                <build.viewtech>-angular</build.viewtech>
                 <resourceInputDirectory>../webclient-angular/dist/webclient-angular</resourceInputDirectory>
                 <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
             </properties>
@@ -78,6 +80,7 @@
         <profile>
             <id>angularjs</id>
             <properties>
+                <build.viewtech>-angularjs</build.viewtech>
                 <resourceInputDirectory>../webclient-angularjs/dist/webclient-angularjs</resourceInputDirectory>
                 <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
             </properties>
@@ -85,7 +88,16 @@
         <profile>
             <id>react</id>
             <properties>
+                <build.viewtech>-react</build.viewtech>
                 <resourceInputDirectory>../webclient-react/build</resourceInputDirectory>
+                <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
+            </properties>            
+        </profile>
+        <profile>
+            <id>default</id>
+            <properties>
+                <build.viewtech></build.viewtech>
+                <resourceInputDirectory>../webclient-angular/dist/webclient-angular</resourceInputDirectory>
                 <resourceOutputDirectory>src/main/webapp</resourceOutputDirectory>
             </properties>
             <activation>

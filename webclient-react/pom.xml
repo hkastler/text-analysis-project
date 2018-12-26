@@ -4,9 +4,10 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>webclient-react</artifactId>
+    <version>${revision}</version>
     <name>webclient-react</name>
     <packaging>pom</packaging>
     <properties>
@@ -22,7 +23,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>${version.plugin.exec}</version>
                 <executions>
                     <execution>
                         <id>yarn-package</id>
@@ -72,7 +73,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>${version.plugin.resources}</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>

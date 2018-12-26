@@ -7,9 +7,10 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>webclient-angularjs</artifactId>
+    <version>${revision}</version>
     <name>webclient-angularjs</name>
     <packaging>pom</packaging>
     <properties>
