@@ -14,6 +14,7 @@ export class TwitterSentimentAnalysisService {
     { this.serviceURL = environment.twitterSentimentAnalysisURL}
 
   public getSAResults(queryTerms: string, tweetCount: number): Observable<Object> {
-    return this.http.get( this.serviceURL + queryTerms + "/" + tweetCount);  
+    
+    return this.http.get( this.serviceURL + encodeURIComponent(queryTerms) + "/" + tweetCount);  
   }
 }
