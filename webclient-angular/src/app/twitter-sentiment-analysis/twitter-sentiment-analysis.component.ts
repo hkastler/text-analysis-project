@@ -21,7 +21,7 @@ export class TwitterSentimentAnalysisComponent implements OnInit {
   constructor(private twitterSentimentAnalyisService: TwitterSentimentAnalysisService) { }
 
   ngOnInit() {
-    this.model = new TwitterSentimentAnalyzer("chicago pizza", 100);
+    this.model = new TwitterSentimentAnalyzer("", 100);
     this.dsvData = "";
     this.delimiter = "~";
     this.donutChartObj = {};
