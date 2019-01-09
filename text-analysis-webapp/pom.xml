@@ -7,7 +7,7 @@
     </parent>
     <artifactId>text-analysis-webapp</artifactId>
     <packaging>war</packaging>
-    <version>${revision}</version>
+    
     <name>text-analysis-webapp</name>
     <properties>
         <build.viewtech></build.viewtech>

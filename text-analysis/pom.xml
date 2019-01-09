@@ -6,9 +6,7 @@
         <artifactId>text-analysis-project</artifactId>
         <version>${revision}</version>
     </parent>
-
     <artifactId>text-analysis</artifactId>
-    <version>${revision}</version>
     <packaging>jar</packaging>
     <properties>
         <version.opennlp>1.9.0</version.opennlp>

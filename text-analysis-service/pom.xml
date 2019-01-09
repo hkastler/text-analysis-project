@@ -7,7 +7,6 @@
         <version>${revision}</version>
     </parent>
     <artifactId>text-analysis-service</artifactId>
-    <version>${revision}</version>
     <packaging>war</packaging>
     <name>text-analysis-service</name>
     <properties>

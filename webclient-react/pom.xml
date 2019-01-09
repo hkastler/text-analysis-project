@@ -7,7 +7,7 @@
         <version>${revision}</version>
     </parent>
     <artifactId>webclient-react</artifactId>
-    <version>${revision}</version>
+    
     <name>webclient-react</name>
     <packaging>pom</packaging>
     <properties>
@@ -23,7 +23,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>${version.plugin.exec}</version>
+                <version>${plugin.exec.version}</version>
                 <executions>
                     <execution>
                         <id>yarn-package</id>
@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${version.plugin.resources}</version>
+                <version>${plugin.resources.version}</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
