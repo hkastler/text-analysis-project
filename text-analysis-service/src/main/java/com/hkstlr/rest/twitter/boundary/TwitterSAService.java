@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -19,7 +19,7 @@ import org.eclipse.microprofile.opentracing.Traced;
 
 import twitter4j.TwitterException;
 
-@Stateless
+@RequestScoped
 @Path("twittersa")
 @Traced
 @Timed
