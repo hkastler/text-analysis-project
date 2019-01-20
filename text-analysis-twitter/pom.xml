@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>${revision}</version>
+        <version>${revision}${sha1}${changelist}</version>
     </parent>
     <artifactId>text-analysis-twitter</artifactId>
     
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>

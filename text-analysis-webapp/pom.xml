@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>text-analysis-project</artifactId>
-        <version>${revision}</version>
+        <version>${revision}${sha1}${changelist}</version>
     </parent>
     <artifactId>text-analysis-webapp</artifactId>
     <packaging>war</packaging>
