@@ -5,11 +5,11 @@ networks:
     external: true
 
 services:
-  wildfly:
+  payara:
     build: .
     ports:
       - "8080:8080"
-      - "9990:9990"
+      - "4848:4848"
     volumes:
      - C:\etc\opt:/etc/opt
     networks:
