@@ -3,12 +3,9 @@ package com.hkstlr.twitter.control;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.hkstlr.text.opennlp.control.DocumentCategorizerManager;
 
 import org.junit.Before;
 import org.junit.Test;
