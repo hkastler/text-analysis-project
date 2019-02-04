@@ -5,11 +5,11 @@ networks:
     external: true
 
 services:
-  wildfly:
+  openliberty:
     build: .
     ports:
-      - "8080:8080"
-      - "9990:9990"
+      - "9080:9080"
+      - "9443:9443"
     volumes:
      - C:\etc\opt:/etc/opt
     networks:
