@@ -8,12 +8,10 @@
     </parent>
     <artifactId>text-analysis</artifactId>
     <packaging>jar</packaging>
-    
     <properties>
-        <version.opennlp>1.9.0</version.opennlp>
+        <version.opennlp>1.9.1</version.opennlp>
         <version.mockito-all>1.9.5</version.mockito-all>
     </properties>
-    
     <dependencies>
         <dependency>
             <groupId>org.apache.opennlp</groupId>
