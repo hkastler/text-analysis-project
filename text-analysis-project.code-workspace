@@ -26,9 +26,18 @@
 		},
 		{
 			"path": "C:\\Users\\henry.kastler\\Documents\\GitHub\\docker-ci-tool-stack"
+		},
+		{
+			"path": "C:\\Users\\henry.kastler\\Documents\\GitHub\\docker-microservice-tool-stack"
 		}
 	],
 	"settings": {
-		"java.configuration.updateBuildConfiguration": "automatic"
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"files.exclude": {
+			"**/.classpath": true,
+			"**/.project": true,
+			"**/.settings": true,
+			"**/.factorypath": true
+		}
 	}
 }
