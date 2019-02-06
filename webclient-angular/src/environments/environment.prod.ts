@@ -5,7 +5,7 @@ export const environment = {
 };
 
 function createTwitterSentimentAnalysisURL(){
-  var serviceLoc = "//" + window.location.hostname;
+  var serviceLoc = "//" + location.host;
   var serviceUrl = '/text-analysis-service/rest/twittersa/sa/';
   return serviceLoc + serviceUrl;
 }
