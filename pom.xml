@@ -98,7 +98,6 @@
     <scm>
         <connection>scm:git:https://github.com/hkastler/text-analysis-project.git</connection>
         <url>https://github.com/hkastler/text-analysis-project</url>
-        <tag>${project.artifactId}-${revision}</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
