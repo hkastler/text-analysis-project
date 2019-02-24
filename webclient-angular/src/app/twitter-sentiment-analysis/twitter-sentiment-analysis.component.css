@@ -1,9 +1,9 @@
 .panel-primary{
-    padding-top: 20px;
+    padding-top: 10px;
 }
   
 #searchForm legend{
-    font-size: 2rem;
+    font-size: 1rem;
 }
 #tweetCountOutput{
     padding-left: .5em;
