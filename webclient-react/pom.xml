@@ -66,6 +66,7 @@
                                 <argument>--coverage</argument>
                                 <argument> --coverageDirectory=./target/coverage</argument>
                             </arguments>
+                            <skip>${skipTests}</skip>
                         </configuration>
                     </execution>
                 </executions>
