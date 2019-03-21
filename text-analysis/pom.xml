@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.hkstlr</groupId>
-        <artifactId>text-analysis-project</artifactId>
-        <version>${revision}${sha1}${changelist}</version>
-    </parent>
-    <artifactId>text-analysis</artifactId>
-    <packaging>jar</packaging>
-    <properties>
-        <version.opennlp>1.9.1</version.opennlp>
-        <version.mockito-all>1.9.5</version.mockito-all>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.opennlp</groupId>
-            <artifactId>opennlp-tools</artifactId>
-            <version>${version.opennlp}</version>
-        </dependency>
-       <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${version.mockito-all}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hkstlr</groupId>
+		<artifactId>text-analysis-project</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+	<artifactId>text-analysis</artifactId>
+	<packaging>jar</packaging>
+	<properties>
+		<opennlp.version>1.9.1</opennlp.version>
+		<version.mockito-all>1.9.5</version.mockito-all>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-tools</artifactId>
+			<version>${opennlp.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${version.mockito-all}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
