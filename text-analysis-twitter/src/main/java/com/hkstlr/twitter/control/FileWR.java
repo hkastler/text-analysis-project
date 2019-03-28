@@ -7,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -21,22 +25,37 @@ public class FileWR {
 		this.fileName = fileName;
 	}
 
-	public void writeFile(String text) throws IOException  {
-                
-		try(
-			FileOutputStream fos = new FileOutputStream(fileName);
-            Writer  writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-		){
+	public void writeFile(String text) throws IOException {
 
-		    writer.write(text);
+		try (FileOutputStream fos = new FileOutputStream(fileName);
+				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
 
-		} catch (FileNotFoundException  e) {
+			writer.write(text);
+
+		} catch (FileNotFoundException e) {
 			LOG.log(Level.SEVERE, "FileNotFoundException", e);
-                        throw new FileNotFoundException (e.getMessage());
-		} catch (NullPointerException ex){
+			throw new FileNotFoundException(e.getMessage());
+		} catch (NullPointerException ex) {
 			LOG.log(Level.SEVERE, "NullPointerException", ex);
-                        throw new NullPointerException(ex.getMessage());
-		} 
+			throw new NullPointerException(ex.getMessage());
+		}
+
+	}
+
+	public void appendTextToFile(String text) throws IOException {
+
+		try (Writer writer = Files.newBufferedWriter(Paths.get(this.fileName), StandardCharsets.UTF_8,
+				StandardOpenOption.APPEND);) {
+			String wrText =System.getProperty("line.separator") +  text;
+			writer.append(wrText);
+
+		} catch (FileNotFoundException e) {
+			LOG.log(Level.SEVERE, "FileNotFoundException", e);
+			throw new FileNotFoundException(e.getMessage());
+		} catch (NullPointerException ex) {
+			LOG.log(Level.SEVERE, "NullPointerException", ex);
+			throw new NullPointerException(ex.getMessage());
+		}
 
 	}
 
