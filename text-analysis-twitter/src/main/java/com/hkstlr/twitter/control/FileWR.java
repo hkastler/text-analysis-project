@@ -29,7 +29,6 @@ public class FileWR {
 
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));) {
-
 			writer.write(text);
 
 		} catch (FileNotFoundException e) {
@@ -45,9 +44,8 @@ public class FileWR {
 	public void appendTextToFile(String text) throws IOException {
 
 		try (Writer writer = Files.newBufferedWriter(Paths.get(this.fileName), StandardCharsets.UTF_8,
-				StandardOpenOption.APPEND);) {
-			String wrText =System.getProperty("line.separator") +  text;
-			writer.append(wrText);
+				StandardOpenOption.APPEND);) {	
+			writer.append(text);
 
 		} catch (FileNotFoundException e) {
 			LOG.log(Level.SEVERE, "FileNotFoundException", e);
