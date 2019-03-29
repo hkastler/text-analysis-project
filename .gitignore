@@ -31,3 +31,4 @@ text-analysis-webapp/src/main/webapp/*.js*
 text-analysis-webapp/src/main/webapp/static/**
 *.releaseBackup
 release.properties
+*.flattened-pom.xml
