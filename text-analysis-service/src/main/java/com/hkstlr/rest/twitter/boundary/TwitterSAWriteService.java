@@ -43,10 +43,10 @@ public class TwitterSAWriteService {
     @Counted(name = "train-text", absolute = true, monotonic = true, description = "Number of times the getSA method is requested")
     public String addTrainText(@DefaultValue(value = " ") @PathParam("sentiment") String sentiment,
             @DefaultValue(value = " ") @PathParam("tweetText") String tweetText) throws IOException {
-        LOG.info("sentiment:" + sentiment);
-        LOG.info("tweetText:" + tweetText);
+       
         FileWR wr = new FileWR(tab.getTa().getTrainingDataFile());
         String addString = sentiment.concat("\t").concat(tweetText);
+        LOG.info("addString:" + addString);
         wr.appendTextToFile(addString);
         return addString.concat(" added");
     }
