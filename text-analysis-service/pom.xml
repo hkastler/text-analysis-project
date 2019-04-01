@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis-twitter</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
