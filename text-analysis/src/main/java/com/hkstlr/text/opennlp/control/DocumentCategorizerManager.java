@@ -59,7 +59,7 @@ public class DocumentCategorizerManager {
     DocumentCategorizer doccat;
     private final Tokenizer tokenizer;
     private String languageCode;
-    private int minNgramSize = 2;
+    private int minNgramSize = 1;
     private int maxNgramSize = 10;
     private int iterations = 1000;
     private int cutoff = 1;
