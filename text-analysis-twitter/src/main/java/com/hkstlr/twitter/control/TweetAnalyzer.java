@@ -78,7 +78,7 @@ public class TweetAnalyzer {
 
         SentimentAnalyzer sa = new SentimentAnalyzer(getCat());
         sa.init();
-        fetchTweets().parallelStream().forEach(tweet ->
+        fetchTweets().stream().forEach(tweet ->
             sa.analyzeText(getTweetTextForCategorization(tweet.getText()))
         );
 
