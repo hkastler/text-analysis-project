@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.hkstlr</groupId>
             <artifactId>text-analysis</artifactId>
-            <version>${revision}${sha1}${changelist}</version>
+            <version>${project.parent.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
