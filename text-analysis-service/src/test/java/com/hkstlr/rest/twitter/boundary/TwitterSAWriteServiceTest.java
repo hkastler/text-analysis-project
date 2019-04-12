@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import javax.enterprise.event.Event;
 
-import com.hkstlr.rest.control.WriteServiceEvent;
+
 import com.hkstlr.twitter.control.TweetAnalyzer;
 import static org.junit.Assert.assertNotNull;
 
@@ -45,13 +45,13 @@ public class TwitterSAWriteServiceTest {
      * @throws java.lang.Exception
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testAddTrainText() throws Exception {
         
         cut = mock(TwitterSAWriteService.class);
-        cut.tab = mock(TweetAnalyzerBean.class);        
+        cut.tab = mock(TweetAnalyzerBean.class);
         when(cut.tab.getTa()).thenReturn(mock(TweetAnalyzer.class));
-        cut.wse = mock(Event.class);        
-        WriteServiceEvent writeServiceEvent = mock(WriteServiceEvent.class);
+        cut.wse = mock(Event.class);
         
         String sentiment = "positive";
         String text = "hello world";
