@@ -5,19 +5,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CORSFilterTest {
+public class CORSFilterTest {
 
 	final Logger LOG = Logger.getLogger(this.getClass().getName());
 	CORSFilter cut;
 	MockContainerRequestContext request;
 	MockContainerResponseContext response;
+        
+        public CORSFilterTest(){
+            
+        }
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		LOG.info("setUp()");
 		cut = new CORSFilter();
 
@@ -35,8 +41,8 @@ class CORSFilterTest {
 		String allowMethods = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS);
 		LOG.log(Level.INFO,CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS + "={0}", allowMethods);
 
-		Assertions.assertTrue("[*]".equals(allowOrigin));
-		Assertions.assertTrue("[GET]".equals(allowMethods));
+		assertTrue("[*]".equals(allowOrigin));
+		assertTrue("[GET]".equals(allowMethods));
 
 		request = new MockContainerRequestContext();
 		response = new MockContainerResponseContext();
@@ -47,9 +53,9 @@ class CORSFilterTest {
 		LOG.info("allowHeaders: ".concat(allowHeaders));
 		LOG.info(Boolean.toString("[]".equals(allowHeaders)));
 		if("[]".equals(allowHeaders)){
-			Assertions.fail("allowHeaders is empty");
+			fail("allowHeaders is empty");
 		}else{
-			Assertions.assertEquals("["+CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS+"]", allowHeaders);
+			assertEquals("["+CORSFilter.REQUEST_HEADER_ACCESS_CONTROL_REQUEST_HEADERS+"]", allowHeaders);
 			
 		}
 
@@ -60,9 +66,9 @@ class CORSFilterTest {
 		cut.filter(request, response);
 		allowHeaders = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_HEADERS);
 		if("[]".equals(allowHeaders)){
-			Assertions.assertTrue(true);
+			assertTrue(true);
 		}else{
-			Assertions.fail("Filter should not place");
+			fail("Filter should not place");
 		}
 		
 	}

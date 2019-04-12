@@ -8,8 +8,7 @@ import static org.mockito.Mockito.when;
 import com.hkstlr.twitter.control.TweetAnalyzer;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import twitter4j.TwitterException;
 
 

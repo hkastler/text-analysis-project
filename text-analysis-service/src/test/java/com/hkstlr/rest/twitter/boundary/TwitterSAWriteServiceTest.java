@@ -8,6 +8,7 @@ import javax.enterprise.event.Event;
 
 import com.hkstlr.rest.control.WriteServiceEvent;
 import com.hkstlr.twitter.control.TweetAnalyzer;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,15 @@ public class TwitterSAWriteServiceTest {
     
     @Before
     public void setUp() {
+    }
+    
+    @Test
+    public void testConstructor() throws Exception {
+        cut = new TwitterSAWriteService();
+        assertNotNull(cut);
+        TweetAnalyzerBean tab = new TweetAnalyzerBean();
+        cut = new TwitterSAWriteService(tab);
+        assertNotNull(cut);
     }
 
     /**

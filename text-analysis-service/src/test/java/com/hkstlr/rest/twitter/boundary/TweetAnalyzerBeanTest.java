@@ -1,7 +1,7 @@
 package com.hkstlr.rest.twitter.boundary;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 
 /**
@@ -22,8 +22,8 @@ public class TweetAnalyzerBeanTest {
         System.out.println("init");
         cut = new TweetAnalyzerBean();
         cut.init();
-        Assertions.assertNotNull(cut);
-        Assertions.assertNotNull(cut.getTa());
+        assertNotNull(cut);
+        assertNotNull(cut.getTa());
     }
 
     

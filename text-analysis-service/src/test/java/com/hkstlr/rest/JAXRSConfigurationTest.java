@@ -5,8 +5,9 @@
  */
 package com.hkstlr.rest;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
 
 /**
  *
@@ -23,7 +24,7 @@ public class JAXRSConfigurationTest {
     @Test
     public void testJAXRSConfiguration() {
         cut = new JAXRSConfiguration();
-        Assertions.assertNotNull(cut);
+        assertNotNull(cut);
     }
     
 }
