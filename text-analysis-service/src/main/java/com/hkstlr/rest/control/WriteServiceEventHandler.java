@@ -13,7 +13,7 @@ import com.hkstlr.twitter.control.FileWR;
 @Stateless
 public class WriteServiceEventHandler {
 
-    Logger LOG = Logger.getLogger(WriteServiceEventHandler.class.getCanonicalName());
+    static final Logger LOG = Logger.getLogger(WriteServiceEventHandler.class.getCanonicalName());
 
     public WriteServiceEventHandler() {
         super();
@@ -23,6 +23,7 @@ public class WriteServiceEventHandler {
     public void handle(@Observes WriteServiceEvent event) {
         String eventName = event.getName();
         Object payload = event.getPayload();
+        
         if (null != eventName) switch (eventName) {
             case "addTrainText":
                 addTrainText((String[]) payload);
@@ -32,7 +33,8 @@ public class WriteServiceEventHandler {
         }
     }
     
-    private void addTrainText(String[] payload){
+    
+    void addTrainText(String[] payload){
         
         String sentiment = payload[0];
         String trainText = payload[1];

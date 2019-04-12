@@ -1,6 +1,7 @@
 package com.hkstlr.rest;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -30,9 +31,9 @@ class CORSFilterTest {
 		cut.filter(request, response);
 
 		String allowOrigin = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN);
-		LOG.info(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN + "=" + allowOrigin);
+		LOG.log(Level.INFO,CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN + "={0}", allowOrigin);
 		String allowMethods = response.getHeaderString(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS);
-		LOG.info(CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS + "=" + allowMethods);
+		LOG.log(Level.INFO,CORSFilter.RESPONSE_HEADER_ACCESS_CONTROL_ALLOW_METHODS + "={0}", allowMethods);
 
 		Assertions.assertTrue("[*]".equals(allowOrigin));
 		Assertions.assertTrue("[GET]".equals(allowMethods));
