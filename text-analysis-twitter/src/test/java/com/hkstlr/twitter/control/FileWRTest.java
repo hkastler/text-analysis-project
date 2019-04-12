@@ -51,6 +51,32 @@ public class FileWRTest {
         assertEquals(text,currentLine);
         assertTrue(temp.delete());
     }
+
+    @Test
+    public void testAppendTextToFile() throws Exception {
+        LOG.info("appendTextToFile");
+        File temp = folder.newFile();
+        String text = "hello world";
+        cut = new FileWR(temp.getPath());
+        cut.writeFile(text);
+
+        String currentLine;
+        try (BufferedReader reader = new BufferedReader(new FileReader(temp))) {
+            currentLine = reader.readLine();
+        }
+        
+        assertEquals(text,currentLine);
+
+        String text2 = " electric bugaloo";
+        cut.appendTextToFile(text2);
+
+       try (BufferedReader reader = new BufferedReader(new FileReader(temp))) {
+            currentLine = reader.readLine();
+        }
+        assertEquals(text+text2,currentLine);
+
+        assertTrue(temp.delete());
+    }
     
     @Test(expected = IOException.class)
     public void testWriteFileBadLoc() throws Exception {
