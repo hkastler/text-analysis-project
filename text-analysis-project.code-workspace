@@ -16,9 +16,6 @@
 			"path": "text-analysis-webapp"
 		},
 		{
-			"path": "webclient-angularjs"
-		},
-		{
 			"path": "webclient-angular"
 		},
 		{
