@@ -28,7 +28,7 @@
     "d3": "5.7.0",
     "jquery": "~>3.4.0",
     "karma-phantomjs-launcher": "^1.0.4",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.19",
     "ng": "^0.0.0",
     "popper.js": "1.14.4",
     "puppeteer": "^1.11.0",
