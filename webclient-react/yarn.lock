@@ -1143,6 +1143,10 @@
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
 
+"@types/color-name@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
+
 "@types/node@*":
   version "14.0.27"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.27.tgz#a151873af5a5e851b51b3b065c9e63390a9e0eb1"
@@ -1474,6 +1478,13 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
   dependencies:
     color-convert "^1.9.0"
+
+ansi-styles@^4.1.0:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-4.2.1.tgz#90ae75c424d008d2624c5bf29ead3177ebfcf359"
+  dependencies:
+    "@types/color-name" "^1.1.1"
+    color-convert "^2.0.1"
 
 anymatch@^1.3.0:
   version "1.3.2"
@@ -2070,6 +2081,14 @@ bl@^4.0.1:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
+bl@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-4.0.3.tgz#12d6287adc29080e22a705e5764b2a9522cdc489"
+  dependencies:
+    buffer "^5.5.0"
+    inherits "^2.0.4"
+    readable-stream "^3.4.0"
+
 bluebird@^3.5.1, bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
@@ -2623,6 +2642,13 @@ chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
+chalk@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
 chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
@@ -2646,7 +2672,7 @@ cheerio@^1.0.0-rc.3:
     lodash "^4.15.0"
     parse5 "^3.0.1"
 
-chokidar@*, chokidar@^3.4.1:
+chokidar@*, chokidar@3.4.2, chokidar@^3.4.1:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.2.tgz#38dc8e658dec3809741eb3ef7bb0a47fe424232d"
   dependencies:
@@ -2821,11 +2847,17 @@ color-convert@^1.9.0, color-convert@^1.9.1:
   dependencies:
     color-name "1.1.3"
 
+color-convert@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-2.0.1.tgz#72d3a68d598c9bdb3af2ad1e84f21d896abd4de3"
+  dependencies:
+    color-name "~1.1.4"
+
 color-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
-color-name@^1.0.0:
+color-name@^1.0.0, color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
 
@@ -3560,17 +3592,17 @@ debug@3.2.6, debug@^3.1.0, debug@^3.1.1, debug@^3.2.5, debug@^3.2.6:
   dependencies:
     ms "^2.1.1"
 
+debug@4.1.1, debug@^4.0.1, debug@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  dependencies:
+    ms "^2.1.1"
+
 debug@=3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
     ms "2.0.0"
-
-debug@^4.0.1, debug@^4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
-  dependencies:
-    ms "^2.1.1"
 
 decamelize@^1.1.1, decamelize@^1.2.0:
   version "1.2.0"
@@ -4091,6 +4123,10 @@ escape-html@~1.0.3:
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
+
+escape-string-regexp@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
 
 escodegen@^1.9.1:
   version "1.14.3"
@@ -4639,6 +4675,13 @@ find-up@4.1.0:
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-4.1.0.tgz#97afe7d6cdc0bc5928584b7c8d7b16e8a9aa5d19"
   dependencies:
     locate-path "^5.0.0"
+    path-exists "^4.0.0"
+
+find-up@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/find-up/-/find-up-5.0.0.tgz#4c92819ecb7083561e4f4a240a86be5198f536fc"
+  dependencies:
+    locate-path "^6.0.0"
     path-exists "^4.0.0"
 
 find-up@^1.0.0:
@@ -6315,7 +6358,7 @@ js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@*, js-yaml@^3.12.0, js-yaml@^3.13.1, js-yaml@^3.7.0:
+js-yaml@*, js-yaml@3.14.0, js-yaml@^3.12.0, js-yaml@^3.13.1, js-yaml@^3.7.0:
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.0.tgz#a7a34170f26a21bb162424d8adacb4113a69e482"
   dependencies:
@@ -6617,6 +6660,12 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+locate-path@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
+  dependencies:
+    p-locate "^5.0.0"
+
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -6699,6 +6748,12 @@ log-symbols@3.0.0:
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-3.0.0.tgz#f3a08516a5dea893336a7dee14d18a1cfdab77c4"
   dependencies:
     chalk "^2.4.2"
+
+log-symbols@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-4.0.0.tgz#69b3cc46d20f448eccdb75ea1fa733d9e821c920"
+  dependencies:
+    chalk "^4.0.0"
 
 loglevel@^1.4.1:
   version "1.6.8"
@@ -7018,6 +7073,36 @@ mocha@*:
     yargs-parser "13.1.2"
     yargs-unparser "1.6.1"
 
+mocha@^8.1.3:
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-8.1.3.tgz#5e93f873e35dfdd69617ea75f9c68c2ca61c2ac5"
+  dependencies:
+    ansi-colors "4.1.1"
+    browser-stdout "1.3.1"
+    chokidar "3.4.2"
+    debug "4.1.1"
+    diff "4.0.2"
+    escape-string-regexp "4.0.0"
+    find-up "5.0.0"
+    glob "7.1.6"
+    growl "1.10.5"
+    he "1.2.0"
+    js-yaml "3.14.0"
+    log-symbols "4.0.0"
+    minimatch "3.0.4"
+    ms "2.1.2"
+    object.assign "4.1.0"
+    promise.allsettled "1.0.2"
+    serialize-javascript "4.0.0"
+    strip-json-comments "3.0.1"
+    supports-color "7.1.0"
+    which "2.0.2"
+    wide-align "1.1.3"
+    workerpool "6.0.0"
+    yargs "13.3.2"
+    yargs-parser "13.1.2"
+    yargs-unparser "1.6.1"
+
 module-deps@^4.0.2, module-deps@^4.0.8:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/module-deps/-/module-deps-4.1.1.tgz#23215833f1da13fd606ccb8087b44852dcb821fd"
@@ -7159,9 +7244,17 @@ node-fetch@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
 
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+
 node-forge@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.9.0.tgz#d624050edbb44874adca12bb9a52ec63cb782579"
+
+node-forge@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -7534,6 +7627,12 @@ p-limit@^2.0.0, p-limit@^2.2.0:
   dependencies:
     p-try "^2.0.0"
 
+p-limit@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.0.2.tgz#1664e010af3cadc681baafd3e2a437be7b0fb5fe"
+  dependencies:
+    p-try "^2.0.0"
+
 p-locate@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-2.0.0.tgz#20a0103b222a70c8fd39cc2e580680f3dde5ec43"
@@ -7551,6 +7650,12 @@ p-locate@^4.1.0:
   resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-4.1.0.tgz#a3428bb7088b3a60292f66919278b7c297ad4f07"
   dependencies:
     p-limit "^2.2.0"
+
+p-locate@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-5.0.0.tgz#83c8315c6785005e3bd021839411c9e110e6d834"
+  dependencies:
+    p-limit "^3.0.2"
 
 p-map@^1.1.1:
   version "1.2.0"
@@ -9997,6 +10102,12 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
+supports-color@^7.1.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
+  dependencies:
+    has-flag "^4.0.0"
+
 svg-parser@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
@@ -11005,6 +11116,10 @@ yargs-parser@^15.0.1:
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
+
+yargs-parser@^20.2.0:
+  version "20.2.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.0.tgz#944791ca2be2e08ddadd3d87e9de4c6484338605"
 
 yargs-parser@^9.0.2:
   version "9.0.2"
