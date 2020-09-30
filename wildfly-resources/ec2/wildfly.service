@@ -11,6 +11,7 @@ LimitNOFILE=102642
 PIDFile=/var/run/wildfly/wildfly.pid
 ExecStart=/opt/jboss/wildfly/bin/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND
 StandardOutput=null
+OOMScoreAdjust=-1000
 
 [Install]
 WantedBy=multi-user.target
